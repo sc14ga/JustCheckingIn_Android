@@ -1,5 +1,7 @@
 package com.example.timerstest;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +17,8 @@ public class MainActivity extends Activity {
 	TimePicker picker2;
 	TimePicker picker3;
 	
+	int time1, time2, time3;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,12 +26,23 @@ public class MainActivity extends Activity {
 		
 		Button start = (Button) findViewById(R.id.button1);
 		picker1 = (TimePicker) findViewById(R.id.timePicker1);
+		picker1.setIs24HourView(true);
 		picker2 = (TimePicker) findViewById(R.id.timePicker2);
+		picker2.setIs24HourView(true);
 		picker3 = (TimePicker) findViewById(R.id.timePicker3);
+		picker3.setIs24HourView(true);
+		picker1.setCurrentHour(0);
+		picker1.setCurrentMinute(30);
+		picker2.setCurrentHour(0);
+		picker2.setCurrentMinute(45);
+		picker3.setCurrentHour(1);
+		picker3.setCurrentMinute(0);
+		
 		start.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) {				
+				
 				int hour1 = picker1.getCurrentHour();
 				int minute1 = picker1.getCurrentMinute();
 				int hour2 = picker2.getCurrentHour();
@@ -35,7 +50,10 @@ public class MainActivity extends Activity {
 				int hour3 = picker3.getCurrentHour();
 				int minute3 = picker3.getCurrentMinute();
 				
-				Toast.makeText(getApplicationContext(), "1:("+hour1+","+minute1+"), 2:("+hour2+","+minute2+"), 3:("+hour3+","+minute3+")", Toast.LENGTH_LONG).show();
+				time1 = hour1*60+minute1;
+				time2 = hour2*60+minute2;
+				time3 = hour3*60+minute3;
+				Toast.makeText(getApplicationContext(), "1:("+time1+" mins), 2:("+time2+" mins), 3:("+time3+"mins)", Toast.LENGTH_LONG).show();
 			}
 		});
 	}
