@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FakeCallTest</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+    <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
+    <string name="fake_phone_activity_phoneNumber_text">(650) 555-1234</string>
+    <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
+    <string name="fake_phone_activity_infoText_text">Incoming phone number</string>
+    <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
+    <string name="fake_phone_activity_placeCall_text">Incoming Call</string>
+
+</resources>
