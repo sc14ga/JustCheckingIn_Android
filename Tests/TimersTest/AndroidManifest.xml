@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity 
+            android:name="com.example.timerstest.EventReceiver"
+            android:label="Event Receiver" >
+        </activity>
+        <activity 
+            android:name="com.example.timerstest.AlarmReceiverActivity"
+            android:label="Alarm Receiver" >
+        </activity>
     </application>
 
 </manifest>

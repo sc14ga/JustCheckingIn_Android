@@ -3,6 +3,9 @@ package com.example.timerstest;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +27,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		Calendar cal = Calendar.getInstance();
+		
 		Button start = (Button) findViewById(R.id.button1);
 		picker1 = (TimePicker) findViewById(R.id.timePicker1);
 		picker1.setIs24HourView(true);
@@ -31,15 +36,21 @@ public class MainActivity extends Activity {
 		picker2.setIs24HourView(true);
 		picker3 = (TimePicker) findViewById(R.id.timePicker3);
 		picker3.setIs24HourView(true);
-		picker1.setCurrentHour(0);
-		picker1.setCurrentMinute(30);
-		picker2.setCurrentHour(0);
-		picker2.setCurrentMinute(45);
-		picker3.setCurrentHour(1);
-		picker3.setCurrentMinute(0);
+		
+		if(cal.get(Calendar.MINUTE)+30 >= 60)
+			picker1.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY)+1);
+		else
+			picker1.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY));
+		picker1.setCurrentMinute(cal.get(Calendar.MINUTE)+30);
+		if(cal.get(Calendar.MINUTE)+45 >= 60)
+			picker2.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY)+1);
+		else
+			picker2.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY));
+		
+		picker2.setCurrentMinute(cal.get(Calendar.MINUTE)+45);
+		picker3.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY)+1);
 		
 		start.setOnClickListener(new View.OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {				
 				
@@ -50,12 +61,31 @@ public class MainActivity extends Activity {
 				int hour3 = picker3.getCurrentHour();
 				int minute3 = picker3.getCurrentMinute();
 				
-				time1 = hour1*60+minute1;
-				time2 = hour2*60+minute2;
-				time3 = hour3*60+minute3;
-				Toast.makeText(getApplicationContext(), "1:("+time1+" mins), 2:("+time2+" mins), 3:("+time3+"mins)", Toast.LENGTH_LONG).show();
+				Calendar cal1 = Calendar.getInstance();
+				cal1.set(Calendar.HOUR_OF_DAY, hour1);
+				cal1.set(Calendar.MINUTE, minute1);
+				
+				Calendar cal2 = Calendar.getInstance();
+				cal2.set(Calendar.HOUR_OF_DAY, hour2);
+				cal2.set(Calendar.MINUTE, minute2);
+				
+				Calendar cal3 = Calendar.getInstance();
+				cal3.set(Calendar.HOUR_OF_DAY, hour3);
+				cal3.set(Calendar.MINUTE, minute3);
+							
+				//Create a new PendingIntent and add it to the AlarmManager
+		        Intent intent = new Intent(MainActivity.this, AlarmReceiverActivity.class);
+		        intent.putExtra("alarm_message", "Alarm message");
+		        intent.putExtra("cal2", cal2.get(Calendar.YEAR)+" "+cal2.get(Calendar.MONTH)+" "+cal2.get(Calendar.DAY_OF_MONTH)+" "+cal2.get(Calendar.HOUR_OF_DAY)+":"+cal2.get(Calendar.MINUTE)+":"+cal2.get(Calendar.SECOND));
+		        intent.putExtra("cal3", cal3.get(Calendar.YEAR)+" "+cal3.get(Calendar.MONTH)+" "+cal3.get(Calendar.DAY_OF_MONTH)+" "+cal3.get(Calendar.HOUR_OF_DAY)+":"+cal3.get(Calendar.MINUTE)+":"+cal3.get(Calendar.SECOND));
+		        Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_LONG).show();
+		        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		        AlarmManager am = (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
+		        am.set(AlarmManager.RTC_WAKEUP, cal1.getTimeInMillis(), pendingIntent);
 			}
 		});
+		
+		
 	}
 
 	@Override
