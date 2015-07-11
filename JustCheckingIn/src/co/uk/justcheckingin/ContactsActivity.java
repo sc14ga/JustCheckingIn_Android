@@ -24,14 +24,14 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 public class ContactsActivity extends Activity {
-	List<String> namesList = new ArrayList<String>();
-    List<String> numbersList = new ArrayList<String>();
-    ContactsAdapter adapter ;
+	ContactsAdapter adapter = new ContactsAdapter();
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contacts);
+		
+		adapter.mInflater = (LayoutInflater) ContactsActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		ContentResolver cr = getContentResolver();
 		Cursor phones = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
@@ -39,72 +39,15 @@ public class ContactsActivity extends Activity {
         {
           String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
           String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)); 
-          namesList.add(name);
-          numbersList.add(phoneNumber);
+          adapter.namesList.add(name);
+          adapter.numbersList.add(phoneNumber);
+          adapter.boxes.add(false);
         }
-
         phones.close();
         
         ListView listView = (ListView) findViewById(R.id.listView1);
-        adapter = new ContactsAdapter();
         listView.setAdapter(adapter);
-        
-        /*String[] from = new String[]{
-        		ContactsContract.Contacts.DISPLAY_NAME
-        		//ContactsContract.CommonDataKinds.Phone.NUMBER
-		};
-		
-		//the XML defined views which the data will be bound to
-		int[] to = new int[] {
-				R.id.name
-				//R.id.number
-		};
-        
-        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.listview_contacts, cur, from, to, 0);
-        */
-	}
-
-	class ContactsAdapter extends BaseAdapter{  
-		LayoutInflater mInflater;
-		
-        ContactsAdapter(){
-            mInflater = (LayoutInflater) ContactsActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-        
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return namesList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
-            View vi=convertView;
-            if(convertView==null)
-            	vi = mInflater.inflate(R.layout.listview_contacts, null); 
-             
-            TextView name = (TextView) vi.findViewById(R.id.name);
-            TextView number = (TextView) vi.findViewById(R.id.number);
-            name.setText(namesList.get(position));
-            number.setText(numbersList.get(position));
-
-            return vi;
-        }
-    }   
+	}   
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

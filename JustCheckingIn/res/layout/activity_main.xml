@@ -24,7 +24,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:text="Timers" />
+        android:text="Create Event" />
 
     <Button
         android:id="@+id/button3"
@@ -33,7 +33,7 @@
         android:layout_above="@+id/button2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:text="Call" />
+        android:text="Fake Call" />
 
     <Button
         android:id="@+id/button5"

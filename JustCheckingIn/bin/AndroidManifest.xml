@@ -28,6 +28,18 @@
             android:name="co.uk.justcheckingin.ContactsActivity"
             android:label="Contacts" >
         </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.TimersActivity"
+            android:label="Create Event" >
+        </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.ContactListsActivity"
+            android:label="Contact Lists" >
+        </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.CreateContactListActivity"
+            android:label="Create Contact List" >
+        </activity>
     </application>
 
 </manifest>
