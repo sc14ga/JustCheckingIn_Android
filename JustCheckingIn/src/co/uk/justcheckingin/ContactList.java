@@ -30,4 +30,8 @@ public class ContactList {
     public String getName(){
     	return this.name;
     }
+    
+    public List<Contact> getList(){
+    	return this.list;
+    }
 }

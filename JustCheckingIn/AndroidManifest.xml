@@ -40,6 +40,10 @@
             android:name="co.uk.justcheckingin.CreateContactListActivity"
             android:label="Create Contact List" >
         </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.EditContactListActivity"
+            android:label="Edit Contact List" >
+        </activity>
     </application>
 
 </manifest>

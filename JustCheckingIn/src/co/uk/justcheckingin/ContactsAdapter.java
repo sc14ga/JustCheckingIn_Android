@@ -55,6 +55,7 @@ class ContactsAdapter extends BaseAdapter{
         box.setEnabled(true);
         box.setOnCheckedChangeListener(myCheckedChangeListener);
         box.setTag(position);
+        box.setChecked(boxes.get(position));
 
         return vi;
     }  

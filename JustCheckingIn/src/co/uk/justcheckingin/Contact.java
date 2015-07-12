@@ -18,4 +18,12 @@ public class Contact {
     public String toString() {
         return this.name + ":" + this.number;
     }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    public String getNumber() {
+        return this.number;
+    }
 }

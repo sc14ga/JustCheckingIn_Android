@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -66,7 +67,13 @@ public class ContactListsActivity extends Activity {
         adapter = new ContactListsAdapter(this, R.layout.listview_contacts_row, contactsList);
         
         list.setAdapter(adapter);
-        registerForContextMenu(list);
+        list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				registerForContextMenu(list);
+                openContextMenu(view);
+			}
+        });
 	}
 	
 	public class ContactListsAdapter extends ArrayAdapter<ContactList>{
@@ -135,6 +142,17 @@ public class ContactListsActivity extends Activity {
 	  String menuItemName = menuItems[menuItemIndex];
 	  String listItemName = contactsList.get(info.position).getName();
 
+	  if(menuItemName.equalsIgnoreCase("Edit")){
+		  Intent intent = new Intent(getApplicationContext(), EditContactListActivity.class);
+		  intent.putExtra("listPosition", String.valueOf(info.position));
+		  startActivity(intent);
+	  }
+	  else if(menuItemName.equalsIgnoreCase("Delete")){
+		  contactsList.remove(info.position);
+		  list.setAdapter(adapter);
+		  return true;
+	  }
+	  
 	  TextView text = (TextView)findViewById(R.id.footer);
 	  text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
 	  return true;
