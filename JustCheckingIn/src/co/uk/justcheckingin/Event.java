@@ -3,15 +3,17 @@ package co.uk.justcheckingin;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactList {
+public class Event {
 	private String name;
-	private List<Contact> list = new ArrayList<Contact>();
+	private List<ContactList> list = new ArrayList<ContactList>();
+	private List<Integer> hour = new ArrayList<Integer>();
+	private List<Integer> minute = new ArrayList<Integer>();
 	
-	public ContactList(){
+	public Event(){
         super();
     }
     
-    public ContactList(String name, List<Contact> list) {
+    public Event(String name, List<ContactList> list) {
         super();
         this.name = name;
         this.list = list;
@@ -26,7 +28,7 @@ public class ContactList {
     	return this.name;
     }
     
-    public List<Contact> getList(){
+    public List<ContactList> getList(){
     	return this.list;
     }
 }

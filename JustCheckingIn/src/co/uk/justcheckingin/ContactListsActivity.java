@@ -51,18 +51,7 @@ public class ContactListsActivity extends Activity {
 
 			});*/
         
-		ArrayList<Contact> contactlist = new ArrayList<Contact>();
-		ArrayList<Contact> contactlist2 = new ArrayList<Contact>();
-		ArrayList<Contact> contactlist3 = new ArrayList<Contact>();
-		Contact me = new Contact("me", "07518924080");
-		contactlist.add(me);
-		Contact you = new Contact("you", "07518924081");
-		contactlist2.add(you);
-		contactlist2.add(me);
-		contactlist3.add(you);
-        contactsList.add(new ContactList("Friends", contactlist));
-        contactsList.add(new ContactList("Friends2", contactlist2));
-        contactsList.add(new ContactList("Friends3", contactlist3));
+		
         
         adapter = new ContactListsAdapter(this, R.layout.listview_contacts_row, contactsList);
         

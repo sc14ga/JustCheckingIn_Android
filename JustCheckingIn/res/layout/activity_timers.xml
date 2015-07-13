@@ -8,26 +8,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/timePicker1"
-        android:text="Button" />
-
     <TimePicker
         android:id="@+id/timePicker2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/timePicker1" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/timePicker2"
-        android:layout_alignBaseline="@+id/timePicker2"
-        android:text="Button" />
     
     <TimePicker
         android:id="@+id/timePicker3"
@@ -36,19 +21,42 @@
         android:layout_below="@+id/timePicker2" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/timePicker3"
-        android:layout_alignBaseline="@+id/timePicker3"
-        android:text="Button" />
-
-    <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Start" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/timePicker1"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/timePicker1"
+        android:layout_toRightOf="@+id/timePicker1"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/timePicker2"
+        android:layout_toRightOf="@+id/timePicker2"
+        android:layout_toEndOf="@+id/timePicker2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/timePicker3"
+        android:layout_toRightOf="@+id/timePicker3"
+        android:layout_toEndOf="@+id/timePicker3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

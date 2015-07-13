@@ -1,5 +1,7 @@
 package co.uk.justcheckingin;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.Menu;
@@ -17,7 +19,21 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		// Contacts
+		// Retreive existing ContactLists
+		ArrayList<Contact> contactlist = new ArrayList<Contact>();
+		ArrayList<Contact> contactlist2 = new ArrayList<Contact>();
+		ArrayList<Contact> contactlist3 = new ArrayList<Contact>();
+		Contact me = new Contact("me", "07518924080");
+		contactlist.add(me);
+		Contact you = new Contact("you", "07518924081");
+		contactlist2.add(you);
+		contactlist2.add(me);
+		contactlist3.add(you);
+        ContactListsActivity.contactsList.add(new ContactList("Friends", contactlist));
+        ContactListsActivity.contactsList.add(new ContactList("Friends2", contactlist2));
+        ContactListsActivity.contactsList.add(new ContactList("Friends3", contactlist3));
+        
+		// Contacts        
 		Button contactsButton = (Button) findViewById(R.id.button4);
 		contactsButton.setOnClickListener(new View.OnClickListener() {
 			@Override

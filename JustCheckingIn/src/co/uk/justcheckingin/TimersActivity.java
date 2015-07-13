@@ -3,14 +3,15 @@ package co.uk.justcheckingin;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class TimersActivity extends Activity {
-	TimePicker picker1;
-	TimePicker picker2;
-	TimePicker picker3;
+	TimePicker picker1, picker2, picker3;
+	Spinner spinner1, spinner2, spinner3;
 	
 	int time1, time2, time3;
 	
@@ -18,6 +19,18 @@ public class TimersActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timers);
+		
+		Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
+		Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+		Spinner spinner3 = (Spinner) findViewById(R.id.spinner3);
+		ArrayAdapter<ContactList> adapter = new ArrayAdapter<ContactList>(this, 
+			    android.R.layout.simple_spinner_item, ContactListsActivity.contactsList);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner1.setAdapter(adapter);
+		spinner2.setAdapter(adapter);
+		spinner3.setAdapter(adapter);
 		
 		Button start = (Button) findViewById(R.id.button4);
 		picker1 = (TimePicker) findViewById(R.id.timePicker1);
