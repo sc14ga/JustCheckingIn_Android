@@ -20,14 +20,12 @@ public class TimersActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timers);
 		
-		Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-		Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
-		Spinner spinner3 = (Spinner) findViewById(R.id.spinner3);
+		spinner1 = (Spinner) findViewById(R.id.spinner1);
+		spinner2 = (Spinner) findViewById(R.id.spinner2);
+		spinner3 = (Spinner) findViewById(R.id.spinner3);
 		ArrayAdapter<ContactList> adapter = new ArrayAdapter<ContactList>(this, 
 			    android.R.layout.simple_spinner_item, ContactListsActivity.contactsList);
-		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
 		spinner1.setAdapter(adapter);
 		spinner2.setAdapter(adapter);
 		spinner3.setAdapter(adapter);

@@ -1,5 +1,9 @@
 package co.uk.justcheckingin;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +24,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ContactListsActivity extends Activity {
 	static List<ContactList> contactsList = new ArrayList<ContactList>();
 	ContactListsAdapter adapter;
 	ListView list;
 	Button create;
+	
+	FileOutputStream out = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,13 @@ public class ContactListsActivity extends Activity {
                 openContextMenu(view);
 			}
         });
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
+		saveContactLists();
 	}
 	
 	public class ContactListsAdapter extends ArrayAdapter<ContactList>{
@@ -145,5 +159,38 @@ public class ContactListsActivity extends Activity {
 	  TextView text = (TextView)findViewById(R.id.footer);
 	  text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
 	  return true;
+	}
+	
+	public void saveContactLists(){
+		try {
+			File dir = getFilesDir();
+	        File file = new File(dir, "ContactLists.data");
+			boolean deleted = file.delete();
+			Toast.makeText(getApplicationContext(), String.valueOf(deleted), Toast.LENGTH_LONG).show();
+			
+			out = openFileOutput("ContactLists.data", Context.MODE_PRIVATE);
+		
+			for(ContactList cList : ContactListsActivity.contactsList){
+				String buffer = "<ContactList>"+cList.toXML();
+				
+				try {
+					out.write(buffer.getBytes(), 0, buffer.getBytes().length);
+				} catch (IOException e) {
+					e.printStackTrace();
+				try {
+					out.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}	
+				}
+			}			
+			try {
+				out.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }

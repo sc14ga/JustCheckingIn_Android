@@ -44,6 +44,14 @@
             android:name="co.uk.justcheckingin.EditContactListActivity"
             android:label="Edit Contact List" >
         </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.EventsActivity"
+            android:label="Events" >
+        </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.CreateEventActivity"
+            android:label="Create Event" >
+        </activity>
     </application>
 
 </manifest>
