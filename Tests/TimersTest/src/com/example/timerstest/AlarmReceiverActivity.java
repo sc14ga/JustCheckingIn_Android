@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class AlarmReceiverActivity extends Activity {
@@ -29,14 +30,17 @@ public class AlarmReceiverActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.alarm);
+        this.setTitle("JustCheckingIn alarm");
  
         
+        TextView text = (TextView) findViewById(R.id.textView1);
+        text.setText("Has something happened?\nDisable this event or your 'ContactList' will receive a message with your location.");
         
         Button stopAlarm = (Button) findViewById(R.id.stopAlarm);
+        stopAlarm.setText("Disable");
         stopAlarm.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -47,7 +51,7 @@ public class AlarmReceiverActivity extends Activity {
  
         playSound(this, getAlarmUri());
         
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         String cal2 = intent.getStringExtra("cal2");
         String cal3 = intent.getStringExtra("cal3");
         Calendar cal = Calendar.getInstance();
@@ -69,7 +73,7 @@ public class AlarmReceiverActivity extends Activity {
 		} catch (ParseException e) {
 			Toast.makeText(this, "Parse Exception", Toast.LENGTH_LONG).show();
 			e.printStackTrace();
-		}
+		}*/
     }
  
     private void playSound(Context context, Uri alert) {
@@ -84,7 +88,7 @@ public class AlarmReceiverActivity extends Activity {
                 mMediaPlayer.start();
             }
         } catch (IOException e) {
-            System.out.println("OOPS");
+            e.printStackTrace();
         }
     }
  

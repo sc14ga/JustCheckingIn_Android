@@ -61,6 +61,9 @@ public class MainActivity extends Activity {
 				int hour3 = picker3.getCurrentHour();
 				int minute3 = picker3.getCurrentMinute();
 				
+				
+				
+				// Start
 				Calendar cal1 = Calendar.getInstance();
 				cal1.set(Calendar.HOUR_OF_DAY, hour1);
 				cal1.set(Calendar.MINUTE, minute1);
