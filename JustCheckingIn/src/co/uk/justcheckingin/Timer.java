@@ -21,7 +21,8 @@ public class Timer {
     
     @Override
     public String toString() {
-    	return this.list.toXML()+"<int>"+this.hour+"<int>"+this.minute;
+    	String s = this.list.toXML();
+    	return s+"<int>"+this.hour+"<int>"+this.minute;
     }
     
     public Timer fromString(String input){

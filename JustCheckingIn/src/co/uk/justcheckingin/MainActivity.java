@@ -1,11 +1,10 @@
 package co.uk.justcheckingin;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -20,31 +19,26 @@ import android.content.Context;
 import android.content.Intent;
 
 public class MainActivity extends Activity {
-	FileInputStream in_events = null;
-	FileInputStream in_contactlists = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		/*File dir = getFilesDir();
+        File file = new File(dir, "Events.data");
+		boolean deleted = file.delete();
+		file = new File(dir, "ContactLists.data");
+		deleted = file.delete();*/
 		
 		// Retreive existing ContactLists
 		loadContactLists();
-		/*ArrayList<Contact> contactlist = new ArrayList<Contact>();
-		ArrayList<Contact> contactlist2 = new ArrayList<Contact>();
-		ArrayList<Contact> contactlist3 = new ArrayList<Contact>();
-		Contact me = new Contact("me", "07518924080");
-		contactlist.add(me);
-		Contact you = new Contact("you", "07518924081");
-		contactlist2.add(you);
-		contactlist2.add(me);
-		contactlist3.add(you);
-        ContactListsActivity.contactsList.add(new ContactList("Friends", contactlist));
-        ContactListsActivity.contactsList.add(new ContactList("Friends2", contactlist2));
-        ContactListsActivity.contactsList.add(new ContactList("Friends3", contactlist3));*/
         
         // Retreive existing Events
         loadEvents();
+        
+        // Retreive Emergency Contact List
+        loadEmergencyContactList();
         
 		// Contacts        
 		Button contactsButton = (Button) findViewById(R.id.button4);
@@ -56,7 +50,7 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		// Timers
+		// Events
 		Button eventsButton = (Button) findViewById(R.id.button2);
 		eventsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -81,6 +75,26 @@ public class MainActivity extends Activity {
 			   } 
 		   }
 		});  
+		
+		// Settings Button
+		Button settingsButton = (Button) findViewById(R.id.settingsButton);
+		settingsButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		// Emergency Numbers Button
+		Button numbersButton = (Button) findViewById(R.id.numbersButton);
+		numbersButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), EmergencyNumbersActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
@@ -104,14 +118,20 @@ public class MainActivity extends Activity {
 	
 	public void loadEvents(){
 		try {
-			in_events = openFileInput("Events.data");
+			InputStream in_events = openFileInput("Events.data");
+			InputStreamReader inputreader = new InputStreamReader(in_events);
+			BufferedReader br = new BufferedReader(inputreader);
 	
 			EventsActivity.eventsList.clear();
 			
 			String input = "";
-			int c;
+/*			int c;
 			while( (c=in_events.read()) != -1){
 				input += (char) c;
+			}*/
+			String line;
+			while((line = br.readLine()) != null){
+				input += line;
 			}
 			if(input.equalsIgnoreCase("")) return;
 			
@@ -125,6 +145,8 @@ public class MainActivity extends Activity {
 	        
 			try {
 				in_events.close();
+				inputreader.close();
+				br.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -139,14 +161,20 @@ public class MainActivity extends Activity {
 	
 	public void loadContactLists(){
 		try {
-			in_contactlists = openFileInput("ContactLists.data");
+			InputStream in_contactlists = openFileInput("ContactLists.data");
+			InputStreamReader inputreader = new InputStreamReader(in_contactlists);
+			BufferedReader br = new BufferedReader(inputreader);
 	
 			ContactListsActivity.contactsList.clear();
 			
 			String input = "";
-			int c;
+			/*int c;
 			while( (c=in_contactlists.read()) != -1){
 				input += (char) c;
+			}*/
+			String line;
+			while((line = br.readLine()) != null){
+				input += line;
 			}
 			if(input.equalsIgnoreCase("")) return;
 			
@@ -160,6 +188,50 @@ public class MainActivity extends Activity {
 	        
 			try {
 				in_contactlists.close();
+				inputreader.close();
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadEmergencyContactList(){
+		try {
+			InputStream in_emergencycontactlist = openFileInput("EmergencyContactList.data");
+			InputStreamReader inputreader = new InputStreamReader(in_emergencycontactlist);
+			BufferedReader br = new BufferedReader(inputreader);
+			
+			String input = "";
+/*			int c;
+			while( (c=in_emergencycontactlist.read()) != -1){
+				input += (char) c;
+			}*/
+			String line;
+			while((line = br.readLine()) != null){
+				input += line;
+			}
+			if(input.equalsIgnoreCase("")) return;
+			
+			for (String cList : input.split("<ContactList>")) {
+				if(!cList.equalsIgnoreCase("")){
+					Log.d("DEBUG_EMERGENCY", cList);
+					ContactList e = new ContactList();
+					EmergencyContactListActivity.emergencyContactList = new ContactList();
+					EmergencyContactListActivity.emergencyContactList = e.fromString(cList);
+				}
+			}
+	        
+			try {
+				in_emergencycontactlist.close();
+				inputreader.close();
+				br.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

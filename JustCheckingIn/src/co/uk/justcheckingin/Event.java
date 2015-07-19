@@ -22,6 +22,10 @@ public class Event {
 
     @Override
     public String toString() {
+    	return this.name;
+    }
+    
+    public String toXML() {
     	String output = this.name;
     	for(Timer t : list){
     		output += "<Timer>"+t.toString();

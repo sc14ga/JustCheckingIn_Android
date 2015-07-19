@@ -12,14 +12,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class EventsActivity extends Activity{
 	static List<Event> eventsList = new ArrayList<Event>();
@@ -57,6 +63,13 @@ public class EventsActivity extends Activity{
 		list = (ListView) findViewById(R.id.listView1);
 		adapter = new EventsAdapter(this, R.layout.listview_contacts_row, eventsList);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				registerForContextMenu(list);
+                openContextMenu(view);
+			}
+        });
 	}
 	
 	@Override
@@ -118,29 +131,60 @@ public class EventsActivity extends Activity{
 	    }
 	}
 	
+	// Menu for ListView
+		@Override
+		public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		  if (v.getId()==R.id.listView1) {
+		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		    menu.setHeaderTitle(eventsList.get(info.position).getName());
+		    String[] menuItems = getResources().getStringArray(R.array.menu);
+		    for (int i = 0; i<menuItems.length; i++) {
+		      menu.add(Menu.NONE, i, i, menuItems[i]);
+		    }
+		  }
+		}
+		
+		@Override
+		public boolean onContextItemSelected(MenuItem item) {
+		  AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+		  int menuItemIndex = item.getItemId();
+		  String[] menuItems = getResources().getStringArray(R.array.menu);
+		  String menuItemName = menuItems[menuItemIndex];
+		  String listItemName = eventsList.get(info.position).getName();
+
+		  if(menuItemName.equalsIgnoreCase("Edit")){
+			  Intent intent = new Intent(getApplicationContext(), EditEventActivity.class);
+			  intent.putExtra("listPosition", String.valueOf(info.position));
+			  startActivity(intent);
+		  }
+		  else if(menuItemName.equalsIgnoreCase("Delete")){
+			  eventsList.remove(info.position);
+			  list.setAdapter(adapter);
+			  return true;
+		  }
+		  
+		  return true;
+		}
+		
 	public void saveEvents(){
 		try {
 			File dir = getFilesDir();
 	        File file = new File(dir, "Events.data");
 			boolean deleted = file.delete();
-			Toast.makeText(getApplicationContext(), String.valueOf(deleted), Toast.LENGTH_LONG).show();
+			//Toast.makeText(getApplicationContext(), String.valueOf(deleted), Toast.LENGTH_LONG).show();
 			
 			out = openFileOutput("Events.data", Context.MODE_PRIVATE);
 		
 			for(int i=0; i<EventsActivity.eventsList.size(); i++){
 			//for(Event event : EventsActivity.eventsList){
-				Event event = EventsActivity.eventsList.get(0);
-				String buffer = "<Event>"+event.toString();
+				Event event = EventsActivity.eventsList.get(i);
+				String buffer = "<Event>"+event.toXML();	//SPINNER ERROR?
 				
 				try {
 					out.write(buffer.getBytes(), 0, buffer.getBytes().length);
 				} catch (IOException e) {
 					e.printStackTrace();
-				try {
-					out.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}	
+					break;	
 				}
 			}			
 			try {

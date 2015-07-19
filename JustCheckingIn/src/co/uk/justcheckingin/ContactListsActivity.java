@@ -73,6 +73,14 @@ public class ContactListsActivity extends Activity {
 	}
 	
 	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		adapter = new ContactListsAdapter(this, R.layout.listview_contacts_row, contactsList);
+        list.setAdapter(adapter);
+	}
+	
+	@Override
 	protected void onStop() {
 		super.onStop();
 		
@@ -156,8 +164,6 @@ public class ContactListsActivity extends Activity {
 		  return true;
 	  }
 	  
-	  TextView text = (TextView)findViewById(R.id.footer);
-	  text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
 	  return true;
 	}
 	
@@ -166,7 +172,7 @@ public class ContactListsActivity extends Activity {
 			File dir = getFilesDir();
 	        File file = new File(dir, "ContactLists.data");
 			boolean deleted = file.delete();
-			Toast.makeText(getApplicationContext(), String.valueOf(deleted), Toast.LENGTH_LONG).show();
+			//Toast.makeText(getApplicationContext(), String.valueOf(deleted), Toast.LENGTH_LONG).show();
 			
 			out = openFileOutput("ContactLists.data", Context.MODE_PRIVATE);
 		
@@ -177,11 +183,7 @@ public class ContactListsActivity extends Activity {
 					out.write(buffer.getBytes(), 0, buffer.getBytes().length);
 				} catch (IOException e) {
 					e.printStackTrace();
-				try {
-					out.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}	
+					break;
 				}
 			}			
 			try {
