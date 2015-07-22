@@ -30,6 +30,8 @@
             android:name="com.example.timerstest.AlarmReceiverActivity"
             android:label="Alarm Receiver" >
         </activity>
+        
+        <service android:enabled="true" android:name=".AlarmMessageActivity" />
     </application>
 
 </manifest>

@@ -37,23 +37,15 @@ public class ContactList {
     	ContactList cl = new ContactList();
     	
     	String[] tokens = input.split("<Contact>");
-    	//StringTokenizer tokens = new StringTokenizer(input, "<Contact>");
     	String token = tokens[0];
-    	//Log.d("DEBUG_CONTACTLIST_NAME_BEFORE", token);
-    	/*while(token.isEmpty()){
-    		token = tokens.nextToken();
-    	}*/
+
     	cl.name = token;
-    	Log.d("DEBUG_CONTACTLIST_NAME", token);
     	
     	for(int i=1; i<tokens.length; i++){
-    	//while (tokens.hasMoreTokens()) {
     		token = tokens[i];
-    		Log.d("DEBUG_CONTACT", tokens[i]);
     	    Contact contact = new Contact();
     	    cl.list.add(contact.fromString(tokens[i]));
     	}
-    	//Log.d("DEBUG", this.name+" ");
     	
     	return cl;
     }

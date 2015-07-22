@@ -8,14 +8,19 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -24,19 +29,38 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class AlarmReceiverActivity extends Activity {
     private MediaPlayer mMediaPlayer; 
  
+    AlertDialog alertDialog;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.alarm);
-        this.setTitle("JustCheckingIn alarm");
- 
+//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        setContentView(R.layout.alarm);
+//        this.setTitle("JustCheckingIn alarm");
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiver, new IntentFilter("Close JustCheckingIn Dialog"));
         
-        TextView text = (TextView) findViewById(R.id.textView1);
+        playSound(this, getAlarmUri());
+        
+        alertDialog = new AlertDialog.Builder(AlarmReceiverActivity.this).create();
+        alertDialog.setTitle("JustCheckingIn alarm");
+        alertDialog.setMessage("Has something happened?\nDisable this event or your 'ContactList' will receive a message with your location.");
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Disable", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				mMediaPlayer.stop();
+				MainActivity.pendingService.cancel();
+                finish();
+			}
+		});
+        alertDialog.show();
+        
+        /*TextView text = (TextView) findViewById(R.id.textView1);
         text.setText("Has something happened?\nDisable this event or your 'ContactList' will receive a message with your location.");
         
         Button stopAlarm = (Button) findViewById(R.id.stopAlarm);
@@ -45,11 +69,11 @@ public class AlarmReceiverActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				mMediaPlayer.stop();
+				MainActivity.pendingService.cancel();
                 finish();
 			}
-        });
+        });*/
  
-        playSound(this, getAlarmUri());
         
         /*Intent intent = getIntent();
         String cal2 = intent.getStringExtra("cal2");
@@ -76,6 +100,18 @@ public class AlarmReceiverActivity extends Activity {
 		}*/
     }
  
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action= intent.getStringExtra("action");
+            if(action.equals("close")) {
+            	mMediaPlayer.stop();
+            	alertDialog.dismiss();
+                AlarmReceiverActivity.this.finish();
+            }
+        }
+    };
+    
     private void playSound(Context context, Uri alert) {
         mMediaPlayer = new MediaPlayer();
         try {

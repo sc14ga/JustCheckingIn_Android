@@ -27,7 +27,7 @@ public class Event {
     
     public String toXML() {
     	String output = this.name;
-    	for(Timer t : list){
+    	for(Timer t : this.list){
     		output += "<Timer>"+t.toString();
     	}
         return output;
@@ -37,24 +37,14 @@ public class Event {
     	Event event = new Event();
     	
     	String[] tokens = input.split("<Timer>");
-    	//StringTokenizer tokens = new StringTokenizer(input, "<Timer>");
     	String token = tokens[0];
-    	//Log.d("DEBUG_EVENT_NAME_FIRST", token);
-    	/*while(token.isEmpty()){
-    		token = tokens.nextToken();
-    	}*/
+    	
     	event.name = token;
-    	Log.d("DEBUG_EVENT_NAME", token);
     	
     	for(int i=1; i<tokens.length; i++){
-    	//while (tokens.hasMoreTokens()) {
-    		//token = tokens.nextToken();
-    		Log.d("DEBUG_TIMER", tokens[i]);
     	    Timer timer = new Timer();
     	    event.list.add(timer.fromString(tokens[i]));
     	}
-    	
-    	//Log.d("DEBUG", this.name+"\n\t");
     	
     	return event;
     }

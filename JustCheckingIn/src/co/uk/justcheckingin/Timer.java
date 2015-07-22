@@ -6,13 +6,13 @@ import android.util.Log;
 
 public class Timer {
 	ContactList list;
-	int hour, minute;
+	String hour, minute;
 	
 	public Timer(){
         super();
     }
     
-    public Timer(ContactList cList, int hour, int minute) {
+    public Timer(ContactList cList, String hour, String minute) {
         super();
         this.list = cList;
         this.hour = hour;
@@ -21,7 +21,9 @@ public class Timer {
     
     @Override
     public String toString() {
+    	Log.d("!!!!!inTimer", "inTIMER");
     	String s = this.list.toXML();
+    	Log.e("TRACE TIMER", s+"<int>"+this.hour+"<int>"+this.minute);
     	return s+"<int>"+this.hour+"<int>"+this.minute;
     }
     
@@ -29,20 +31,13 @@ public class Timer {
     	Timer timer = new Timer();
     	
     	String[] tokens = input.split("<int>");
-    	//StringTokenizer tokens = new StringTokenizer(input, "<int>");
     	String token = tokens[0];
-    	//Log.d("DEBUG_TIMER_AFTER_int", token);
-    	/*while(token.isEmpty()){
-    		token = tokens.nextToken();
-    	}*/
     	
     	ContactList cl = new ContactList();
-    	Log.d("DEBUG_CONTACTLIST", token);
-    	this.list = cl.fromString(token);
-    	this.hour = Integer.parseInt(tokens[1]);
-    	this.minute = Integer.parseInt(tokens[2]);
-    	
-    	Log.d("DEBUG_TIMER_INTS", this.hour+" "+this.minute);
+    	timer.list = new ContactList();
+    	timer.list = cl.fromString(token);
+    	timer.hour = tokens[1];
+    	timer.minute = tokens[2];
     	
     	return timer;
     }

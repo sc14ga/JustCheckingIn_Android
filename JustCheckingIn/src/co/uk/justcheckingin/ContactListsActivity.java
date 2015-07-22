@@ -81,11 +81,18 @@ public class ContactListsActivity extends Activity {
 	}
 	
 	@Override
+	protected void onPause() {
+		saveContactLists();
+		
+		super.onPause();
+	}
+	/*
+	@Override
 	protected void onStop() {
 		super.onStop();
 		
 		saveContactLists();
-	}
+	}*/
 	
 	public class ContactListsAdapter extends ArrayAdapter<ContactList>{
 	    Context context; 

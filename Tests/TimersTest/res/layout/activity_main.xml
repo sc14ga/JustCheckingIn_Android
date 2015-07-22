@@ -23,18 +23,4 @@
         android:layout_centerHorizontal="true"
         android:text="Button" />
 
-    <TimePicker
-        android:id="@+id/timePicker2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/timePicker1"
-        android:layout_below="@+id/timePicker1" />
-
-    <TimePicker
-        android:id="@+id/timePicker3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/timePicker2"
-        android:layout_below="@+id/timePicker2" />
-
 </RelativeLayout>

@@ -1,10 +1,13 @@
 package co.uk.justcheckingin;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,6 +45,10 @@ public class EventsActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_events);
 		
+		// Retreive existing Events
+		if(EventsActivity.eventsList.isEmpty())
+			loadEvents();
+				
 		create = (Button) findViewById(R.id.create_button);
 		cancel = (Button) findViewById(R.id.cancel_button);
 		start = (Button) findViewById(R.id.start_button);
@@ -81,11 +89,18 @@ public class EventsActivity extends Activity{
 	}
 	
 	@Override
+	protected void onPause() {
+		saveEvents();
+		
+		super.onPause();
+	}
+	/*
+	@Override
 	protected void onStop() {
 		super.onStop();
 		
-		saveEvents();
-	}
+	
+	}*/
 	
 	public class EventsAdapter extends ArrayAdapter<Event>{
 	    Context context; 
@@ -132,39 +147,39 @@ public class EventsActivity extends Activity{
 	}
 	
 	// Menu for ListView
-		@Override
-		public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		  if (v.getId()==R.id.listView1) {
-		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-		    menu.setHeaderTitle(eventsList.get(info.position).getName());
-		    String[] menuItems = getResources().getStringArray(R.array.menu);
-		    for (int i = 0; i<menuItems.length; i++) {
-		      menu.add(Menu.NONE, i, i, menuItems[i]);
-		    }
-		  }
-		}
-		
-		@Override
-		public boolean onContextItemSelected(MenuItem item) {
-		  AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-		  int menuItemIndex = item.getItemId();
-		  String[] menuItems = getResources().getStringArray(R.array.menu);
-		  String menuItemName = menuItems[menuItemIndex];
-		  String listItemName = eventsList.get(info.position).getName();
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	  if (v.getId()==R.id.listView1) {
+	    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+	    menu.setHeaderTitle(eventsList.get(info.position).getName());
+	    String[] menuItems = getResources().getStringArray(R.array.menu);
+	    for (int i = 0; i<menuItems.length; i++) {
+	      menu.add(Menu.NONE, i, i, menuItems[i]);
+	    }
+	  }
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	  AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+	  int menuItemIndex = item.getItemId();
+	  String[] menuItems = getResources().getStringArray(R.array.menu);
+	  String menuItemName = menuItems[menuItemIndex];
+	  String listItemName = eventsList.get(info.position).getName();
 
-		  if(menuItemName.equalsIgnoreCase("Edit")){
-			  Intent intent = new Intent(getApplicationContext(), EditEventActivity.class);
-			  intent.putExtra("listPosition", String.valueOf(info.position));
-			  startActivity(intent);
-		  }
-		  else if(menuItemName.equalsIgnoreCase("Delete")){
-			  eventsList.remove(info.position);
-			  list.setAdapter(adapter);
-			  return true;
-		  }
-		  
+	  if(menuItemName.equalsIgnoreCase("Edit")){
+		  Intent intent = new Intent(getApplicationContext(), EditEventActivity.class);
+		  intent.putExtra("listPosition", String.valueOf(info.position));
+		  startActivity(intent);
+	  }
+	  else if(menuItemName.equalsIgnoreCase("Delete")){
+		  eventsList.remove(info.position);
+		  list.setAdapter(adapter);
 		  return true;
-		}
+	  }
+	  
+	  return true;
+	}
 		
 	public void saveEvents(){
 		try {
@@ -174,10 +189,8 @@ public class EventsActivity extends Activity{
 			//Toast.makeText(getApplicationContext(), String.valueOf(deleted), Toast.LENGTH_LONG).show();
 			
 			out = openFileOutput("Events.data", Context.MODE_PRIVATE);
-		
-			for(int i=0; i<EventsActivity.eventsList.size(); i++){
-			//for(Event event : EventsActivity.eventsList){
-				Event event = EventsActivity.eventsList.get(i);
+			
+			for(Event event : EventsActivity.eventsList){
 				String buffer = "<Event>"+event.toXML();	//SPINNER ERROR?
 				
 				try {
@@ -193,6 +206,44 @@ public class EventsActivity extends Activity{
 				e1.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadEvents(){
+		try {
+			InputStream in_events = openFileInput("Events.data");
+			InputStreamReader inputreader = new InputStreamReader(in_events);
+			BufferedReader br = new BufferedReader(inputreader);
+	
+			EventsActivity.eventsList.clear();
+			
+			String input = "";
+			String line;
+			while((line = br.readLine()) != null){
+				input += line;
+			}
+			if(input.equalsIgnoreCase("")) return;
+			
+			for (String event : input.split("<Event>")) {
+				if(!event.equalsIgnoreCase("")){
+					Event e = new Event();
+					EventsActivity.eventsList.add(e.fromString(event));
+				}
+			}
+	        
+			try {
+				in_events.close();
+				inputreader.close();
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

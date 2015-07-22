@@ -1,6 +1,9 @@
 package co.uk.justcheckingin;
 
+import com.splunk.mint.Mint;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,21 +27,24 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		Mint.initAndStartSession(MainActivity.this, "77d0c26e");
+		
 		/*File dir = getFilesDir();
         File file = new File(dir, "Events.data");
 		boolean deleted = file.delete();
 		file = new File(dir, "ContactLists.data");
+		deleted = file.delete();
+		file = new File(dir, "EmergencyContactList.data");
 		deleted = file.delete();*/
 		
 		// Retreive existing ContactLists
-		loadContactLists();
-        
-        // Retreive existing Events
-        loadEvents();
+		if(ContactListsActivity.contactsList.isEmpty())
+			loadContactLists();
         
         // Retreive Emergency Contact List
-        loadEmergencyContactList();
+		if(EmergencyContactListActivity.emergencyContactList == null)
+			loadEmergencyContactList();
         
 		// Contacts        
 		Button contactsButton = (Button) findViewById(R.id.button4);
@@ -116,48 +122,7 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void loadEvents(){
-		try {
-			InputStream in_events = openFileInput("Events.data");
-			InputStreamReader inputreader = new InputStreamReader(in_events);
-			BufferedReader br = new BufferedReader(inputreader);
 	
-			EventsActivity.eventsList.clear();
-			
-			String input = "";
-/*			int c;
-			while( (c=in_events.read()) != -1){
-				input += (char) c;
-			}*/
-			String line;
-			while((line = br.readLine()) != null){
-				input += line;
-			}
-			if(input.equalsIgnoreCase("")) return;
-			
-			for (String event : input.split("<Event>")) {
-				if(!event.equalsIgnoreCase("")){
-					Log.d("DEBUG", event);
-					Event e = new Event();
-					EventsActivity.eventsList.add(e.fromString(event));
-				}
-			}
-	        
-			try {
-				in_events.close();
-				inputreader.close();
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void loadContactLists(){
 		try {
@@ -168,10 +133,6 @@ public class MainActivity extends Activity {
 			ContactListsActivity.contactsList.clear();
 			
 			String input = "";
-			/*int c;
-			while( (c=in_contactlists.read()) != -1){
-				input += (char) c;
-			}*/
 			String line;
 			while((line = br.readLine()) != null){
 				input += line;
@@ -180,7 +141,6 @@ public class MainActivity extends Activity {
 			
 			for (String cList : input.split("<ContactList>")) {
 				if(!cList.equalsIgnoreCase("")){
-					Log.d("DEBUG", cList);
 					ContactList list = new ContactList();
 					ContactListsActivity.contactsList.add(list.fromString(cList));
 				}
@@ -209,10 +169,6 @@ public class MainActivity extends Activity {
 			BufferedReader br = new BufferedReader(inputreader);
 			
 			String input = "";
-/*			int c;
-			while( (c=in_emergencycontactlist.read()) != -1){
-				input += (char) c;
-			}*/
 			String line;
 			while((line = br.readLine()) != null){
 				input += line;
@@ -221,7 +177,6 @@ public class MainActivity extends Activity {
 			
 			for (String cList : input.split("<ContactList>")) {
 				if(!cList.equalsIgnoreCase("")){
-					Log.d("DEBUG_EMERGENCY", cList);
 					ContactList e = new ContactList();
 					EmergencyContactListActivity.emergencyContactList = new ContactList();
 					EmergencyContactListActivity.emergencyContactList = e.fromString(cList);
