@@ -22,8 +22,6 @@ public class MainActivity extends Activity {
 	
 	int time1, time2, time3;
 	
-	static PendingIntent pendingService;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,17 +95,17 @@ public class MainActivity extends Activity {
 				//Create a new PendingIntent and add it to the AlarmManager
 		        Intent intent = new Intent(MainActivity.this, AlarmReceiverActivity.class);
 		        intent.putExtra("alarm_message", "Alarm message");
-		        Intent intent2 = new Intent(MainActivity.this, AlarmMessageActivity.class);
+		        AlarmReceiverActivity.intent2 = new Intent(MainActivity.this, AlarmMessageActivity.class);
 		        intent.putExtra("alarm_message", "Alarm message");
 //		        intent.putExtra("cal2", cal2.get(Calendar.YEAR)+" "+cal2.get(Calendar.MONTH)+" "+cal2.get(Calendar.DAY_OF_MONTH)+" "+cal2.get(Calendar.HOUR_OF_DAY)+":"+cal2.get(Calendar.MINUTE)+":"+cal2.get(Calendar.SECOND));
 //		        intent.putExtra("cal3", cal3.get(Calendar.YEAR)+" "+cal3.get(Calendar.MONTH)+" "+cal3.get(Calendar.DAY_OF_MONTH)+" "+cal3.get(Calendar.HOUR_OF_DAY)+":"+cal3.get(Calendar.MINUTE)+":"+cal3.get(Calendar.SECOND));
 		        Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
 		        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		        pendingService = PendingIntent.getService(MainActivity.this, 23456, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
+		        AlarmReceiverActivity.pendingService = PendingIntent.getService(MainActivity.this, 23456, AlarmReceiverActivity.intent2, PendingIntent.FLAG_CANCEL_CURRENT);
 		        AlarmManager am = (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
 		        am.set(AlarmManager.RTC_WAKEUP, cal1alarm.getTimeInMillis(), pendingIntent);
 		        
-		        am.set(AlarmManager.RTC_WAKEUP, cal1.getTimeInMillis(), pendingService);
+		        am.set(AlarmManager.RTC_WAKEUP, cal1.getTimeInMillis(), AlarmReceiverActivity.pendingService);
 			}
 		});
 		

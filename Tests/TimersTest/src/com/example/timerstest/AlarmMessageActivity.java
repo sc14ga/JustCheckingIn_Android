@@ -17,9 +17,8 @@ public class AlarmMessageActivity extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Intent kill = new Intent("Close JustCheckingIn Dialog");
-	    intent.putExtra("action", "close");
-	    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(kill);
+		AlarmReceiverActivity.getInstance().stopMediaPlayer();
+		AlarmReceiverActivity.getInstance().finish();
 		
 		Toast.makeText(getApplicationContext(), "Your ContactList has been notified!", Toast.LENGTH_LONG).show();
 		int rv = super.onStartCommand(intent, flags, startId);

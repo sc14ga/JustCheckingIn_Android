@@ -35,6 +35,18 @@ public class AlarmReceiverActivity extends Activity {
  
     AlertDialog alertDialog;
     
+	static PendingIntent pendingService;
+	static Intent intent2;
+	
+    static AlarmReceiverActivity popupActivity;
+    public static AlarmReceiverActivity getInstance(){
+	   return popupActivity;
+	 }
+    
+    public void stopMediaPlayer(){
+    	mMediaPlayer.stop();
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +54,8 @@ public class AlarmReceiverActivity extends Activity {
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        setContentView(R.layout.alarm);
 //        this.setTitle("JustCheckingIn alarm");
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiver, new IntentFilter("Close JustCheckingIn Dialog"));
+        
+        popupActivity = this;
         
         playSound(this, getAlarmUri());
         
@@ -54,7 +67,7 @@ public class AlarmReceiverActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				mMediaPlayer.stop();
-				MainActivity.pendingService.cancel();
+				pendingService.cancel();
                 finish();
 			}
 		});
@@ -99,18 +112,6 @@ public class AlarmReceiverActivity extends Activity {
 			e.printStackTrace();
 		}*/
     }
- 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action= intent.getStringExtra("action");
-            if(action.equals("close")) {
-            	mMediaPlayer.stop();
-            	alertDialog.dismiss();
-                AlarmReceiverActivity.this.finish();
-            }
-        }
-    };
     
     private void playSound(Context context, Uri alert) {
         mMediaPlayer = new MediaPlayer();
