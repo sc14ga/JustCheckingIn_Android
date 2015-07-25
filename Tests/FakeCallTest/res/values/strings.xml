@@ -11,5 +11,7 @@
     <string name="fake_phone_activity_infoText_text">Incoming phone number</string>
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
     <string name="fake_phone_activity_placeCall_text">Incoming Call</string>
+    
+    <string name="contactPhoto">contact photo</string>
 
 </resources>
