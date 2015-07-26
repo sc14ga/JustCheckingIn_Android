@@ -3,10 +3,12 @@ package com.example.fakecalltest;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.call_card);
 		
 		//mPhoto = (ImageView) findViewById(R.id.photo);
@@ -40,6 +43,7 @@ public class MainActivity extends Activity {
         //showImage(mPhoto, R.drawable.picture_unknown);
         
         mName.setText("George");
+        mName.setTextColor(Color.WHITE);
         mPhoneNumber.setText("07518924080");
         mElapsedTime.setText("00:02");
         mLabel.setText("Label");
