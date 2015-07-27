@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Put on top of each photo, implying 80% darker than usual. -->
+    <color name="on_hold_dim_effect">#cc000000</color>
+    <color name="incall_call_banner_background">#CC000000</color> <!-- semitransparent black -->
+    <color name="incall_call_banner_text_color">#FFFFFF</color> <!-- white -->
+</resources>

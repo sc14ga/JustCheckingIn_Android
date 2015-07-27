@@ -4,4 +4,16 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Height of the "call banner" overlay on top of the upper part of
+         the call info area. -->
+    <dimen name="call_banner_height">50dp</dimen>
+    <!-- Padding at the left and right edges of the "call banner". -->
+    <dimen name="call_banner_side_padding">24dp</dimen>
+    <!-- Padding at the top and bottom edges of the "call banner". -->
+    <dimen name="call_banner_top_bottom_padding">16dp</dimen>
+    
+    <!-- Right padding for name and number fields in the call banner.
+         This padding is used to ensure that ultra-long names or
+         numbers won't overlap the elapsed time indication. -->
+    <dimen name="call_banner_name_number_right_padding">50sp</dimen>
 </resources>

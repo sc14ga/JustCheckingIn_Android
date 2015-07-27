@@ -9,9 +9,18 @@ package co.uk.justcheckingin;
 
 public final class R {
     public static final class array {
-        public static final int menu=0x7f060000;
+        public static final int menu=0x7f070000;
     }
     public static final class attr {
+    }
+    public static final class color {
+        public static final int incall_call_banner_background=0x7f040001;
+        /**  semitransparent black 
+         */
+        public static final int incall_call_banner_text_color=0x7f040002;
+        /**  Put on top of each photo, implying 80% darker than usual. 
+         */
+        public static final int on_hold_dim_effect=0x7f040000;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -21,49 +30,83 @@ public final class R {
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
     
          */
-        public static final int activity_horizontal_margin=0x7f040000;
-        public static final int activity_vertical_margin=0x7f040001;
+        public static final int activity_horizontal_margin=0x7f050000;
+        public static final int activity_vertical_margin=0x7f050001;
+        /**  Height of the "call banner" overlay on top of the upper part of
+         the call info area. 
+         */
+        public static final int call_banner_height=0x7f050002;
+        /**  Right padding for name and number fields in the call banner.
+         This padding is used to ensure that ultra-long names or
+         numbers won't overlap the elapsed time indication. 
+         */
+        public static final int call_banner_name_number_right_padding=0x7f050005;
+        /**  Padding at the left and right edges of the "call banner". 
+         */
+        public static final int call_banner_side_padding=0x7f050003;
+        /**  Padding at the top and bottom edges of the "call banner". 
+         */
+        public static final int call_banner_top_bottom_padding=0x7f050004;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int call_64_white=0x7f020000;
+        public static final int call_button_shape=0x7f020001;
+        public static final int call_card_round_shape=0x7f020002;
+        public static final int call_end_64=0x7f020003;
+        public static final int call_end_64_white=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int round_button=0x7f020006;
     }
     public static final class id {
-        public static final int TextView01=0x7f090014;
-        public static final int TextView02=0x7f090017;
-        public static final int TextView03=0x7f090019;
-        public static final int TextView04=0x7f09001b;
-        public static final int action_settings=0x7f090023;
-        public static final int button1=0x7f090002;
-        public static final int button2=0x7f090003;
-        public static final int button3=0x7f09000f;
-        public static final int button4=0x7f090011;
-        public static final int buttonEmergencyContacts=0x7f09001d;
-        public static final int cancel_button=0x7f090009;
-        public static final int checkBox=0x7f09001f;
-        public static final int create_button=0x7f090000;
-        public static final int editText=0x7f090005;
-        public static final int editText1=0x7f090004;
-        public static final int editText2=0x7f090015;
-        public static final int editText3=0x7f090016;
-        public static final int editText4=0x7f090018;
-        public static final int editText5=0x7f09001a;
-        public static final int editText6=0x7f09001c;
-        public static final int listName=0x7f090022;
-        public static final int listView1=0x7f090001;
-        public static final int name=0x7f090020;
-        public static final int number=0x7f090021;
-        public static final int numbersButton=0x7f090010;
-        public static final int progressBar1=0x7f090013;
-        public static final int settingsButton=0x7f090012;
-        public static final int spinner1=0x7f09000a;
-        public static final int spinner2=0x7f09000b;
-        public static final int spinner3=0x7f09000c;
-        public static final int start_button=0x7f09000d;
-        public static final int switchGPS=0x7f09001e;
-        public static final int textView1=0x7f09000e;
-        public static final int timePicker1=0x7f090006;
-        public static final int timePicker2=0x7f090007;
-        public static final int timePicker3=0x7f090008;
+        public static final int TextView01=0x7f0a0014;
+        public static final int TextView02=0x7f0a0017;
+        public static final int TextView03=0x7f0a0019;
+        public static final int TextView04=0x7f0a001b;
+        public static final int acceptButton=0x7f0a0029;
+        public static final int action_settings=0x7f0a0030;
+        public static final int button1=0x7f0a0002;
+        public static final int button2=0x7f0a0003;
+        public static final int button3=0x7f0a000f;
+        public static final int button4=0x7f0a0011;
+        public static final int buttonEmergencyContacts=0x7f0a001e;
+        public static final int buttonsLayout=0x7f0a002c;
+        public static final int cancel_button=0x7f0a0009;
+        public static final int checkBox=0x7f0a002d;
+        public static final int create_button=0x7f0a0000;
+        public static final int declineButton=0x7f0a002a;
+        public static final int dim_effect_for_primary_photo=0x7f0a0021;
+        public static final int editText=0x7f0a0005;
+        public static final int editText1=0x7f0a0004;
+        public static final int editText2=0x7f0a0015;
+        public static final int editText3=0x7f0a0016;
+        public static final int editText4=0x7f0a0018;
+        public static final int editText5=0x7f0a001a;
+        public static final int editText6=0x7f0a001c;
+        public static final int incomingcallLayout=0x7f0a0027;
+        public static final int label=0x7f0a0026;
+        public static final int labelAndNumber=0x7f0a0024;
+        public static final int listName=0x7f0a002f;
+        public static final int listView1=0x7f0a0001;
+        public static final int name=0x7f0a0023;
+        public static final int number=0x7f0a002e;
+        public static final int numbersButton=0x7f0a0010;
+        public static final int phoneNumber=0x7f0a0025;
+        public static final int photo=0x7f0a0020;
+        public static final int primary_call_banner=0x7f0a0022;
+        public static final int progressBar1=0x7f0a0013;
+        public static final int setButton=0x7f0a001d;
+        public static final int settingsButton=0x7f0a0012;
+        public static final int spinner1=0x7f0a000a;
+        public static final int spinner2=0x7f0a000b;
+        public static final int spinner3=0x7f0a000c;
+        public static final int start_button=0x7f0a000d;
+        public static final int switchGPS=0x7f0a001f;
+        public static final int terminateButton=0x7f0a002b;
+        public static final int textView1=0x7f0a000e;
+        public static final int textview1=0x7f0a0028;
+        public static final int timePicker1=0x7f0a0006;
+        public static final int timePicker2=0x7f0a0007;
+        public static final int timePicker3=0x7f0a0008;
     }
     public static final class layout {
         public static final int activity_contact_lists=0x7f030000;
@@ -77,18 +120,21 @@ public final class R {
         public static final int activity_fakecall=0x7f030008;
         public static final int activity_main=0x7f030009;
         public static final int activity_numbers=0x7f03000a;
-        public static final int activity_settings=0x7f03000b;
-        public static final int activity_timers=0x7f03000c;
-        public static final int listview_contacts=0x7f03000d;
-        public static final int listview_contacts_row=0x7f03000e;
+        public static final int activity_set_fake_call=0x7f03000b;
+        public static final int activity_settings=0x7f03000c;
+        public static final int activity_timers=0x7f03000d;
+        public static final int call_card=0x7f03000e;
+        public static final int incall_card=0x7f03000f;
+        public static final int listview_contacts=0x7f030010;
+        public static final int listview_contacts_row=0x7f030011;
     }
     public static final class menu {
-        public static final int main=0x7f080000;
+        public static final int main=0x7f090000;
     }
     public static final class string {
-        public static final int action_settings=0x7f050002;
-        public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050001;
+        public static final int action_settings=0x7f060002;
+        public static final int app_name=0x7f060000;
+        public static final int hello_world=0x7f060001;
     }
     public static final class style {
         /** 
@@ -112,10 +158,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
+        public static final int AppTheme=0x7f080001;
     }
 }

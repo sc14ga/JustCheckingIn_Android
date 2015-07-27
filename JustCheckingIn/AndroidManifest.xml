@@ -70,6 +70,18 @@
             android:name="co.uk.justcheckingin.EmergencyNumbersActivity"
             android:label="Emergency Numbers" >
         </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.SetFakeCallActivity"
+            android:label="Set Fake Call" >
+        </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.IncomingCallActivity"
+            android:label="Incoming Call" >
+        </activity>
+        <activity 
+            android:name="co.uk.justcheckingin.InCallActivity"
+            android:label="In Call" >
+        </activity>
     </application>
 
 </manifest>

@@ -101,6 +101,15 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		
+		Button setfakecallButton = (Button) findViewById(R.id.button3);
+		setfakecallButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), SetFakeCallActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
