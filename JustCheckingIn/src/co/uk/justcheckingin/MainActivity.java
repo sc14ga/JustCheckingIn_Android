@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
@@ -47,7 +48,7 @@ public class MainActivity extends Activity {
 			loadEmergencyContactList();
         
 		// Contacts        
-		Button contactsButton = (Button) findViewById(R.id.button4);
+		ImageButton contactsButton = (ImageButton) findViewById(R.id.button4);
 		contactsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -57,7 +58,7 @@ public class MainActivity extends Activity {
 		});
 		
 		// Events
-		Button eventsButton = (Button) findViewById(R.id.button2);
+		ImageButton eventsButton = (ImageButton) findViewById(R.id.button2);
 		eventsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -67,7 +68,7 @@ public class MainActivity extends Activity {
 		});
 		
 		// Emergency Button
-		Button emergencyButton = (Button) findViewById(R.id.button1);
+		ImageButton emergencyButton = (ImageButton) findViewById(R.id.button1);
 		emergencyButton.setOnClickListener(new View.OnClickListener() {    
 		   @Override
 		   public void onClick(View v) { 
@@ -83,7 +84,7 @@ public class MainActivity extends Activity {
 		});  
 		
 		// Settings Button
-		Button settingsButton = (Button) findViewById(R.id.settingsButton);
+		ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
 		settingsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -93,7 +94,7 @@ public class MainActivity extends Activity {
 		});
 		
 		// Emergency Numbers Button
-		Button numbersButton = (Button) findViewById(R.id.numbersButton);
+		ImageButton numbersButton = (ImageButton) findViewById(R.id.numbersButton);
 		numbersButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -102,7 +103,7 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		Button setfakecallButton = (Button) findViewById(R.id.button3);
+		ImageButton setfakecallButton = (ImageButton) findViewById(R.id.button3);
 		setfakecallButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

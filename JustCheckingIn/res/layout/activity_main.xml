@@ -6,60 +6,66 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#003377"
     tools:context="co.uk.justcheckingin.MainActivity" >
 
-    <Button
+    <ImageButton
         android:id="@+id/button1"
         android:background="@drawable/round_button"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="Emergency Button" />
+        android:layout_marginTop="80dp"
+        android:src="@drawable/emergency_button_64_white" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_above="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/events_button"
+        android:src="@drawable/alarm_64_white" />
+
+    <ImageButton
+        android:id="@+id/button3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:text="Events" />
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/fakecall_button"
+        android:src="@drawable/fake_call_32_white" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:text="Fake Call" />
-
-    <Button
+    <ImageButton
         android:id="@+id/numbersButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignBaseline="@+id/button3"
         android:layout_alignBottom="@+id/button3"
         android:layout_alignParentRight="true"
-        android:text="Numbers" />
+        android:background="@drawable/emergency_numbers_button"
+        android:src="@drawable/emergency_numbers_32_white" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignBaseline="@+id/button3"
         android:layout_alignBottom="@+id/button3"
         android:layout_alignParentLeft="true"
-        android:text="Contacts" />
+        android:background="@drawable/contact_lists_button"
+        android:src="@drawable/contact_list_36_white" />
 
-    <Button
+    <ImageButton
         android:id="@+id/settingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_above="@+id/progressBar1"
         android:layout_alignRight="@+id/numbersButton"
-        android:text="Settings" />
+        android:background="@drawable/settings_button"
+        android:src="@drawable/settings_32_white" />
 
 </RelativeLayout>
