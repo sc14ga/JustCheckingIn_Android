@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -40,6 +41,8 @@ public class EventsActivity extends Activity{
 	
 	FileOutputStream out = null;
 	
+	static int activeEvent = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +55,18 @@ public class EventsActivity extends Activity{
 		create = (Button) findViewById(R.id.create_button);
 		cancel = (Button) findViewById(R.id.cancel_button);
 		start = (Button) findViewById(R.id.start_button);
+		start.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(),((Event) list.getItemAtPosition(adapter.selectedEvent)).getName() , Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(getApplicationContext(), StartEventActivity.class);
+				intent.putExtra("event", ((Event) list.getItemAtPosition(adapter.selectedEvent)).toXML());
+				startActivity(intent);
+				
+				activeEvent = 1;
+				finish();
+			}
+		});
 		
 		cancel.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -69,22 +84,16 @@ public class EventsActivity extends Activity{
 		});
 		
 		list = (ListView) findViewById(R.id.listView1);
-		adapter = new EventsAdapter(this, R.layout.listview_contacts_row, eventsList);
+		adapter = new EventsAdapter(this, R.layout.listview_events_row, eventsList);
         list.setAdapter(adapter);
-        list.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				registerForContextMenu(list);
-                openContextMenu(view);
-			}
-        });
+        registerForContextMenu(list);
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		
-		adapter = new EventsAdapter(this, R.layout.listview_contacts_row, eventsList);
+		adapter = new EventsAdapter(this, R.layout.listview_events_row, eventsList);
         list.setAdapter(adapter);
 	}
 	
@@ -94,30 +103,26 @@ public class EventsActivity extends Activity{
 		
 		super.onPause();
 	}
-	/*
-	@Override
-	protected void onStop() {
-		super.onStop();
-		
-	
-	}*/
 	
 	public class EventsAdapter extends ArrayAdapter<Event>{
 	    Context context; 
 	    int layoutResourceId;    
 	    List<Event> data = null;
+	    int selectedEvent;
 	    
 	    public EventsAdapter(Context context, int layoutResourceId, List<Event> data) {
 	        super(context, layoutResourceId, data);
 	        this.layoutResourceId = layoutResourceId;
 	        this.context = context;
 	        this.data = data;
+	        this.selectedEvent = 0;
 	    }
 
 	    @Override
 	    public View getView(int position, View convertView, ViewGroup parent) {
 	        View row = convertView;
 	        EventHolder holder = null;
+	        
 	        
 	        if(row == null)
 	        {
@@ -128,6 +133,8 @@ public class EventsActivity extends Activity{
 	            holder.title = (TextView)row.findViewById(R.id.listName);
 	            
 	            row.setTag(holder);
+	            
+	            // RadioButton r = (RadioButton)row.findViewById(R.id.radioButton1);
 	        }
 	        else
 	        {
@@ -137,6 +144,18 @@ public class EventsActivity extends Activity{
 	        Event list = data.get(position);
 	        holder.title.setText(list.getName());
 	        
+	        RadioButton r = (RadioButton)row.findViewById(R.id.radioButton1);
+	        r.setChecked(position == selectedEvent);
+            r.setTag(position);
+            r.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                	selectedEvent = (Integer)view.getTag();
+                    notifyDataSetChanged();
+                }
+            });
+            
+            row.setOnCreateContextMenuListener(null);
 	        return row;
 	    }
 	    
@@ -149,7 +168,7 @@ public class EventsActivity extends Activity{
 	// Menu for ListView
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-	  if (v.getId()==R.id.listView1) {
+	  if ((v.getId()==R.id.listView1) || (v.getId()==R.id.listName)){
 	    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 	    menu.setHeaderTitle(eventsList.get(info.position).getName());
 	    String[] menuItems = getResources().getStringArray(R.array.menu);

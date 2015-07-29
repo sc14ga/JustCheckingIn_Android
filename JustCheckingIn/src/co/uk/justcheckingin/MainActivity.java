@@ -1,5 +1,7 @@
 package co.uk.justcheckingin;
 
+import co.uk.justcheckingin.ContactListsActivity.ContactListsAdapter;
+
 import com.splunk.mint.Mint;
 
 import java.io.BufferedReader;
@@ -17,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
@@ -111,8 +115,53 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		
+		// Banner visibility affected by active event
+		RelativeLayout banner = (RelativeLayout) findViewById(R.id.relativeLayout1);
+		LayoutParams params = (LayoutParams) banner.getLayoutParams();
+		if(EventsActivity.activeEvent == 1){
+			params.height = 120;
+			banner.setLayoutParams(params);
+		}
+		else{
+			params.height = 0;
+			banner.setLayoutParams(params);
+		}
+		
+		Button disable = (Button) findViewById(R.id.disableButton);
+		disable.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				StartEventActivity.pendingIntent.cancel();
+				EventAlarmActivity.pendingService.cancel();
+				
+				EventsActivity.activeEvent = 0;
+				
+				RelativeLayout banner = (RelativeLayout) findViewById(R.id.relativeLayout1);
+				LayoutParams params = (LayoutParams) banner.getLayoutParams();
+				params.height = 0;
+				banner.setLayoutParams(params);
+			}
+		});
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		RelativeLayout banner = (RelativeLayout) findViewById(R.id.relativeLayout1);
+		LayoutParams params = (LayoutParams) banner.getLayoutParams();
+		
+		if(EventsActivity.activeEvent == 1){
+			params.height = 120;
+			banner.setLayoutParams(params);
+		}
+		else{
+			params.height = 0;
+			banner.setLayoutParams(params);
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

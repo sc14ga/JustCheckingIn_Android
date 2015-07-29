@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Create Event" />
+        android:text="Create" />
     
     <Button
         android:id="@+id/cancel_button"
@@ -23,7 +23,7 @@
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/start_button"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/create_button" >
     </ListView>
     
@@ -31,7 +31,7 @@
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Start Event" />
 

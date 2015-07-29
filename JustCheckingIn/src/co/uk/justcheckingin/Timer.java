@@ -21,9 +21,7 @@ public class Timer {
     
     @Override
     public String toString() {
-    	Log.d("!!!!!inTimer", "inTIMER");
     	String s = this.list.toXML();
-    	Log.e("TRACE TIMER", s+"<int>"+this.hour+"<int>"+this.minute);
     	return s+"<int>"+this.hour+"<int>"+this.minute;
     }
     

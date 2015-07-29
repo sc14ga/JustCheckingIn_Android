@@ -3,22 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+	    android:layout_width="match_parent"
+	    android:layout_height="50dp"
+	    android:orientation="vertical" >
+	    
+        <TextView
+            android:id="@+id/warningTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="Keep in mind that every emergency contact will receive a SMS message which will charge you based on your mobile plan" />
 
-    <Button
-        android:id="@+id/buttonEmergencyContacts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Change Emergency Contacts" />
-
-    <Switch
-        android:id="@+id/switchGPS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonEmergencyContacts"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="GPS" />
-
+	</RelativeLayout>
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:layout_below="@+id/relativeLayout1" >
+	
+	    <Button
+	        android:id="@+id/buttonEmergencyContacts"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:text="Change Emergency Contacts" />
+	
+	    <Switch
+	        android:id="@+id/switchGPS"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/buttonEmergencyContacts"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginTop="50dp"
+	        android:text="GPS" />
+	
+	</RelativeLayout>
 </RelativeLayout>

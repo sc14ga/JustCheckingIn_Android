@@ -2,70 +2,106 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#003377"
     tools:context="co.uk.justcheckingin.MainActivity" >
 
-    <ImageButton
-        android:id="@+id/button1"
-        android:background="@drawable/round_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/emergency_button_64_white" />
-
-    <ImageButton
-        android:id="@+id/button2"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_above="@+id/button3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/events_button"
-        android:src="@drawable/alarm_64_white" />
-
-    <ImageButton
-        android:id="@+id/button3"
-        android:layout_width="60dp"
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/fakecall_button"
-        android:src="@drawable/fake_call_32_white" />
+        android:layout_alignParentTop="true" >
+        
+        <TextView
+            android:id="@+id/warning"
+            android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:layout_centerHorizontal="true"
+        	android:layout_centerVertical="true"
+        	android:gravity="center"
+        	android:text="An Event is enabled" >
+       	</TextView>
+       	
+        <Button
+            android:id="@+id/disableButton"
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_centerVertical="true"
+        	android:layout_alignParentRight="true"
+        	android:layout_marginRight="@dimen/activity_horizontal_margin"
+        	android:text="Disable" >
+        </Button>
+            
+    </RelativeLayout>
+    	
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+	    android:paddingLeft="@dimen/activity_horizontal_margin"
+	    android:paddingRight="@dimen/activity_horizontal_margin"
+	    android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/relativeLayout1" >
+	    
+	    <ImageButton
+	        android:id="@+id/button1"
+	        android:background="@drawable/round_button"
+	        android:layout_width="100dp"
+	        android:layout_height="100dp"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginTop="50dp"
+	        android:src="@drawable/emergency_button_64_white" />
+	
+	    <ImageButton
+	        android:id="@+id/button2"
+	        android:layout_width="70dp"
+	        android:layout_height="70dp"
+	        android:layout_above="@+id/button3"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginBottom="20dp"
+	        android:background="@drawable/events_button"
+	        android:src="@drawable/alarm_64_white" />
+	
+	    <ImageButton
+	        android:id="@+id/button3"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
+	        android:layout_alignParentBottom="true"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginBottom="15dp"
+	        android:background="@drawable/fakecall_button"
+	        android:src="@drawable/fake_call_32_white" />
+	
+	    <ImageButton
+	        android:id="@+id/numbersButton"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
+	        android:layout_alignBaseline="@+id/button3"
+	        android:layout_alignBottom="@+id/button3"
+	        android:layout_alignParentRight="true"
+	        android:background="@drawable/emergency_numbers_button"
+	        android:src="@drawable/emergency_numbers_32_white" />
+	
+	    <ImageButton
+	        android:id="@+id/button4"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
+	        android:layout_alignBaseline="@+id/button3"
+	        android:layout_alignBottom="@+id/button3"
+	        android:layout_alignParentLeft="true"
+	        android:background="@drawable/contact_lists_button"
+	        android:src="@drawable/contact_list_36_white" />
+	
+	    <ImageButton
+	        android:id="@+id/settingsButton"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
+	        android:layout_above="@+id/progressBar1"
+	        android:layout_alignParentTop="true"
+	        android:layout_alignRight="@+id/numbersButton"
+	        android:background="@drawable/settings_button"
+	        android:src="@drawable/settings_32_white" />
 
-    <ImageButton
-        android:id="@+id/numbersButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignBaseline="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/emergency_numbers_button"
-        android:src="@drawable/emergency_numbers_32_white" />
-
-    <ImageButton
-        android:id="@+id/button4"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignBaseline="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/contact_lists_button"
-        android:src="@drawable/contact_list_36_white" />
-
-    <ImageButton
-        android:id="@+id/settingsButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_above="@+id/progressBar1"
-        android:layout_alignRight="@+id/numbersButton"
-        android:background="@drawable/settings_button"
-        android:src="@drawable/settings_32_white" />
-
+    </RelativeLayout>
 </RelativeLayout>
