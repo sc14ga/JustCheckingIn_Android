@@ -31,7 +31,9 @@ import android.widget.Toast;
 
 
 public class AlarmReceiverActivity extends Activity {
-    private MediaPlayer mMediaPlayer; 
+	private AudioManager audioManager;
+    private MediaPlayer mMediaPlayer;
+    private int savedVolume;
  
     AlertDialog alertDialog;
     
@@ -45,6 +47,8 @@ public class AlarmReceiverActivity extends Activity {
     
     public void stopMediaPlayer(){
     	mMediaPlayer.stop();
+    	audioManager.setStreamVolume(AudioManager.STREAM_ALARM, savedVolume, 0);
+    	
     }
     
     @Override
@@ -117,29 +121,27 @@ public class AlarmReceiverActivity extends Activity {
         mMediaPlayer = new MediaPlayer();
         try {
             mMediaPlayer.setDataSource(context, alert);
-            final AudioManager audioManager = (AudioManager) context
-                    .getSystemService(Context.AUDIO_SERVICE);
-            if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
-                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-                mMediaPlayer.prepare();
-                mMediaPlayer.start();
-            }
+            audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            savedVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+            
+            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0);
+            
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
  
-    //Get an alarm sound. Try for an alarm. If none set, try notification, 
-    //Otherwise, ringtone.
+    // Get an alarm sound. If none set try ringtone, otherwise notification. 
     private Uri getAlarmUri() {
-        Uri alert = RingtoneManager
-                .getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alert == null) {
-            alert = RingtoneManager
-                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
             if (alert == null) {
-                alert = RingtoneManager
-                        .getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+                alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             }
         }
         return alert;
