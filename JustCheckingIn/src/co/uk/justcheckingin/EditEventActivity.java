@@ -48,8 +48,17 @@ public class EditEventActivity extends Activity {
 		//spinner2.setAdapter(adapter);
 		//spinner3.setAdapter(adapter);
 		
+		// set the selected item for spinner1 from the event's timer1
+		String name = selected.getList().get(0).list.getName();
+		for(int i=0; i<spinner1.getAdapter().getCount(); i++){
+			if(name.equalsIgnoreCase(((ContactList) spinner1.getAdapter().getItem(i)).getName())){
+				spinner1.setSelection(i);
+				break;
+			}
+		}
+		
 		// Initial setup of TimePickers
-		Calendar cal = Calendar.getInstance();
+		//Calendar cal = Calendar.getInstance();
 		
 		picker1 = (TimePicker) findViewById(R.id.timePicker1);
 		picker1.setIs24HourView(true);
@@ -58,11 +67,11 @@ public class EditEventActivity extends Activity {
 		//picker3 = (TimePicker) findViewById(R.id.timePicker3);
 		//picker3.setIs24HourView(true);
 		
-		if(cal.get(Calendar.MINUTE)+30 >= 60)
-			picker1.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY)+1);
-		else
-			picker1.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY));
-		picker1.setCurrentMinute(cal.get(Calendar.MINUTE)+30);
+//		if(cal.get(Calendar.MINUTE)+30 >= 60)
+//			picker1.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY)+1);
+//		else
+//			picker1.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY));
+//		picker1.setCurrentMinute(cal.get(Calendar.MINUTE)+30);
 		/*if(cal.get(Calendar.MINUTE)+45 >= 60)
 			picker2.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY)+1);
 		else
@@ -93,19 +102,15 @@ public class EditEventActivity extends Activity {
 		save.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				List<Timer> list = new ArrayList<Timer>();
-				
-				Timer t1 = new Timer((ContactList) spinner1.getSelectedItem(), picker1.getCurrentHour().toString(), picker1.getCurrentMinute().toString());
-//				Timer t2 = new Timer((ContactList) spinner2.getSelectedItem(), picker2.getCurrentHour().toString(), picker2.getCurrentMinute().toString());
-//				Timer t3 = new Timer((ContactList) spinner3.getSelectedItem(), picker3.getCurrentHour().toString(), picker3.getCurrentMinute().toString());
-				list.add(t1);
-//				list.add(t2);
-//				list.add(t3);
-				
-				
 				Boolean flag = false;
+					
+					// No contacts lists created
+				if(spinner1.getAdapter().getCount() == 0){
+					Toast.makeText(getApplicationContext(), "A contact list is required", Toast.LENGTH_LONG).show();
+					flag = true;
+				}
 					// Event name empty
-				if(title.getText().toString().isEmpty()){
+				else if(title.getText().toString().isEmpty()){
 					Toast.makeText(getApplicationContext(), "Enter a name for the event", Toast.LENGTH_LONG).show();
 					flag = true;
 				}	
@@ -122,7 +127,16 @@ public class EditEventActivity extends Activity {
 				// CHECK TIMES
 				
 					// No issues detected - Event creation
-				if(flag == false){					
+				if(flag == false){		
+					List<Timer> list = new ArrayList<Timer>();
+					
+					Timer t1 = new Timer((ContactList) spinner1.getSelectedItem(), picker1.getCurrentHour().toString(), picker1.getCurrentMinute().toString());
+//					Timer t2 = new Timer((ContactList) spinner2.getSelectedItem(), picker2.getCurrentHour().toString(), picker2.getCurrentMinute().toString());
+//					Timer t3 = new Timer((ContactList) spinner3.getSelectedItem(), picker3.getCurrentHour().toString(), picker3.getCurrentMinute().toString());
+					list.add(t1);
+//					list.add(t2);
+//					list.add(t3);
+					
 					Event newEvent = new Event(title.getText().toString(), list);
 					EventsActivity.eventsList.set(listPosition, newEvent);
 					

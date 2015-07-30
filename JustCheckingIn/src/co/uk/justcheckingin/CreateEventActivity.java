@@ -82,20 +82,15 @@ public class CreateEventActivity extends Activity {
 		create.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				List<Timer> list = new ArrayList<Timer>();
-				
-				Timer t1 = new Timer((ContactList) spinner1.getSelectedItem(), picker1.getCurrentHour().toString(), picker1.getCurrentMinute().toString());
-//				Timer t2 = new Timer((ContactList) spinner2.getSelectedItem(), picker2.getCurrentHour().toString(), picker2.getCurrentMinute().toString());
-//				Timer t3 = new Timer((ContactList) spinner3.getSelectedItem(), picker3.getCurrentHour().toString(), picker3.getCurrentMinute().toString());
-
-				list.add(t1);
-//				list.add(t2);
-//				list.add(t3);
-				
-				
 				Boolean flag = false;
+				
+					// No contacts lists created
+				if(spinner1.getAdapter().getCount() == 0){
+					Toast.makeText(getApplicationContext(), "A contact list is required", Toast.LENGTH_LONG).show();
+					flag = true;
+				}
 					// Event name empty
-				if(title.getText().toString().isEmpty()){
+				else if(title.getText().toString().isEmpty()){
 					Toast.makeText(getApplicationContext(), "Enter a name for the event", Toast.LENGTH_LONG).show();
 					flag = true;
 				}	
@@ -113,6 +108,16 @@ public class CreateEventActivity extends Activity {
 				
 					// No issues detected - Event creation
 				if(flag == false){
+					List<Timer> list = new ArrayList<Timer>();
+					
+					Timer t1 = new Timer((ContactList) spinner1.getSelectedItem(), picker1.getCurrentHour().toString(), picker1.getCurrentMinute().toString());
+//					Timer t2 = new Timer((ContactList) spinner2.getSelectedItem(), picker2.getCurrentHour().toString(), picker2.getCurrentMinute().toString());
+//					Timer t3 = new Timer((ContactList) spinner3.getSelectedItem(), picker3.getCurrentHour().toString(), picker3.getCurrentMinute().toString());
+
+					list.add(t1);
+//					list.add(t2);
+//					list.add(t3);
+					
 					Event newEvent = new Event(title.getText().toString(), list);
 					EventsActivity.eventsList.add(newEvent);
 					

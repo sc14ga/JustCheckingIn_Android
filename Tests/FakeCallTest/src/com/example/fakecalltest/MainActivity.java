@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 	private TextView mElapsedTime;
 	
 	private Vibrator v;
-	long pattern[]={0,800,200,1200,300,2000,400};
+	long[] pattern={0,1000,400};
 	
 	private MediaPlayer mMediaPlayer;
 	
@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
         
         boolean hasVibrator = v.hasVibrator();
         Toast.makeText(getApplicationContext(), String.valueOf(hasVibrator), Toast.LENGTH_LONG).show();
-        v.vibrate(pattern,1);
+        v.vibrate(pattern,0);
         
         accept = (Button) findViewById(R.id.acceptButton);
         accept.setOnClickListener(new View.OnClickListener() {

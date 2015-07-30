@@ -36,8 +36,8 @@ public class SettingsActivity extends Activity {
 		gpsSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(state == false){
-					state = true;
+				if(state != isChecked){
+					state = isChecked;
 					Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 	                startActivity(intent);
 				}
@@ -46,14 +46,15 @@ public class SettingsActivity extends Activity {
 		
 		gps = new GPSTracker(SettingsActivity.this);
 		//gpsSwitch.setEnabled();
+		state = gps.getGPSStatus();
 		gpsSwitch.setChecked(gps.getGPSStatus());
-		state = false;
+		
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		state = gps.getGPSStatus();
 		gpsSwitch.setChecked(gps.getGPSStatus());
-		state = false;
 	}
 }

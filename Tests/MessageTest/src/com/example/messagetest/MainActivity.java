@@ -123,9 +123,12 @@ public class MainActivity extends Activity {
 	                    //gps.showSettingsAlert();
 	               }
 				   SmsManager smsManager = SmsManager.getDefault();
-			       //List<String> messages = sms.divideMessage(strSMSBody);
+				   String strSMSBody = String.format(Locale.ENGLISH, "EMERGENCY! This is my location: http://maps.google.com/?q=%f,%f\nI notified my emergency contacts using the JustCheckingIn app!", latitude, longitude);
+			       List<String> messages = smsManager.divideMessage(strSMSBody);
 			       for (int i=0; i<7; i++) {
-			    	   smsManager.sendTextMessage(String.valueOf(5554+i), null, String.format(Locale.ENGLISH, "http://maps.google.com/?q=%f,%f", latitude, longitude), sentIntents.get(i), deliveryIntents.get(i));
+			    	   for(String str : messages){
+			    		   smsManager.sendTextMessage(String.valueOf(5554+i), null, str, sentIntents.get(i), deliveryIntents.get(i));
+			    	   }
 			       }
 			   } catch (Exception ex) {
 				   Toast.makeText(getApplicationContext(), ex.getMessage().toString(), Toast.LENGTH_LONG).show();

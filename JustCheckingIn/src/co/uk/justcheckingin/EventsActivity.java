@@ -58,13 +58,15 @@ public class EventsActivity extends Activity{
 		start.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(),((Event) list.getItemAtPosition(adapter.selectedEvent)).getName() , Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(getApplicationContext(), StartEventActivity.class);
-				intent.putExtra("event", ((Event) list.getItemAtPosition(adapter.selectedEvent)).toXML());
-				startActivity(intent);
-				
-				activeEvent = 1;
-				finish();
+				if(adapter.getCount() != 0){
+					Toast.makeText(getApplicationContext(),((Event) list.getItemAtPosition(adapter.selectedEvent)).getName() , Toast.LENGTH_LONG).show();
+					Intent intent = new Intent(getApplicationContext(), StartEventActivity.class);
+					intent.putExtra("event", ((Event) list.getItemAtPosition(adapter.selectedEvent)).toXML());
+					startActivity(intent);
+					
+					activeEvent = 1;
+					finish();
+				}
 			}
 		});
 		
@@ -108,7 +110,7 @@ public class EventsActivity extends Activity{
 	    Context context; 
 	    int layoutResourceId;    
 	    List<Event> data = null;
-	    int selectedEvent;
+	    int selectedEvent = 0;;
 	    
 	    public EventsAdapter(Context context, int layoutResourceId, List<Event> data) {
 	        super(context, layoutResourceId, data);

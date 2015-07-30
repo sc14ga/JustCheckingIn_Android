@@ -1,7 +1,5 @@
 package co.uk.justcheckingin;
 
-import co.uk.justcheckingin.ContactListsActivity.ContactListsAdapter;
-
 import com.splunk.mint.Mint;
 
 import java.io.BufferedReader;
@@ -10,6 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -23,10 +24,15 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
 public class MainActivity extends Activity {
+	String SENT = "SMS_SENT";
+	String DELIVERED = "SMS_DELIVERED";
+	
+	GPSTracker gps;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +86,50 @@ public class MainActivity extends Activity {
 				   //SmsManager smsManager = SmsManager.getDefault();
 				   //smsManager.sendTextMessage("+447518924080", null, "test", null, null);
 				   Toast.makeText(getApplicationContext(), "Message Sent", Toast.LENGTH_LONG).show();
+				   
+				   ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+				   ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+				
+				   PendingIntent sentPI = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(SENT), 0);
+				   PendingIntent deliveredPI = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(DELIVERED), 0);
+				
+				   // for each emergency contact list
+				   for (int j = 0; j < EmergencyContactListActivity.emergencyContactList.getList().size(); j++) {
+					   sentIntents.add(sentPI);
+					   deliveryIntents.add(deliveredPI);
+				   }
+				   
+				   gps = new GPSTracker(MainActivity.this);
+				   double latitude=0, longitude=0;
+	               // check if GPS enabled     
+	               if(gps.canGetLocation()){
+	                     
+	                    latitude = gps.getLatitude();
+	                    longitude = gps.getLongitude();
+	                     
+	                    // \n is for new line
+	                    //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+	                    
+	                    //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+	                    //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+	                    //startActivity(intent);
+	                    
+	                    // http://maps.google.com/?q=<lat>,<lng>
+	                    // String link = String.format(Locale.ENGLISH, "http://maps.google.com/?q=<%f>,<%f>", latitude, longitude);
+	               }else{
+	                    // can't get location
+	                    // GPS or Network is not enabled
+	                    // Ask user to enable GPS/network in settings
+	                    //gps.showSettingsAlert();
+	               }
+				   SmsManager smsManager = SmsManager.getDefault();
+				   String strSMSBody = String.format(Locale.ENGLISH, "EMERGENCY! This is my location: http://maps.google.com/?q=%f,%f\nI notified my emergency contacts using the JustCheckingIn app!", latitude, longitude);
+			       List<String> messages = smsManager.divideMessage(strSMSBody);
+			       for (int i=0; i<EmergencyContactListActivity.emergencyContactList.getList().size(); i++) {
+			    	   for(String str : messages){
+			    		   //smsManager.sendTextMessage(EmergencyContactListActivity.emergencyContactList.getList().get(i).getNumber(), null, str, sentIntents.get(i), deliveryIntents.get(i));
+			    	   }
+			       }
 			   } catch (Exception ex) {
 				   Toast.makeText(getApplicationContext(), ex.getMessage().toString(), Toast.LENGTH_LONG).show();
 				   ex.printStackTrace();
