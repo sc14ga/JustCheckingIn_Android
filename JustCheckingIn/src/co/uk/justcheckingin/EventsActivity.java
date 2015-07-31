@@ -110,7 +110,7 @@ public class EventsActivity extends Activity{
 	    Context context; 
 	    int layoutResourceId;    
 	    List<Event> data = null;
-	    int selectedEvent = 0;;
+	    int selectedEvent = 0;
 	    
 	    public EventsAdapter(Context context, int layoutResourceId, List<Event> data) {
 	        super(context, layoutResourceId, data);

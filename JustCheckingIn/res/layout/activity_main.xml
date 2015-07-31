@@ -19,7 +19,8 @@
         	android:layout_centerHorizontal="true"
         	android:layout_centerVertical="true"
         	android:gravity="center"
-        	android:text="An Event is enabled" >
+        	android:text="An Event is enabled"
+        	android:textColor="#FFFFFF" >
        	</TextView>
        	
         <Button
@@ -29,7 +30,8 @@
         	android:layout_centerVertical="true"
         	android:layout_alignParentRight="true"
         	android:layout_marginRight="@dimen/activity_horizontal_margin"
-        	android:text="Disable" >
+        	android:text="Disable"
+        	android:textColor="#FFFFFF" >
         </Button>
             
     </RelativeLayout>

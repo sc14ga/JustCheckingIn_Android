@@ -20,12 +20,11 @@ import android.widget.TextView;
 
 public class IncomingCallActivity extends Activity {
     private ImageButton accept;
-    private Button decline;
+    private ImageButton decline;
     
     private String caller;
 	private TextView mName;
     private TextView mPhoneNumber;
-    private TextView mLabel;
     
     private Vibrator v;
 	long pattern[]={0,800,200,1200,300,2000,400};
@@ -42,16 +41,14 @@ public class IncomingCallActivity extends Activity {
 		caller = intent.getExtras().getString("name");
 
 		accept = (ImageButton) findViewById(R.id.acceptButton);
-		decline = (Button) findViewById(R.id.declineButton);
+		decline = (ImageButton) findViewById(R.id.declineButton);
 		
         mName = (TextView) findViewById(R.id.name);
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
-        mLabel = (TextView) findViewById(R.id.label);
         
         mName.setText(caller);
         mName.setTextColor(Color.WHITE);
-        mPhoneNumber.setText("07518924080");
-        //mLabel.setText("Label");
+        //mPhoneNumber.setText("07518924080");
         
         Uri ringtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);		
 		playSound(this, ringtone);
