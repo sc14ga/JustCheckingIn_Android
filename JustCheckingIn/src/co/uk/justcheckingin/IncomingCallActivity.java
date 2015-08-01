@@ -1,7 +1,5 @@
 package co.uk.justcheckingin;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +12,10 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 public class IncomingCallActivity extends Activity {
     private ImageButton accept;
@@ -54,7 +53,7 @@ public class IncomingCallActivity extends Activity {
 		playSound(this, ringtone);
 		
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(pattern,1);
+        v.vibrate(pattern, 1);
         
         decline.setOnClickListener(new View.OnClickListener() {
 			@Override
