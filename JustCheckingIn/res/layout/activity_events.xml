@@ -3,6 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+   	<ImageButton
+        android:id="@+id/button4"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/contact_lists_button"
+        android:src="@drawable/contact_list_36_white" />
+	
+    	    
     <Button
         android:id="@+id/create_button"
         android:layout_width="wrap_content"

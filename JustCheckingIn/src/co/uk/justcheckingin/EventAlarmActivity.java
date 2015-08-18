@@ -41,6 +41,8 @@ public class EventAlarmActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        String name = intent.getExtras().getString("name");
         popupActivity = this;
 
         playSound(this, getAlarmUri());
@@ -48,7 +50,7 @@ public class EventAlarmActivity extends Activity {
         alertDialog = new AlertDialog.Builder(EventAlarmActivity.this).create();
         alertDialog.setTitle("JustCheckingIn alarm");
         alertDialog
-                .setMessage("Has something happened?\nDisable this event or your 'ContactList' will receive a message with your location.");
+                .setMessage("Has something happened?\nDisable this event or your "+name+" will receive a message with your location.");
         alertDialog.setCancelable(false);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Disable",
                 new DialogInterface.OnClickListener() {

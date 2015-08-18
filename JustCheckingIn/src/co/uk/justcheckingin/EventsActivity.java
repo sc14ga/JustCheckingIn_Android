@@ -235,11 +235,16 @@ public class EventsActivity extends Activity {
 
     public void loadEvents() {
         try {
+            EventsActivity.eventsList.clear();
+            
+            File file = new File("Events.data");
+            if(!file.exists()){ 
+                 return;
+            }
+            
             InputStream in_events = openFileInput("Events.data");
             InputStreamReader inputreader = new InputStreamReader(in_events);
-            BufferedReader br = new BufferedReader(inputreader);
-
-            EventsActivity.eventsList.clear();
+            BufferedReader br = new BufferedReader(inputreader);            
 
             String input = "";
             String line;

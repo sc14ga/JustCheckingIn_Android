@@ -15,7 +15,6 @@ public class StartEventActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
@@ -54,15 +53,17 @@ public class StartEventActivity extends Activity {
 
         // Create a new PendingIntent and add it to the AlarmManager
         Intent intent_alarm = new Intent(StartEventActivity.this, EventAlarmActivity.class);
+        intent_alarm.putExtra("name", e.getList().get(0).list.getName());
         EventAlarmActivity.intentService = new Intent(StartEventActivity.this,
                 EventEmergencyService.class);
-
+        EventAlarmActivity.intentService.putExtra("contacts", e.getList().get(0).list.toXML());
+        
         // intent.putExtra("cal2",
         // cal2.get(Calendar.YEAR)+" "+cal2.get(Calendar.MONTH)+" "+cal2.get(Calendar.DAY_OF_MONTH)+" "+cal2.get(Calendar.HOUR_OF_DAY)+":"+cal2.get(Calendar.MINUTE)+":"+cal2.get(Calendar.SECOND));
         // intent.putExtra("cal3",
         // cal3.get(Calendar.YEAR)+" "+cal3.get(Calendar.MONTH)+" "+cal3.get(Calendar.DAY_OF_MONTH)+" "+cal3.get(Calendar.HOUR_OF_DAY)+":"+cal3.get(Calendar.MINUTE)+":"+cal3.get(Calendar.SECOND));
 
-        Toast.makeText(StartEventActivity.this, "OK", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(StartEventActivity.this, "OK", Toast.LENGTH_SHORT).show();
         pendingIntent = PendingIntent.getActivity(StartEventActivity.this, 10001, intent_alarm,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         EventAlarmActivity.pendingService = PendingIntent.getService(StartEventActivity.this,
