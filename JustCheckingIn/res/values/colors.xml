@@ -4,4 +4,10 @@
     <color name="on_hold_dim_effect">#cc000000</color>
     <color name="incall_call_banner_background">#CC000000</color> <!-- semitransparent black -->
     <color name="incall_call_banner_text_color">#FFFFFF</color> <!-- white -->
+    
+    <color name="background">#003377</color>
+    <color name="buttonBackground">#0077DD</color>
+    <color name="buttonText">#FFFFFF</color>
+    <color name="screenTitleBackground">#0077DD</color>
+    <color name="screenTitleColor">#003377</color>
 </resources>

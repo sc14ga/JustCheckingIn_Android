@@ -2,22 +2,22 @@
 package co.uk.justcheckingin;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,14 +34,16 @@ import java.util.Locale;
 public class MainActivity extends Activity {
     String SENT = "SMS_SENT";
     String DELIVERED = "SMS_DELIVERED";
+    int NOTIFICATION_EMERGENCY_BUTTON = 1;
 
     Handler handler;
     Runnable run;
     GPSTracker gps;
 
     private Vibrator vib;
-    
     private TextView activeEvents;
+
+    static String emergencyMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,10 @@ public class MainActivity extends Activity {
         if (EmergencyContactListActivity.emergencyContactList == null)
             loadEmergencyContactList();
 
+        // Retreive Emergency Message
+        SharedPreferences saved = getPreferences(Context.MODE_PRIVATE);
+        emergencyMessage = saved.getString("emergencyMessage", "I notified my emergency contacts using the JustCheckingIn app!");
+        
         // Emergency Button functionality
         run = new Runnable() {
             @Override
@@ -89,49 +95,39 @@ public class MainActivity extends Activity {
                             .size() != 0) {
                         gps = new GPSTracker(MainActivity.this);
                         double latitude = 0, longitude = 0;
-                        // check if GPS enabled
-                        if (gps.canGetLocation()) {
 
+                        if (gps.canGetLocation()) {
                             latitude = gps.getLatitude();
                             longitude = gps.getLongitude();
-
-                            // \n is for new line
-                            // Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
-                            // +
-                            // latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
-                            // String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude,
-                            // longitude);
-                            // Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                            // startActivity(intent);
-
-                            // http://maps.google.com/?q=<lat>,<lng>
-                            // String link = String.format(Locale.ENGLISH,
-                            // "http://maps.google.com/?q=<%f>,<%f>", latitude, longitude);
-                        } else {
-                            // can't get location
-                            // GPS or Network is not enabled
-                            // Ask user to enable GPS/network in settings
-                            // gps.showSettingsAlert();
                         }
+
                         SmsManager smsManager = SmsManager.getDefault();
                         String strSMSBody = String
                                 .format(Locale.ENGLISH,
-                                        "EMERGENCY! This is my location: http://maps.google.com/?q=%f,%f\nI notified my emergency contacts using the JustCheckingIn app!",
-                                        latitude, longitude);
+                                        "EMERGENCY! This is my location: http://maps.google.com/?q=%f,%f\n"
+                                                + emergencyMessage, latitude, longitude);
                         List<String> messages = smsManager.divideMessage(strSMSBody);
                         for (int i = 0; i < EmergencyContactListActivity.emergencyContactList
                                 .getList().size(); i++) {
                             for (String str : messages) {
-                                smsManager.sendTextMessage(
-                                        EmergencyContactListActivity.emergencyContactList.getList()
-                                                .get(i).getNumber(),
-                                        null, str, sentIntents.get(i), deliveryIntents.get(i));
+                                // smsManager.sendTextMessage(
+                                // EmergencyContactListActivity.emergencyContactList.getList()
+                                // .get(i).getNumber(),
+                                // null, str, sentIntents.get(i), deliveryIntents.get(i));
                             }
                         }
-                        Toast.makeText(getApplicationContext(),
-                                "Your emergency contact list has been notified!", Toast.LENGTH_LONG)
-                                .show();
+                        // Toast.makeText(getApplicationContext(),
+                        // "Your emergency contact list has been notified!", Toast.LENGTH_LONG)
+                        // .show();
+                        // Create Notification
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                                getApplicationContext());
+                        mBuilder.setSmallIcon(R.drawable.ic_launcher);
+                        mBuilder.setContentTitle("Just Checking In");
+                        mBuilder.setContentText("Emergency button was used: Emergency contacts were notified.");
+                        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        mNotificationManager
+                                .notify(NOTIFICATION_EMERGENCY_BUTTON, mBuilder.build());
                     }
                     else {
                         Toast.makeText(getApplicationContext(),
@@ -146,14 +142,14 @@ public class MainActivity extends Activity {
         // ///////////////////////////////////////////////////////////
 
         // Contacts
-//        ImageButton contactsButton = (ImageButton) findViewById(R.id.button4);
-//        contactsButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), ContactListsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        // ImageButton contactsButton = (ImageButton) findViewById(R.id.button4);
+        // contactsButton.setOnClickListener(new View.OnClickListener() {
+        // @Override
+        // public void onClick(View v) {
+        // Intent intent = new Intent(getApplicationContext(), ContactListsActivity.class);
+        // startActivity(intent);
+        // }
+        // });
 
         // Events
         ImageButton eventsButton = (ImageButton) findViewById(R.id.button2);
@@ -167,6 +163,7 @@ public class MainActivity extends Activity {
 
         // Emergency Button
         ImageButton emergencyButton = (ImageButton) findViewById(R.id.button1);
+
         handler = new Handler();
 
         emergencyButton.setOnTouchListener(new View.OnTouchListener() {
@@ -204,16 +201,6 @@ public class MainActivity extends Activity {
             }
         });
 
-        // Emergency Numbers Button
-//        ImageButton numbersButton = (ImageButton) findViewById(R.id.numbersButton);
-//        numbersButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), EmergencyNumbersActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
         ImageButton setfakecallButton = (ImageButton) findViewById(R.id.button3);
         setfakecallButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,26 +210,27 @@ public class MainActivity extends Activity {
             }
         });
 
-        
         activeEvents = (TextView) findViewById(R.id.activeEvents);
         activeEvents.setText(String.valueOf(EventsActivity.activeEvent));
-        activeEvents.setVisibility(View.VISIBLE);
+        if (EventsActivity.activeEvent > 0) {
+            activeEvents.setVisibility(View.VISIBLE);
+        }
 
-//        Button disable = (Button) findViewById(R.id.disableButton);
-//        disable.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                StartEventActivity.pendingIntent.cancel();
-//                EventAlarmActivity.pendingService.cancel();
-//
-//                EventsActivity.activeEvent = 0;
-//
-//                RelativeLayout banner = (RelativeLayout) findViewById(R.id.relativeLayout1);
-//                LayoutParams params = (LayoutParams) banner.getLayoutParams();
-//                params.height = 0;
-//                banner.setLayoutParams(params);
-//            }
-//        });
+        // Button disable = (Button) findViewById(R.id.disableButton);
+        // disable.setOnClickListener(new View.OnClickListener() {
+        // @Override
+        // public void onClick(View v) {
+        // StartEventActivity.pendingIntent.cancel();
+        // EventAlarmActivity.pendingService.cancel();
+        //
+        // EventsActivity.activeEvent = 0;
+        //
+        // RelativeLayout banner = (RelativeLayout) findViewById(R.id.relativeLayout1);
+        // LayoutParams params = (LayoutParams) banner.getLayoutParams();
+        // params.height = 0;
+        // banner.setLayoutParams(params);
+        // }
+        // });
     }
 
     @Override
@@ -251,9 +239,21 @@ public class MainActivity extends Activity {
 
         activeEvents = (TextView) findViewById(R.id.activeEvents);
         activeEvents.setText(String.valueOf(EventsActivity.activeEvent));
-        activeEvents.setVisibility(View.VISIBLE);
+        if (EventsActivity.activeEvent > 0) {
+            activeEvents.setVisibility(View.VISIBLE);
+        }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        
+        SharedPreferences saved = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = saved.edit();
+        editor.putString("emergencyMessage", emergencyMessage);
+        editor.commit();
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -278,14 +278,14 @@ public class MainActivity extends Activity {
             ContactListsActivity.contactsList.clear();
 
             File file = new File("ContactLists.data");
-            if(!file.exists()){ 
-                 return;
+            if (!file.exists()) {
+                return;
             }
-            
+
             InputStream in_contactlists = openFileInput("ContactLists.data");
             InputStreamReader inputreader = new InputStreamReader(in_contactlists);
             BufferedReader br = new BufferedReader(inputreader);
-            
+
             String input = "";
             String line;
             while ((line = br.readLine()) != null) {
@@ -318,10 +318,11 @@ public class MainActivity extends Activity {
     public void loadEmergencyContactList() {
         try {
             File file = new File("EmergencyContactList.data");
-            if(!file.exists()){ 
-                 return;
+            if (!file.exists()) {
+                EmergencyContactListActivity.emergencyContactList = new ContactList();
+                return;
             }
-            
+
             InputStream in_emergencycontactlist = openFileInput("EmergencyContactList.data");
             InputStreamReader inputreader = new InputStreamReader(in_emergencycontactlist);
             BufferedReader br = new BufferedReader(inputreader);

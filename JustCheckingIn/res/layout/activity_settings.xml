@@ -2,13 +2,91 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/background" >
     
+    <RelativeLayout
+        android:id="@+id/titleRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/banner_background" >
+        
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitStart"
+            android:contentDescription="JCI Logo"
+            android:src="@drawable/logo_jci_clock" />
+        
+        <ImageButton
+	        android:id="@+id/settingsButton"
+	        android:layout_width="50dp"
+	        android:layout_height="50dp"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentRight="true"
+        	android:layout_marginRight="12dp"
+        	android:contentDescription="Settings"
+	        android:background="@drawable/settings_button"
+	        android:src="@drawable/settings_32_white" />
+        
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:layout_centerHorizontal="true"
+        	android:layout_centerVertical="true"
+        	android:gravity="center"
+        	android:text="Just Checking In"
+        	android:textSize="24sp"
+        	android:textStyle="bold"
+        	android:textColor="#003377" >
+       	</TextView>
+       	
+        <ImageButton
+	        android:id="@+id/backButton"
+	        android:layout_width="50dp"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentLeft="true"
+        	android:contentDescription="Back"
+        	android:scaleType="fitStart"
+        	android:background="#0FFF"
+	        android:src="@drawable/back_64_blue" />
+       	
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/screenTitleRelativeLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	    android:background="@color/screenTitleBackground"
+	    android:orientation="vertical"
+	    android:layout_below="@+id/titleRelativeLayout" >
+	    
+        <TextView
+            android:id="@+id/screenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="Settings"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/screenTitleColor" />
+
+	</RelativeLayout>
     <RelativeLayout
         android:id="@+id/relativeLayout1"
 	    android:layout_width="match_parent"
 	    android:layout_height="50dp"
-	    android:orientation="vertical" >
+	    android:background="@color/background"
+	    android:orientation="vertical"
+	    android:layout_marginTop="5dp"
+	    android:layout_below="@+id/screenTitleRelativeLayout" >
 	    
         <TextView
             android:id="@+id/warningTextView"
@@ -17,30 +95,49 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Keep in mind that every emergency contact will receive a SMS message which will charge you based on your mobile plan" />
+            android:text="Keep in mind that every emergency contact will receive a SMS message which will charge you based on your mobile plan"
+            android:textColor="#FFF" />
 
 	</RelativeLayout>
 	<RelativeLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:orientation="vertical"
-	    android:layout_below="@+id/relativeLayout1" >
+	    android:layout_below="@+id/relativeLayout1"
+	    android:layout_marginTop="30dp"
+	    android:background="@color/background" >
 	
+	    <Button
+	        android:id="@+id/buttonEmergencyMessage"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_alignParentTop="true"
+	        android:text="Edit Emergency Message"
+	        android:textColor="@color/buttonText"
+	        android:background="@color/buttonBackground" />
+	    
 	    <Button
 	        android:id="@+id/buttonEmergencyContacts"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerHorizontal="true"
-	        android:layout_centerVertical="true"
-	        android:text="Change Emergency Contacts" />
+	        android:layout_below="@+id/buttonEmergencyMessage"
+	        android:layout_marginTop="20dp"
+	        android:text="Change Emergency Contacts"
+	        android:textColor="@color/buttonText"
+	        android:background="@color/buttonBackground" />
 	
-	    <ImageButton
+	    <Button
 	        android:id="@+id/numbersButton"
-	        android:layout_width="60dp"
-	        android:layout_height="60dp"
-	        android:layout_alignParentRight="true"
-	        android:background="@drawable/emergency_numbers_button"
-	        android:src="@drawable/emergency_numbers_32_white" />
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginBottom="30dp"
+	        android:text="Emergency Numbers"
+	        android:textColor="@color/buttonText"
+	        android:background="@color/buttonBackground" />
 	    
 	    <Switch
 	        android:id="@+id/switchGPS"
@@ -49,7 +146,8 @@
 	        android:layout_below="@+id/buttonEmergencyContacts"
 	        android:layout_centerHorizontal="true"
 	        android:layout_marginTop="50dp"
-	        android:text="GPS" />
+	        android:text="GPS"
+	        android:textColor="@color/buttonText" />
 	
 	</RelativeLayout>
 </RelativeLayout>
