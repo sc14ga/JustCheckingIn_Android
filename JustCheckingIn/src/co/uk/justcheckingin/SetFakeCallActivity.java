@@ -7,21 +7,48 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class SetFakeCallActivity extends Activity {
-    TimePicker time;
-    EditText caller;
-    Button set;
+    private TimePicker time;
+    private EditText caller;
+    private Button set;
+    private ImageButton backButton;
+
+    // PendingIntent identifier - unique
+    private int FAKE_CALL = 20000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_set_fake_call);
+
+        // Back Button
+        backButton = (ImageButton) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        // Settings Button
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         time = (TimePicker) findViewById(R.id.timePicker1);
         time.setIs24HourView(true);
@@ -47,11 +74,18 @@ public class SetFakeCallActivity extends Activity {
                 alarmTime.set(Calendar.HOUR_OF_DAY, time.getCurrentHour());
                 alarmTime.set(Calendar.MINUTE, time.getCurrentMinute());
 
-                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                        20000, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                am.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
-                finish();
+                if (alarmTime.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis()) {
+                    PendingIntent pendingIntent = PendingIntent.getActivity(
+                            getApplicationContext(),
+                            FAKE_CALL, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+                    am.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Select a future time.",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

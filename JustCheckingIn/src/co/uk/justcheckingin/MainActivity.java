@@ -60,12 +60,17 @@ public class MainActivity extends Activity {
          */
 
         // Retreive existing ContactLists
-        if (ContactListsActivity.contactsList.isEmpty())
+        if (ContactListsActivity.contactsList.isEmpty()){
             loadContactLists();
+        }
 
         // Retreive Emergency Contact List
-        if (EmergencyContactListActivity.emergencyContactList == null)
+        if (EmergencyContactListActivity.emergencyContactList == null){
             loadEmergencyContactList();
+        }
+        else if (EmergencyContactListActivity.emergencyContactList.getList().isEmpty()){
+            loadEmergencyContactList();
+        } 
 
         // Retreive Emergency Message
         SharedPreferences saved = getPreferences(Context.MODE_PRIVATE);

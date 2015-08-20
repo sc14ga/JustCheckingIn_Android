@@ -1,15 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/background" >
 
+    <RelativeLayout
+        android:id="@+id/titleRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/banner_background" >
+        
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitStart"
+            android:contentDescription="JCI Logo"
+            android:src="@drawable/logo_jci_clock" />
+        
+        <ImageButton
+	        android:id="@+id/settingsButton"
+	        android:layout_width="50dp"
+	        android:layout_height="50dp"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentRight="true"
+        	android:layout_marginRight="12dp"
+        	android:contentDescription="Settings"
+	        android:background="@drawable/settings_button"
+	        android:src="@drawable/settings_32_white" />
+        
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:layout_centerHorizontal="true"
+        	android:layout_centerVertical="true"
+        	android:gravity="center"
+        	android:text="Just Checking In"
+        	android:textSize="24sp"
+        	android:textStyle="bold"
+        	android:textColor="#003377" >
+       	</TextView>
+       	
+        <ImageButton
+	        android:id="@+id/backButton"
+	        android:layout_width="50dp"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentLeft="true"
+        	android:contentDescription="Back"
+        	android:scaleType="fitStart"
+        	android:background="#0FFF"
+	        android:src="@drawable/back_64_blue" />
+       	
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/screenTitleRelativeLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	    android:background="@color/screenTitleBackground"
+	    android:orientation="vertical"
+	    android:layout_below="@+id/titleRelativeLayout" >
+	    
+        <TextView
+            android:id="@+id/screenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="Emergency Numbers"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/screenTitleColor" />
+
+	</RelativeLayout>
+	
     <TextView
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
+        android:layout_below="@+id/screenTitleRelativeLayout"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/buttonText"
+        android:textStyle="bold"
+        android:textSize="17sp"
         android:text="University Security" />
     
     <EditText
@@ -20,6 +99,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/buttonText"
         android:inputType="phone" >
 
     </EditText>
@@ -32,6 +112,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/buttonText"
         android:inputType="phone" >
 
     </EditText>
@@ -44,6 +125,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/buttonText"
         android:inputType="phone" >
 
     </EditText>
@@ -54,6 +136,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/editText3"
+        android:textColor="@color/buttonText"
+        android:textStyle="bold"
+        android:textSize="17sp"
         android:text="Police" />
     
     <EditText
@@ -64,6 +149,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/buttonText"
         android:inputType="phone" >
 
     </EditText>
@@ -74,6 +160,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/editText4"
+        android:textColor="@color/buttonText"
+        android:textStyle="bold"
+        android:textSize="17sp"
         android:text="Fire Brigade" />
 
     <EditText
@@ -84,6 +173,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/buttonText"
         android:inputType="phone" >
 
     </EditText>
@@ -94,6 +184,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText5"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/buttonText"
+        android:textStyle="bold"
+        android:textSize="17sp"
         android:text="Hospital" />
 
     <EditText
@@ -104,6 +197,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/buttonText"
         android:inputType="phone" >
 
     </EditText>

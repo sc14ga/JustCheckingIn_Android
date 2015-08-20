@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class EmergencyContactListActivity extends Activity {
     Button save, cancel;
-    EditText title;
+    ImageButton backButton;
     ListView myContacts;
 
     ContactsAdapter adapter = new ContactsAdapter();
@@ -35,12 +37,27 @@ public class EmergencyContactListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_emergency_contact_list);
 
-        title = (EditText) findViewById(R.id.editText1);
-        title.setText("Emergency Contacts");
-        title.setEnabled(false);
-
+        // Back Button
+        backButton = (ImageButton) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        
+        // Settings Button
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        
         cancel = (Button) findViewById(R.id.button2);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +122,7 @@ public class EmergencyContactListActivity extends Activity {
                             Toast.LENGTH_LONG).show();
                 }
                 else {
-                    emergencyContactList = new ContactList(title.getText().toString(), list);
+                    emergencyContactList = new ContactList("Emergency Contacts", list);
                     saveEmergencyContactList();
 
                     finish();

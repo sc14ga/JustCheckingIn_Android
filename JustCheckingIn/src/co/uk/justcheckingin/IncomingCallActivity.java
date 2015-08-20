@@ -12,12 +12,15 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.IOException;
 
 public class IncomingCallActivity extends Activity {
+    private Window window;
+    
     private ImageButton accept;
     private ImageButton decline;
     
@@ -36,6 +39,12 @@ public class IncomingCallActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.call_card);
 		
+		window = getWindow();
+		window.addFlags(LayoutParams.FLAG_TURN_SCREEN_ON);
+	    window.addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
+	    window.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+	    
+	    
 		Intent intent = getIntent();
 		caller = intent.getExtras().getString("name");
 

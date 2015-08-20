@@ -2,17 +2,41 @@
 package co.uk.justcheckingin;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class EmergencyNumbersActivity extends Activity {
-    EditText uni1, uni2, uni3, police, fire, hospital;
+    private EditText uni1, uni2, uni3, police, fire, hospital;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_numbers);
+
+        // Back Button
+        backButton = (ImageButton) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        
+        // Settings Button
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         uni1 = (EditText) findViewById(R.id.editText1);
         uni2 = (EditText) findViewById(R.id.editText2);
@@ -35,11 +59,11 @@ public class EmergencyNumbersActivity extends Activity {
         fire.setEnabled(false);
         hospital.setEnabled(false);
 
-        uni1.setTextColor(Color.BLACK);
-        uni2.setTextColor(Color.BLACK);
-        uni3.setTextColor(Color.BLACK);
-        police.setTextColor(Color.BLACK);
-        fire.setTextColor(Color.BLACK);
-        hospital.setTextColor(Color.BLACK);
+//        uni1.setTextColor(Color.BLACK);
+//        uni2.setTextColor(Color.BLACK);
+//        uni3.setTextColor(Color.BLACK);
+//        police.setTextColor(Color.BLACK);
+//        fire.setTextColor(Color.BLACK);
+//        hospital.setTextColor(Color.BLACK);
     }
 }

@@ -1,15 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/background" >
 
-   	<ImageButton
-        android:id="@+id/button4"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/contact_lists_button"
-        android:src="@drawable/contact_list_36_white" />
+    <RelativeLayout
+        android:id="@+id/titleRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/banner_background" >
+        
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitStart"
+            android:contentDescription="JCI Logo"
+            android:src="@drawable/logo_jci_clock" />
+        
+        <ImageButton
+	        android:id="@+id/settingsButton"
+	        android:layout_width="50dp"
+	        android:layout_height="50dp"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentRight="true"
+        	android:layout_marginRight="12dp"
+        	android:contentDescription="Settings"
+	        android:background="@drawable/settings_button"
+	        android:src="@drawable/settings_32_white" />
+        
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:layout_centerHorizontal="true"
+        	android:layout_centerVertical="true"
+        	android:gravity="center"
+        	android:text="Just Checking In"
+        	android:textSize="24sp"
+        	android:textStyle="bold"
+        	android:textColor="#003377" >
+       	</TextView>
+       	
+        <ImageButton
+	        android:id="@+id/backButton"
+	        android:layout_width="50dp"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentLeft="true"
+        	android:contentDescription="Back"
+        	android:scaleType="fitStart"
+        	android:background="#0FFF"
+	        android:src="@drawable/back_64_blue" />
+       	
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/screenTitleRelativeLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	    android:background="@color/screenTitleBackground"
+	    android:orientation="vertical"
+	    android:layout_below="@+id/titleRelativeLayout" >
+	    
+        <TextView
+            android:id="@+id/screenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="Events"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/screenTitleColor" />
+        
+        <ImageButton
+	        android:id="@+id/button4"
+	        android:layout_width="30dp"
+	        android:layout_height="30dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="20dp"
+	        android:background="@drawable/contact_lists_button"
+	        android:src="@drawable/contact_list_36_white" />
+
+	</RelativeLayout>
+	
+   	
 	
     	    
     <Button
@@ -32,7 +112,7 @@
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/screenTitleRelativeLayout"
         android:layout_above="@+id/create_button" >
     </ListView>
     

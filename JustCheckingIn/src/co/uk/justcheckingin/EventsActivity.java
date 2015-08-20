@@ -12,9 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -33,7 +35,8 @@ import java.util.List;
 public class EventsActivity extends Activity {
     static List<Event> eventsList = new ArrayList<Event>();
     ListView list;
-    Button create, cancel, start;
+    private Button create, cancel, start;
+    private ImageButton backButton;
 
     EventsAdapter adapter;
 
@@ -44,12 +47,31 @@ public class EventsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_events);
 
         // Retreive existing Events
         if (EventsActivity.eventsList.isEmpty())
             loadEvents();
-
+        
+        backButton = (ImageButton) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        
+        // Settings Button
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        
         create = (Button) findViewById(R.id.create_button);
         cancel = (Button) findViewById(R.id.cancel_button);
         start = (Button) findViewById(R.id.start_button);
@@ -68,6 +90,16 @@ public class EventsActivity extends Activity {
                     activeEvent = 1;
                     finish();
                 }
+            }
+        });
+        
+        // Contacts
+        ImageButton contactsButton = (ImageButton) findViewById(R.id.button4);
+        contactsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ContactListsActivity.class);
+                startActivity(intent);
             }
         });
 
