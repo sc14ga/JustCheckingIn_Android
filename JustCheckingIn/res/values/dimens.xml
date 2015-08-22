@@ -16,4 +16,7 @@
          This padding is used to ensure that ultra-long names or
          numbers won't overlap the elapsed time indication. -->
     <dimen name="call_banner_name_number_right_padding">50sp</dimen>
+    
+    <dimen name="days_width">51dp</dimen>
+    <dimen name="days_textsize">12sp</dimen>
 </resources>

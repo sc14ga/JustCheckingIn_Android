@@ -79,41 +79,39 @@
         
         <ImageButton
 	        android:id="@+id/button4"
-	        android:layout_width="30dp"
-	        android:layout_height="30dp"
-	        android:layout_alignParentRight="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toLeftOf="@+id/create_button"
 	        android:layout_centerVertical="true"
 	        android:layout_marginRight="20dp"
-	        android:background="@drawable/contact_lists_button"
-	        android:src="@drawable/contact_list_36_white" />
+	        android:contentDescription="Contact Lists"
+	        android:scaleType="centerInside"
+	        android:background="#00000000"
+	        android:src="@drawable/contact_list_64_blue" />
+                
+        <ImageButton
+	        android:id="@+id/create_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginTop="3dp"
+	        android:layout_marginBottom="3dp"
+	        android:contentDescription="Create Event"
+	        android:layout_marginRight="20dp"
+	        android:scaleType="centerInside"
+	        android:background="#00000000"
+	        android:src="@drawable/addevent_64_blue" />
 
 	</RelativeLayout>
-	
-   	
-	
-    	    
-    <Button
-        android:id="@+id/create_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="Create" />
-    
-    <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="Cancel" />
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/screenTitleRelativeLayout"
-        android:layout_above="@+id/create_button" >
+        android:layout_marginTop="5dp"
+        android:layout_above="@+id/start_button" >
     </ListView>
     
     <Button

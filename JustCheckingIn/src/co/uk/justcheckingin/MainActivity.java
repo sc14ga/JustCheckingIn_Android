@@ -60,17 +60,17 @@ public class MainActivity extends Activity {
          */
 
         // Retreive existing ContactLists
-        if (ContactListsActivity.contactsList.isEmpty()){
+        //if (ContactListsActivity.contactsList.isEmpty()){
             loadContactLists();
-        }
+        //}
 
         // Retreive Emergency Contact List
-        if (EmergencyContactListActivity.emergencyContactList == null){
+        //if (EmergencyContactListActivity.emergencyContactList == null){
             loadEmergencyContactList();
-        }
-        else if (EmergencyContactListActivity.emergencyContactList.getList().isEmpty()){
-            loadEmergencyContactList();
-        } 
+//        }
+//        else if (EmergencyContactListActivity.emergencyContactList.getList().isEmpty()){
+//            loadEmergencyContactList();
+//        } 
 
         // Retreive Emergency Message
         SharedPreferences saved = getPreferences(Context.MODE_PRIVATE);
@@ -282,10 +282,11 @@ public class MainActivity extends Activity {
         try {
             ContactListsActivity.contactsList.clear();
 
-            File file = new File("ContactLists.data");
+            /*File file = new File("ContactLists.data");
             if (!file.exists()) {
+                Toast.makeText(getApplicationContext(), "NOT_contacts", Toast.LENGTH_SHORT).show();
                 return;
-            }
+            }*/
 
             InputStream in_contactlists = openFileInput("ContactLists.data");
             InputStreamReader inputreader = new InputStreamReader(in_contactlists);
@@ -322,11 +323,12 @@ public class MainActivity extends Activity {
 
     public void loadEmergencyContactList() {
         try {
-            File file = new File("EmergencyContactList.data");
+            /*File file = new File("EmergencyContactList.data");
             if (!file.exists()) {
                 EmergencyContactListActivity.emergencyContactList = new ContactList();
+                Toast.makeText(getApplicationContext(), "NOT_emergency", Toast.LENGTH_LONG).show();
                 return;
-            }
+            }*/
 
             InputStream in_emergencycontactlist = openFileInput("EmergencyContactList.data");
             InputStreamReader inputreader = new InputStreamReader(in_emergencycontactlist);

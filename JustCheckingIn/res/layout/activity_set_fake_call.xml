@@ -86,7 +86,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/editText1"
-        android:layout_marginBottom="30dp"
+        android:layout_below="@+id/screenTitleRelativeLayout"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="40dp"
         android:numbersSelectorColor="@color/buttonText" />
     
     <EditText
@@ -95,10 +97,12 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/setButton"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="50dp"
         android:textColor="@color/buttonText"
         android:gravity="center"
-        android:hint="Name/number" />
+        android:hint="Name/number"
+        android:textSize="18sp"
+        android:background="@color/buttonBackground" />
 
     <Button
         android:id="@+id/setButton"

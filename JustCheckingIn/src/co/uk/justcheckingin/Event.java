@@ -1,12 +1,15 @@
 
 package co.uk.justcheckingin;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
     private String name;
     private List<Timer> list = new ArrayList<Timer>();
+    private boolean enabled;
 
     public Event() {
         super();
@@ -16,6 +19,7 @@ public class Event {
         super();
         this.name = name;
         this.list = list;
+        this.enabled = false;
     }
 
     @Override
@@ -24,7 +28,7 @@ public class Event {
     }
 
     public String toXML() {
-        String output = this.name;
+        String output = this.name+"<boolean>"+String.valueOf(this.enabled);
         for (Timer t : this.list) {
             output += "<Timer>" + t.toString();
         }
@@ -37,7 +41,9 @@ public class Event {
         String[] tokens = input.split("<Timer>");
         String token = tokens[0];
 
-        event.name = token;
+        String[] vars = token.split("<boolean>");
+        event.name = vars[0];
+        event.enabled = Boolean.parseBoolean(vars[1]);
 
         for (int i = 1; i < tokens.length; i++) {
             Timer timer = new Timer();
@@ -53,5 +59,13 @@ public class Event {
 
     public List<Timer> getList() {
         return this.list;
+    }
+    
+    public boolean getStatus(){
+        return this.enabled;
+    }
+    
+    public void setStatus(boolean s){
+        this.enabled = s;
     }
 }

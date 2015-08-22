@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,9 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditContactListActivity extends Activity {
-    Button save, cancel;
-    EditText title;
-    ListView myContacts;
+    private Button save, cancel;
+    private EditText title;
+    private ListView myContacts;
+    private ImageButton backButton;
 
     ContactsAdapter adapter = new ContactsAdapter();
 
@@ -32,8 +35,27 @@ public class EditContactListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_edit_contact_list);
 
+        backButton = (ImageButton) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        
+        // Settings Button
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        
         title = (EditText) findViewById(R.id.editText1);
 
         // Retreive data from caller Activity

@@ -12,10 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,15 +32,35 @@ public class ContactListsActivity extends Activity {
     static List<ContactList> contactsList = new ArrayList<ContactList>();
     ContactListsAdapter adapter;
     ListView list;
-    Button create;
+    private Button create;
+    private ImageButton backButton;
 
     FileOutputStream out = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_contact_lists);
 
+        backButton = (ImageButton) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        
+        // Settings Button
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        
         create = (Button) findViewById(R.id.create_button);
         create.setOnClickListener(new View.OnClickListener() {
             @Override

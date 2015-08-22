@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/contact_list_background" >
  
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp" />
     
 	<TextView
         android:id="@+id/name"
@@ -17,7 +19,11 @@
         android:layout_alignBaseline="@+id/checkBox"
         android:layout_toEndOf="@+id/checkBox"
         android:layout_toRightOf="@+id/checkBox"
+        android:layout_marginLeft="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:layout_alignParentTop="true"
+        android:textSize="16sp"
         android:textColor="@color/buttonText" />
  
     <TextView
@@ -26,6 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/name"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:textSize="16sp"
         android:textColor="@color/buttonText" />
  
 </RelativeLayout>

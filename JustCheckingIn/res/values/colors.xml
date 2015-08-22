@@ -6,8 +6,8 @@
     <color name="incall_call_banner_text_color">#FFFFFF</color> <!-- white -->
     
     <color name="background">#003377</color>
-    <color name="buttonBackground">#0077DD</color>
+    <color name="buttonBackground">#00AADD</color>
     <color name="buttonText">#FFFFFF</color>
-    <color name="screenTitleBackground">#0077DD</color>
+    <color name="screenTitleBackground">#00AADD</color>
     <color name="screenTitleColor">#003377</color>
 </resources>

@@ -147,6 +147,7 @@
 	        android:layout_centerHorizontal="true"
 	        android:layout_marginTop="50dp"
 	        android:text="GPS"
+	        android:textStyle="bold"
 	        android:textColor="@color/buttonText" />
 	
 	</RelativeLayout>
