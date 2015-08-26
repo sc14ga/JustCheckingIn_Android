@@ -80,29 +80,54 @@
 
 	</RelativeLayout>
 	
+    <TextView 
+        android:id="@+id/timeLabel" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/screenTitleRelativeLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Call time"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/buttonBackground" />
+    
     <TimePicker
         android:id="@+id/timePicker1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/editText1"
-        android:layout_below="@+id/screenTitleRelativeLayout"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/timeLabel"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="40dp"
-        android:numbersSelectorColor="@color/buttonText" />
+        android:background="#CCCCCC" />
+    
+    <TextView 
+        android:id="@+id/callerLabel" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/editText1"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignBaseline="@+id/editText1"
+        android:text="Caller name/number"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/buttonBackground" />
     
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
         android:layout_above="@+id/setButton"
         android:layout_marginBottom="50dp"
         android:textColor="@color/buttonText"
         android:gravity="center"
         android:hint="Name/number"
-        android:textSize="18sp"
-        android:background="@color/buttonBackground" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/setButton"

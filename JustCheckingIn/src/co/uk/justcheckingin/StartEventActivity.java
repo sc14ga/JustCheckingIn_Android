@@ -3,75 +3,107 @@ package co.uk.justcheckingin;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class StartEventActivity extends Activity {
-    static PendingIntent pendingIntent;
+    // static PendingIntent pendingIntent;
+
+    int PENDING_INTENT_ID = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Retrieve information from intent
         Intent intent = getIntent();
         Event e = new Event().fromString(intent.getExtras().getString("event"));
+        int day = intent.getExtras().getInt("day");
 
-        int hour1 = Integer.parseInt(e.getList().get(0).hour);
-        int minute1 = Integer.parseInt(e.getList().get(0).minute);
-        // int hour2 = picker2.getCurrentHour();
-        // int minute2 = picker2.getCurrentMinute();
-        // int hour3 = picker3.getCurrentHour();
-        // int minute3 = picker3.getCurrentMinute();
+        for (Timer t : e.getList()) {
+            // Get current date and time
+            Calendar timeAlarm = Calendar.getInstance();
 
-        // Start
-        Calendar cal1 = Calendar.getInstance();
-        cal1.set(Calendar.HOUR_OF_DAY, hour1);
-        cal1.set(Calendar.MINUTE, minute1);
-        Calendar cal1alarm = Calendar.getInstance();
-        if (minute1 == 0) {
-            if (hour1 == 0)
-                cal1alarm.set(Calendar.HOUR_OF_DAY, 23);
-            else cal1alarm.set(Calendar.HOUR_OF_DAY, hour1 - 1);
-            cal1alarm.set(Calendar.MINUTE, 59);
+            int hour = Integer.parseInt(t.hour);
+            int minute = Integer.parseInt(t.minute);
+            int weekOfYear = timeAlarm.get(Calendar.WEEK_OF_YEAR);
+            int year = timeAlarm.get(Calendar.YEAR);
+
+            // Today or next week in case the specified time has passed
+            if (timeAlarm.get(Calendar.DAY_OF_WEEK) == day) {
+                if (hour * 60 + minute < timeAlarm.get(Calendar.HOUR_OF_DAY) * 60
+                        + timeAlarm.get(Calendar.MINUTE)) {
+                    // Next week
+                    if (timeAlarm.get(Calendar.WEEK_OF_YEAR) == 52) {
+                        // if last week of year go to the first week of next year
+                        weekOfYear = 1;
+                        year = timeAlarm.get(Calendar.YEAR) + 1;
+                    }
+                    else {
+                        weekOfYear = timeAlarm.get(Calendar.WEEK_OF_YEAR) + 1;
+                    }
+                }
+            }
+            else if (timeAlarm.get(Calendar.DAY_OF_WEEK) > day) {
+                // Next week
+                if (timeAlarm.get(Calendar.WEEK_OF_YEAR) == 52) {
+                    // if last week of year go to the first week of next year
+                    weekOfYear = 1;
+                    year = timeAlarm.get(Calendar.YEAR) + 1;
+                }
+                else {
+                    weekOfYear = timeAlarm.get(Calendar.WEEK_OF_YEAR) + 1;
+                }
+            }
+
+            // Set date
+            timeAlarm.set(Calendar.YEAR, year);
+            timeAlarm.set(Calendar.WEEK_OF_YEAR, weekOfYear);
+            timeAlarm.get(Calendar.DAY_OF_WEEK);    // known Android issue: required to make the following set work
+            timeAlarm.set(Calendar.DAY_OF_WEEK, day);
+
+            // Set time
+            timeAlarm.set(Calendar.HOUR_OF_DAY, hour);
+            timeAlarm.set(Calendar.MINUTE, minute);
+
+            // Create a new PendingIntent and add it to the AlarmManager
+            Intent intentAlarm = new Intent(getApplicationContext(), EventAlarmActivity.class);
+            intentAlarm.putExtra("name", t.list.getName());
+            intentAlarm.putExtra("contacts", t.list.toXML());
+            intentAlarm.putExtra("code", PENDING_INTENT_ID);
+            //intentAlarm.putExtra("timeEmergency", timeEmergency.getTimeInMillis());
+
+            // intentService = new Intent(StartEventActivity.this,
+            // EventEmergencyService.class);
+            // intentService.putExtra("contacts", t.list.toXML());
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.UK);
+            Toast.makeText(getApplicationContext(), formatter.format(timeAlarm.getTimeInMillis()), Toast.LENGTH_LONG).show();
+             
+            // Toast.makeText(StartEventActivity.this, "OK", Toast.LENGTH_SHORT).show();
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+                    PENDING_INTENT_ID, intentAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
+            // EventAlarmActivity.pendingService = PendingIntent.getService(StartEventActivity.this,
+            // 10002, EventAlarmActivity.intentService, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, timeAlarm.getTimeInMillis(), pendingIntent);
+            // am.set(AlarmManager.RTC_WAKEUP, timeEmergency.getTimeInMillis(),
+            // EventAlarmActivity.pendingService);
         }
-        else {
-            cal1alarm.set(Calendar.MINUTE, minute1 - 1);
-            cal1alarm.set(Calendar.HOUR_OF_DAY, hour1);
-        }
-
-        // Calendar cal2 = Calendar.getInstance();
-        // cal2.set(Calendar.HOUR_OF_DAY, hour2);
-        // cal2.set(Calendar.MINUTE, minute2);
-        //
-        // Calendar cal3 = Calendar.getInstance();
-        // cal3.set(Calendar.HOUR_OF_DAY, hour3);
-        // cal3.set(Calendar.MINUTE, minute3);
-
-        // Create a new PendingIntent and add it to the AlarmManager
-        Intent intent_alarm = new Intent(StartEventActivity.this, EventAlarmActivity.class);
-        intent_alarm.putExtra("name", e.getList().get(0).list.getName());
-        EventAlarmActivity.intentService = new Intent(StartEventActivity.this,
-                EventEmergencyService.class);
-        EventAlarmActivity.intentService.putExtra("contacts", e.getList().get(0).list.toXML());
-        
-        // intent.putExtra("cal2",
-        // cal2.get(Calendar.YEAR)+" "+cal2.get(Calendar.MONTH)+" "+cal2.get(Calendar.DAY_OF_MONTH)+" "+cal2.get(Calendar.HOUR_OF_DAY)+":"+cal2.get(Calendar.MINUTE)+":"+cal2.get(Calendar.SECOND));
-        // intent.putExtra("cal3",
-        // cal3.get(Calendar.YEAR)+" "+cal3.get(Calendar.MONTH)+" "+cal3.get(Calendar.DAY_OF_MONTH)+" "+cal3.get(Calendar.HOUR_OF_DAY)+":"+cal3.get(Calendar.MINUTE)+":"+cal3.get(Calendar.SECOND));
-
-        // Toast.makeText(StartEventActivity.this, "OK", Toast.LENGTH_SHORT).show();
-        pendingIntent = PendingIntent.getActivity(StartEventActivity.this, 10001, intent_alarm,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-        EventAlarmActivity.pendingService = PendingIntent.getService(StartEventActivity.this,
-                10002, EventAlarmActivity.intentService, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, cal1alarm.getTimeInMillis(), pendingIntent);
-        am.set(AlarmManager.RTC_WAKEUP, cal1.getTimeInMillis(), EventAlarmActivity.pendingService);
 
         finish();
     }

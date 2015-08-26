@@ -10,4 +10,6 @@
     <color name="buttonText">#FFFFFF</color>
     <color name="screenTitleBackground">#00AADD</color>
     <color name="screenTitleColor">#003377</color>
+    <color name="timerBackground">#0077DD</color>
+    <color name="eventTitleColor">#F22</color>
 </resources>

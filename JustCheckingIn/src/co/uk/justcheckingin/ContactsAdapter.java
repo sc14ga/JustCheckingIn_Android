@@ -38,8 +38,9 @@ class ContactsAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
-        if (convertView == null)
+        if (convertView == null){
             vi = mInflater.inflate(R.layout.listview_contacts, null);
+        }
 
         TextView name = (TextView) vi.findViewById(R.id.name);
         TextView number = (TextView) vi.findViewById(R.id.number);

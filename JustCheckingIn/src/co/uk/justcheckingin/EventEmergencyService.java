@@ -25,8 +25,8 @@ public class EventEmergencyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        EventAlarmActivity.getInstance().stopMediaPlayer();
-        EventAlarmActivity.getInstance().finish();
+//        EventAlarmActivity.getInstance().stopMediaPlayer();
+//        EventAlarmActivity.getInstance().finish();
 
         ContactList c = new ContactList();
         c = c.fromString(intent.getExtras().getString("contacts"));

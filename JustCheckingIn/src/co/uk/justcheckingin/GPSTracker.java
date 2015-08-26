@@ -36,6 +36,8 @@ public class GPSTracker extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
+    // Constructor
+    // will get location and set the variable canGetLocation upon construction
     public GPSTracker(Context context) {
         this.mContext = context;
         getLocation();

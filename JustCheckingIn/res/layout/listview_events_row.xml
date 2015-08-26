@@ -16,7 +16,6 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="right|center_vertical"
-	        
 	        android:layout_centerVertical="true"
 	        android:layout_alignParentRight="true" />
 	    
@@ -59,8 +58,10 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_marginLeft="1dp"
 	        android:textSize="@dimen/days_textsize"
+	        android:textColor="@color/buttonBackground"
 	        android:textOn="SUN"
-	        android:textOff="SUN" />
+	        android:textOff="SUN"
+	        android:visibility="gone" />
 	    
 	    <ToggleButton 
 	        android:id="@+id/monToggle"
@@ -70,8 +71,10 @@
 	        android:layout_toRightOf="@+id/sunToggle"
 	        android:layout_marginLeft="1dp"
 	        android:textSize="@dimen/days_textsize"
+	        android:textColor="@color/buttonBackground"
 	        android:textOn="MON"
-	        android:textOff="MON" />
+	        android:textOff="MON"
+	        android:visibility="gone" />
 	    
 	    <ToggleButton 
 	        android:id="@+id/tueToggle"
@@ -81,8 +84,10 @@
 	        android:layout_toRightOf="@+id/monToggle"
 	        android:layout_marginLeft="1dp"
 	        android:textSize="@dimen/days_textsize"
+	        android:textColor="@color/buttonBackground"
 	        android:textOn="TUE"
-	        android:textOff="TUE" />
+	        android:textOff="TUE"
+	        android:visibility="gone" />
 	    
 	    <ToggleButton 
 	        android:id="@+id/wedToggle"
@@ -92,8 +97,10 @@
 	        android:layout_toRightOf="@+id/tueToggle"
 	        android:layout_marginLeft="1dp"
 	        android:textSize="@dimen/days_textsize"
+	        android:textColor="@color/buttonBackground"
 	        android:textOn="WED"
-	        android:textOff="WED" />
+	        android:textOff="WED"
+	        android:visibility="gone" />
 	    
 	    <ToggleButton 
 	        android:id="@+id/thuToggle"
@@ -103,8 +110,10 @@
 	        android:layout_toRightOf="@+id/wedToggle"
 	        android:layout_marginLeft="1dp"
 	        android:textSize="@dimen/days_textsize"
+	        android:textColor="@color/buttonBackground"
 	        android:textOn="THU"
-	        android:textOff="THU" />
+	        android:textOff="THU"
+	        android:visibility="gone" />
 	    
 	    <ToggleButton 
 	        android:id="@+id/friToggle"
@@ -114,8 +123,10 @@
 	        android:layout_toRightOf="@+id/thuToggle"
 	        android:layout_marginLeft="1dp"
 	        android:textSize="@dimen/days_textsize"
+	        android:textColor="@color/buttonBackground"
 	        android:textOn="FRI"
-	        android:textOff="FRI" />
+	        android:textOff="FRI"
+	        android:visibility="gone" />
 	    
 	    <ToggleButton 
 	        android:id="@+id/satToggle"
@@ -125,9 +136,22 @@
 	        android:layout_toRightOf="@+id/friToggle"
 	        android:layout_marginLeft="1dp"
 	        android:textSize="@dimen/days_textsize"
+	        android:textColor="@color/buttonBackground"
 	        android:textOn="SAT"
-	        android:textOff="SAT" />
+	        android:textOff="SAT"
+	        android:visibility="gone" />
 
+	    <TextView 
+            android:id="@+id/timersLabel" 
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_below="@+id/sunToggle"
+        	android:text="Alarms"
+        	android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="20dp"
+	        android:textSize="16sp"
+        	android:textColor="@color/buttonBackground"
+        	android:textStyle="normal" />
     </RelativeLayout>
     
     <LinearLayout

@@ -53,10 +53,12 @@ public class MainActivity extends Activity {
 
         // Mint.initAndStartSession(MainActivity.this, "77d0c26e");
 
-        /*
-         * File dir = getFilesDir(); File file = new File(dir, "Events.data"); boolean deleted =
-         * file.delete(); file = new File(dir, "ContactLists.data"); deleted = file.delete(); file =
-         * new File(dir, "EmergencyContactList.data"); deleted = file.delete();
+        
+          /*File dir = getFilesDir(); 
+          File file = new File(dir, "Events.data"); 
+          boolean deleted = file.delete(); */
+          //file = new File(dir, "ContactLists.data"); deleted = file.delete(); file =
+         /* new File(dir, "EmergencyContactList.data"); deleted = file.delete();
          */
 
         // Retreive existing ContactLists
@@ -220,6 +222,9 @@ public class MainActivity extends Activity {
         if (EventsActivity.activeEvent > 0) {
             activeEvents.setVisibility(View.VISIBLE);
         }
+        else{
+            activeEvents.setVisibility(View.INVISIBLE);
+        }
 
         // Button disable = (Button) findViewById(R.id.disableButton);
         // disable.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +251,9 @@ public class MainActivity extends Activity {
         activeEvents.setText(String.valueOf(EventsActivity.activeEvent));
         if (EventsActivity.activeEvent > 0) {
             activeEvents.setVisibility(View.VISIBLE);
+        }
+        else{
+            activeEvents.setVisibility(View.INVISIBLE);
         }
     }
 

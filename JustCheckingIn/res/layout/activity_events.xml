@@ -108,18 +108,9 @@
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/screenTitleRelativeLayout"
-        android:layout_marginTop="5dp"
-        android:layout_above="@+id/start_button" >
+        android:layout_marginTop="5dp" >
     </ListView>
-    
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Start Event" />
 
 </RelativeLayout>
