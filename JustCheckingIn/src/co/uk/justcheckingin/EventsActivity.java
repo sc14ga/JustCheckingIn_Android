@@ -162,7 +162,7 @@ public class EventsActivity extends Activity {
             final EventHolder holder;
 
             if (row == null)
-            {
+            {   // runs only at the first time to initialize the listview rows
                 LayoutInflater inflater = ((Activity) context).getLayoutInflater();
                 row = inflater.inflate(layoutResourceId, parent, false);
 
@@ -194,6 +194,11 @@ public class EventsActivity extends Activity {
                     holder.fri.setVisibility(View.VISIBLE);
                     holder.sat.setVisibility(View.VISIBLE);
                 }
+                holder.active.setChecked(eventsList.get(position).getStatus());
+                if(eventsList.get(position).getStatus()){
+                    activeEvent++;
+                    holder.titleLayout.setBackgroundResource(R.drawable.event_row_enabled_background);
+                }
                 holder.sun.setChecked(eventsList.get(position).getSun());
                 holder.mon.setChecked(eventsList.get(position).getMon());
                 holder.tue.setChecked(eventsList.get(position).getTue());
@@ -205,22 +210,7 @@ public class EventsActivity extends Activity {
                 holder.position = position;
 
                 // Updating the Events structure when the OFF/ON switch is changed
-                holder.active.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        Switch s = (Switch) buttonView;
-                        int pos = (int) s.getTag();
-                        eventsList.get(pos).setStatus(isChecked);
-                        if(holder.active.isChecked() == true){
-                            holder.titleLayout.setBackgroundResource(R.drawable.event_row_enabled_background);
-                            //holder.sun.toggle();
-                            //holder.sun.toggle();
-                        }
-                        else{
-                            holder.titleLayout.setBackgroundColor(Color.TRANSPARENT);
-                        }
-                    }
-                });
+                holder.active.setOnCheckedChangeListener(new ActiveOnCheckedChangeListener(holder));
 
                 // Show/Hide Event details when clicking the expand button and change its icon to
                 // Expand or Collapse
@@ -241,14 +231,14 @@ public class EventsActivity extends Activity {
                     }
                 });
                 
-                holder.sun.setOnCheckedChangeListener(new DayOnCheckedChangeListener(eventsList.get(holder.position), "SUN", holder.repeat, holder.mon, holder.tue, holder.wed, holder.thu, holder.fri, holder.sat)); 
-                holder.mon.setOnCheckedChangeListener(new DayOnCheckedChangeListener(eventsList.get(holder.position), "MON", holder.repeat, holder.sun, holder.tue, holder.wed, holder.thu, holder.fri, holder.sat));
-                holder.tue.setOnCheckedChangeListener(new DayOnCheckedChangeListener(eventsList.get(holder.position), "TUE", holder.repeat, holder.sun, holder.mon, holder.wed, holder.thu, holder.fri, holder.sat));
-                holder.wed.setOnCheckedChangeListener(new DayOnCheckedChangeListener(eventsList.get(holder.position), "WED", holder.repeat, holder.sun, holder.mon, holder.tue, holder.thu, holder.fri, holder.sat));
-                holder.thu.setOnCheckedChangeListener(new DayOnCheckedChangeListener(eventsList.get(holder.position), "THU", holder.repeat, holder.sun, holder.mon, holder.tue, holder.wed, holder.fri, holder.sat));
-                holder.fri.setOnCheckedChangeListener(new DayOnCheckedChangeListener(eventsList.get(holder.position), "FRI", holder.repeat, holder.sun, holder.mon, holder.tue, holder.wed, holder.thu, holder.sat));
-                holder.sat.setOnCheckedChangeListener(new DayOnCheckedChangeListener(eventsList.get(holder.position), "SAT", holder.repeat, holder.sun, holder.mon, holder.tue, holder.wed, holder.thu, holder.fri));
-                holder.repeat.setOnCheckedChangeListener(new RepeatOnCheckedChangeListener(eventsList.get(holder.position), holder.sun, holder.mon, holder.tue, holder.wed, holder.thu, holder.fri, holder.sat));
+                holder.sun.setOnCheckedChangeListener(new DayOnCheckedChangeListener(Calendar.SUNDAY, holder)); 
+                holder.mon.setOnCheckedChangeListener(new DayOnCheckedChangeListener(Calendar.MONDAY, holder));
+                holder.tue.setOnCheckedChangeListener(new DayOnCheckedChangeListener(Calendar.TUESDAY, holder));
+                holder.wed.setOnCheckedChangeListener(new DayOnCheckedChangeListener(Calendar.WEDNESDAY, holder));
+                holder.thu.setOnCheckedChangeListener(new DayOnCheckedChangeListener(Calendar.THURSDAY, holder));
+                holder.fri.setOnCheckedChangeListener(new DayOnCheckedChangeListener(Calendar.FRIDAY, holder));
+                holder.sat.setOnCheckedChangeListener(new DayOnCheckedChangeListener(Calendar.SATURDAY, holder));
+                holder.repeat.setOnCheckedChangeListener(new RepeatOnCheckedChangeListener(holder));
                 row.setTag(holder);
             }
             else
@@ -261,9 +251,9 @@ public class EventsActivity extends Activity {
             holder.title.setText(event.getName());
             holder.active.setTag(position);
             holder.expandButton.setTag(position);
-            holder.active.setChecked(event.getStatus());
+            //holder.active.setChecked(event.getStatus());
             
-            holder.repeat.setChecked(event.getRepeat());
+            //holder.repeat.setChecked(event.getRepeat());
 //            holder.sun.setChecked(event.getSun());
 //            holder.mon.setChecked(event.getMon());
 //            holder.tue.setChecked(event.getTue());
@@ -289,152 +279,148 @@ public class EventsActivity extends Activity {
             return row;
         }
         
+        // Listener for OFF/ON event switch
+        private class ActiveOnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
+            EventHolder holder;
+            
+            public ActiveOnCheckedChangeListener(EventHolder holder) {
+                this.holder = holder;
+            }
+            
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // if event is already active then do nothing
+                    if(eventsList.get(holder.position).getStatus() == false){
+                        eventsList.get(holder.position).setStatus(isChecked);
+                    
+                        // Event title row color changed
+                        holder.titleLayout.setBackgroundResource(R.drawable.event_row_enabled_background);
+                        if(holder.repeat.isChecked()){
+                            // Check each ToggleButton and create the alarm
+                            if(holder.sun.isChecked()){
+                                enableEvent(eventsList.get(holder.position), Calendar.SUNDAY);
+                            }
+                            if(holder.mon.isChecked()){
+                                enableEvent(eventsList.get(holder.position), Calendar.MONDAY);
+                            }
+                            if(holder.tue.isChecked()){
+                                enableEvent(eventsList.get(holder.position), Calendar.TUESDAY);
+                            }
+                            if(holder.wed.isChecked()){
+                                enableEvent(eventsList.get(holder.position), Calendar.WEDNESDAY);
+                            }
+                            if(holder.thu.isChecked()){
+                                enableEvent(eventsList.get(holder.position), Calendar.THURSDAY);
+                            }
+                            if(holder.fri.isChecked()){
+                                enableEvent(eventsList.get(holder.position), Calendar.FRIDAY);
+                            }
+                            if(holder.sat.isChecked()){
+                                enableEvent(eventsList.get(holder.position), Calendar.SATURDAY);
+                            }
+                        }
+                        else{
+                            // Repeat is disabled Create the alarm for the next date
+                            Calendar cal = Calendar.getInstance();
+                            enableEvent(eventsList.get(holder.position), cal.get(Calendar.DAY_OF_WEEK));
+                        }
+                        
+                        activeEvent++;
+                    }
+                } else {
+                    eventsList.get(holder.position).setStatus(isChecked);
+                    
+                    // Event title row color
+                    holder.titleLayout.setBackgroundColor(Color.TRANSPARENT);
+                    
+                    // Event has been disabled. Cancel all the alarms of this event. 
+                    Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
+                    AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+                    
+                    for(int i=0; i<7; i++){ // for every day's requestCode
+                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+                                eventsList.get(holder.position).id+i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        am.cancel(pendingIntent);
+                        pendingIntent.cancel();
+                    }
+                    
+                    activeEvent--;
+                }
+            }
+        }
+        
         //  Listener for days' ToggleButtons
         private class DayOnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
             Event event;
-            CheckBox repeat;
-            ToggleButton day1;
-            ToggleButton day2;
-            ToggleButton day3;
-            ToggleButton day4; 
-            ToggleButton day5; 
-            ToggleButton day6;
-            String id;  // Identifier of day to use the appropriate getter/setter
+            int day;  // Identifier of day to use the appropriate getter/setter
+            EventHolder holder;
             
-            public DayOnCheckedChangeListener(Event e, String id, CheckBox repeat, ToggleButton day1, ToggleButton day2, ToggleButton day3, ToggleButton day4, ToggleButton day5, ToggleButton day6) {
-                this.event = e;
-                this.id = id;
-                this.repeat = repeat;
-                this.day1 = day1;
-                this.day2 = day2;
-                this.day3 = day3;
-                this.day4 = day4;
-                this.day5 = day5;
-                this.day6 = day6;
+            public DayOnCheckedChangeListener(int day, EventHolder holder) {
+                this.event = eventsList.get(holder.position);
+                this.day = day;
+                this.holder = holder;
             }
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if(id.equalsIgnoreCase("SUN")){
+                    // If Event switch is ON then create alarm
+                    if(holder.active.isChecked()){
+                        enableEvent(event, day);
+                    }
+                    
+                    // in either case update the boolean which will be checked when the event is turned to ON
+                    if(day == Calendar.SUNDAY){
                         event.setSun(true);
-                        enableEvent(event, Calendar.SUNDAY);
                     }
-                    else if(id.equalsIgnoreCase("MON")){
+                    else if(day == Calendar.MONDAY){
                         event.setMon(true);
-                        enableEvent(event, Calendar.MONDAY);
                     }
-                    else if(id.equalsIgnoreCase("TUE")){
+                    else if(day == Calendar.TUESDAY){
                         event.setTue(true);
-                        enableEvent(event, Calendar.TUESDAY);
                     }
-                    else if(id.equalsIgnoreCase("WED")){
+                    else if(day == Calendar.WEDNESDAY){
                         event.setWed(true);
-                        enableEvent(event, Calendar.WEDNESDAY);
                     }
-                    else if(id.equalsIgnoreCase("THU")){
+                    else if(day == Calendar.THURSDAY){
                         event.setThu(true);
-                        enableEvent(event, Calendar.THURSDAY);
                     }
-                    else if(id.equalsIgnoreCase("FRI")){
+                    else if(day == Calendar.FRIDAY){
                         event.setFri(true);
-                        enableEvent(event, Calendar.FRIDAY);
                     }
-                    else if(id.equalsIgnoreCase("SAT")){
+                    else if(day == Calendar.SATURDAY){
                         event.setSat(true);
-                        enableEvent(event, Calendar.SATURDAY);
                     }
                 } else {
-                    if(id.equalsIgnoreCase("SUN")){
+                    Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+                        event.id-1+day, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+                    am.cancel(pendingIntent);
+                    pendingIntent.cancel();
+                    
+                    if(day == Calendar.SUNDAY){
                         event.setSun(false);
-                        
-                        Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                            event.id-1+Calendar.SUNDAY, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                        am.cancel(pendingIntent);
-                        pendingIntent.cancel();
-                        
-                        activeEvent--;
                     }
-                    else if(id.equalsIgnoreCase("MON")){
+                    else if(day == Calendar.MONDAY){
                         event.setMon(false);
-                        
-                        Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                                event.id-1+Calendar.MONDAY, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                        am.cancel(pendingIntent);
-                        pendingIntent.cancel();
-                        
-                        activeEvent--;
                     }
-                    else if(id.equalsIgnoreCase("TUE")){
+                    else if(day == Calendar.TUESDAY){
                         event.setTue(false);
-                        
-                        Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                                event.id-1+Calendar.TUESDAY, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        
-                        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                        am.cancel(pendingIntent);
-                        pendingIntent.cancel();
-                        
-                        activeEvent--;
                     }
-                    else if(id.equalsIgnoreCase("WED")){
+                    else if(day == Calendar.WEDNESDAY){
                         event.setWed(false);
-                        Log.e("PI", "IN");
-                        Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                                event.id-1+Calendar.WEDNESDAY, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        
-                        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                        am.cancel(pendingIntent);
-                        pendingIntent.cancel();
-                        
-                        activeEvent--;
                     }
-                    else if(id.equalsIgnoreCase("THU")){
+                    else if(day == Calendar.THURSDAY){
                         event.setThu(false);
-                        Log.e("PI", "IN");
-                        Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                                event.id-1+Calendar.THURSDAY, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        
-                        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                        am.cancel(pendingIntent);
-                        pendingIntent.cancel();
-                        
-                        activeEvent--;
                     }
-                    else if(id.equalsIgnoreCase("FRI")){
+                    else if(day == Calendar.FRIDAY){
                         event.setFri(false);
-                        
-                        Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                                event.id-1+Calendar.FRIDAY, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        
-                        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                        am.cancel(pendingIntent);
-                        pendingIntent.cancel();
-                        
-                        activeEvent--;
                     }
-                    else if(id.equalsIgnoreCase("SAT")){
+                    else if(day == Calendar.SATURDAY){
                         event.setSat(false);
-                        
-                        Intent intent = new Intent(getApplicationContext(), EventAlarmActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                                event.id-1+Calendar.FRIDAY, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        
-                        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                        am.cancel(pendingIntent);
-                        pendingIntent.cancel();
-                        
-                        activeEvent--;
                     }
                     // if all days' ToggleButtons are OFF then they are hidden and repeat gets unchecked
-                    if(!day1.isChecked() && !day2.isChecked() && !day3.isChecked() && !day4.isChecked() && !day5.isChecked() && !day6.isChecked()){
-                        repeat.setChecked(false);
+                    if(!holder.sun.isChecked() && !holder.mon.isChecked() && !holder.tue.isChecked() && !holder.wed.isChecked() && !holder.thu.isChecked() && !holder.fri.isChecked() && !holder.sat.isChecked()){
+                        holder.repeat.setChecked(false);
                     }
                 }
             }
@@ -442,63 +428,49 @@ public class EventsActivity extends Activity {
         
         // Listener for repeat CheckBox
         private class RepeatOnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
-            Event event;
-            ToggleButton sun;
-            ToggleButton mon;
-            ToggleButton tue;
-            ToggleButton wed; 
-            ToggleButton thu; 
-            ToggleButton fri;
-            ToggleButton sat;
+            EventHolder holder;
             
-            public RepeatOnCheckedChangeListener(Event e, ToggleButton day1, ToggleButton day2, ToggleButton day3, ToggleButton day4, ToggleButton day5, ToggleButton day6, ToggleButton day7) {
-                this.event = e;
-                this.sun = day1;
-                this.mon = day2;
-                this.tue = day3;
-                this.wed = day4;
-                this.thu = day5;
-                this.fri = day6;
-                this.sat = day7;
+            public RepeatOnCheckedChangeListener(EventHolder holder) {
+                this.holder = holder;
             }
             
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    event.setRepeat(true);
-                    sun.setChecked(true);
-                    mon.setChecked(true);
-                    tue.setChecked(true);
-                    wed.setChecked(true);
-                    thu.setChecked(true);
-                    fri.setChecked(true);
-                    sat.setChecked(true);
+                    eventsList.get(holder.position).setRepeat(true);
+                    holder.sun.setChecked(true);
+                    holder.mon.setChecked(true);
+                    holder.tue.setChecked(true);
+                    holder.wed.setChecked(true);
+                    holder.thu.setChecked(true);
+                    holder.fri.setChecked(true);
+                    holder.sat.setChecked(true);
                     
                     // When repeat is changed to checked, the Days' ToggleButtons appear
-                    sun.setVisibility(View.VISIBLE);
-                    mon.setVisibility(View.VISIBLE);
-                    tue.setVisibility(View.VISIBLE);
-                    wed.setVisibility(View.VISIBLE);
-                    thu.setVisibility(View.VISIBLE);
-                    fri.setVisibility(View.VISIBLE);
-                    sat.setVisibility(View.VISIBLE);
+                    holder.sun.setVisibility(View.VISIBLE);
+                    holder.mon.setVisibility(View.VISIBLE);
+                    holder.tue.setVisibility(View.VISIBLE);
+                    holder.wed.setVisibility(View.VISIBLE);
+                    holder.thu.setVisibility(View.VISIBLE);
+                    holder.fri.setVisibility(View.VISIBLE);
+                    holder.sat.setVisibility(View.VISIBLE);
                 } else {
-                    event.setRepeat(false);
-                    sun.setChecked(false);
-                    mon.setChecked(false);
-                    tue.setChecked(false);
-                    wed.setChecked(false);
-                    thu.setChecked(false);
-                    fri.setChecked(false);
-                    sat.setChecked(false);
+                    eventsList.get(holder.position).setRepeat(false);
+                    holder.sun.setChecked(false);
+                    holder.mon.setChecked(false);
+                    holder.tue.setChecked(false);
+                    holder.wed.setChecked(false);
+                    holder.thu.setChecked(false);
+                    holder.fri.setChecked(false);
+                    holder.sat.setChecked(false);
                     
                     // Days' ToggleButtons are only visible when repeat is checked
-                    sun.setVisibility(View.GONE);
-                    mon.setVisibility(View.GONE);
-                    tue.setVisibility(View.GONE);
-                    wed.setVisibility(View.GONE);
-                    thu.setVisibility(View.GONE);
-                    fri.setVisibility(View.GONE);
-                    sat.setVisibility(View.GONE);
+                    holder.sun.setVisibility(View.GONE);
+                    holder.mon.setVisibility(View.GONE);
+                    holder.tue.setVisibility(View.GONE);
+                    holder.wed.setVisibility(View.GONE);
+                    holder.thu.setVisibility(View.GONE);
+                    holder.fri.setVisibility(View.GONE);
+                    holder.sat.setVisibility(View.GONE);
                 }
             }
         }
@@ -535,18 +507,12 @@ public class EventsActivity extends Activity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
                 .getMenuInfo();
         int menuItemIndex = item.getItemId();
-        String[] menuItems = getResources().getStringArray(R.array.menu);
+        String[] menuItems = getResources().getStringArray(R.array.menu_events);
         String menuItemName = menuItems[menuItemIndex];
-        String listItemName = eventsList.get(info.position).getName();
 
-        /*
-        if (menuItemName.equalsIgnoreCase("Edit")) {
-            Intent intent = new Intent(getApplicationContext(), EditEventActivity.class);
-            intent.putExtra("listPosition", String.valueOf(info.position));
-            startActivity(intent);
-        }
-        else*/ if (menuItemName.equalsIgnoreCase("Delete")) {
+        if (menuItemName.equalsIgnoreCase("Delete")) {
             eventsList.remove(info.position);
+            adapter = new EventsAdapter(this, R.layout.listview_events_row, eventsList);
             list.setAdapter(adapter);
             return true;
         }
@@ -647,8 +613,6 @@ public class EventsActivity extends Activity {
 
         AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, timeAlarm, pendingIntent);
-        
-        activeEvent++;
     }
     
     long calculateTime(Event e, int pos, int day){
@@ -664,7 +628,7 @@ public class EventsActivity extends Activity {
 
         // Today or next week in case the specified time has passed
         if (timeAlarm.get(Calendar.DAY_OF_WEEK) == day) {
-            if (hour * 60 + minute < timeAlarm.get(Calendar.HOUR_OF_DAY) * 60
+            if (hour * 60 + minute <= timeAlarm.get(Calendar.HOUR_OF_DAY) * 60
                     + timeAlarm.get(Calendar.MINUTE)) {
                 // Next week
                 if (timeAlarm.get(Calendar.WEEK_OF_YEAR) == 52) {

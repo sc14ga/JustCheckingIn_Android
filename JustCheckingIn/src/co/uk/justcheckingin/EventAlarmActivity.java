@@ -248,7 +248,7 @@ public class EventAlarmActivity extends Activity {
 
        // Today or next week in case the specified time has passed
        if (timeAlarm.get(Calendar.DAY_OF_WEEK) == day) {
-           if (hour * 60 + minute < timeAlarm.get(Calendar.HOUR_OF_DAY) * 60
+           if (hour * 60 + minute <= timeAlarm.get(Calendar.HOUR_OF_DAY) * 60
                    + timeAlarm.get(Calendar.MINUTE)) {
                // Next week
                if (timeAlarm.get(Calendar.WEEK_OF_YEAR) == 52) {

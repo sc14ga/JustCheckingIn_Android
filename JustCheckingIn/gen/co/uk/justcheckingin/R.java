@@ -10,6 +10,7 @@ package co.uk.justcheckingin;
 public final class R {
     public static final class array {
         public static final int menu=0x7f070000;
+        public static final int menu_events=0x7f070001;
     }
     public static final class attr {
     }
