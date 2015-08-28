@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -39,6 +40,11 @@ public class MainActivity extends Activity {
     Handler handler;
     Runnable run;
     GPSTracker gps;
+    
+    private ImageButton eventsButton;
+    private ImageButton emergencyButton;
+    private ImageButton settingsButton;
+    private ImageButton setfakecallButton;
 
     private Vibrator vib;
     private TextView activeEvents;
@@ -51,30 +57,35 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        // Splunk MINT setup
         // Mint.initAndStartSession(MainActivity.this, "77d0c26e");
 
+        // Delete internal files
+        /* File dir = getFilesDir(); 
+        File file = new File(dir, "Events.data"); 
+        boolean deleted = file.delete(); */
+        // file = new File(dir, "ContactLists.data"); deleted = file.delete(); 
+        // file = new File(dir, "EmergencyContactList.data"); deleted = file.delete();
+
+        // Retrieve existing ContactLists
+        loadContactLists();
+
+        // Retrieve Emergency Contact List
+        loadEmergencyContactList();
+
+        // Retrieve existing Events
+        if (EventsActivity.eventsList.isEmpty()){
+            EventsActivity.activeEvent = 0;
+            loadEvents(getApplicationContext());
+        }
+
+        eventsButton = (ImageButton) findViewById(R.id.button2);
+        emergencyButton = (ImageButton) findViewById(R.id.button1);
+        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        setfakecallButton = (ImageButton) findViewById(R.id.button3);
+        activeEvents = (TextView) findViewById(R.id.activeEvents);
         
-          /*File dir = getFilesDir(); 
-          File file = new File(dir, "Events.data"); 
-          boolean deleted = file.delete(); */
-          //file = new File(dir, "ContactLists.data"); deleted = file.delete(); file =
-         /* new File(dir, "EmergencyContactList.data"); deleted = file.delete();
-         */
-
-        // Retreive existing ContactLists
-        //if (ContactListsActivity.contactsList.isEmpty()){
-            loadContactLists();
-        //}
-
-        // Retreive Emergency Contact List
-        //if (EmergencyContactListActivity.emergencyContactList == null){
-            loadEmergencyContactList();
-//        }
-//        else if (EmergencyContactListActivity.emergencyContactList.getList().isEmpty()){
-//            loadEmergencyContactList();
-//        } 
-
-        // Retreive Emergency Message
+        // Retrieve Emergency Message
         SharedPreferences saved = getPreferences(Context.MODE_PRIVATE);
         emergencyMessage = saved.getString("emergencyMessage", "I notified my emergency contacts using the JustCheckingIn app!");
         
@@ -101,7 +112,8 @@ public class MainActivity extends Activity {
                     if (EmergencyContactListActivity.emergencyContactList.getList()
                             .size() != 0) {
                         gps = new GPSTracker(MainActivity.this);
-                        double latitude = 0, longitude = 0;
+                        double latitude = 0;
+                        double longitude = 0;
 
                         if (gps.canGetLocation()) {
                             latitude = gps.getLatitude();
@@ -117,15 +129,13 @@ public class MainActivity extends Activity {
                         for (int i = 0; i < EmergencyContactListActivity.emergencyContactList
                                 .getList().size(); i++) {
                             for (String str : messages) {
-                                // smsManager.sendTextMessage(
-                                // EmergencyContactListActivity.emergencyContactList.getList()
-                                // .get(i).getNumber(),
-                                // null, str, sentIntents.get(i), deliveryIntents.get(i));
+//                                 smsManager.sendTextMessage(
+//                                 EmergencyContactListActivity.emergencyContactList.getList()
+//                                 .get(i).getNumber(),
+//                                 null, str, sentIntents.get(i), deliveryIntents.get(i));
                             }
                         }
-                        // Toast.makeText(getApplicationContext(),
-                        // "Your emergency contact list has been notified!", Toast.LENGTH_LONG)
-                        // .show();
+;
                         // Create Notification
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                                 getApplicationContext());
@@ -141,25 +151,13 @@ public class MainActivity extends Activity {
                                 "Try again: you have to select emergency contacts!",
                                 Toast.LENGTH_LONG).show();
                     }
-                } catch (Exception ex) {
+                } catch (IllegalArgumentException ex) {
                     ex.printStackTrace();
                 }
             }
         };
-        // ///////////////////////////////////////////////////////////
-
-        // Contacts
-        // ImageButton contactsButton = (ImageButton) findViewById(R.id.button4);
-        // contactsButton.setOnClickListener(new View.OnClickListener() {
-        // @Override
-        // public void onClick(View v) {
-        // Intent intent = new Intent(getApplicationContext(), ContactListsActivity.class);
-        // startActivity(intent);
-        // }
-        // });
 
         // Events
-        ImageButton eventsButton = (ImageButton) findViewById(R.id.button2);
         eventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,10 +167,7 @@ public class MainActivity extends Activity {
         });
 
         // Emergency Button
-        ImageButton emergencyButton = (ImageButton) findViewById(R.id.button1);
-
         handler = new Handler();
-
         emergencyButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -192,14 +187,12 @@ public class MainActivity extends Activity {
                         vib.cancel();
                         handler.removeCallbacks(run);
                         break;
-
                 }
                 return true;
             }
         });
 
         // Settings Button
-        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,7 +201,6 @@ public class MainActivity extends Activity {
             }
         });
 
-        ImageButton setfakecallButton = (ImageButton) findViewById(R.id.button3);
         setfakecallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,7 +209,6 @@ public class MainActivity extends Activity {
             }
         });
 
-        activeEvents = (TextView) findViewById(R.id.activeEvents);
         activeEvents.setText(String.valueOf(EventsActivity.activeEvent));
         if (EventsActivity.activeEvent > 0) {
             activeEvents.setVisibility(View.VISIBLE);
@@ -225,22 +216,6 @@ public class MainActivity extends Activity {
         else{
             activeEvents.setVisibility(View.INVISIBLE);
         }
-
-        // Button disable = (Button) findViewById(R.id.disableButton);
-        // disable.setOnClickListener(new View.OnClickListener() {
-        // @Override
-        // public void onClick(View v) {
-        // StartEventActivity.pendingIntent.cancel();
-        // EventAlarmActivity.pendingService.cancel();
-        //
-        // EventsActivity.activeEvent = 0;
-        //
-        // RelativeLayout banner = (RelativeLayout) findViewById(R.id.relativeLayout1);
-        // LayoutParams params = (LayoutParams) banner.getLayoutParams();
-        // params.height = 0;
-        // banner.setLayoutParams(params);
-        // }
-        // });
     }
 
     @Override
@@ -287,87 +262,147 @@ public class MainActivity extends Activity {
     }
 
     public void loadContactLists() {
-        try {
-            ContactListsActivity.contactsList.clear();
+        ContactListsActivity.contactsList.clear();
 
-            /*File file = new File("ContactLists.data");
-            if (!file.exists()) {
-                Toast.makeText(getApplicationContext(), "NOT_contacts", Toast.LENGTH_SHORT).show();
-                return;
-            }*/
+        /*File file = new File("ContactLists.data");
+        if (!file.exists()) {
+            Toast.makeText(getApplicationContext(), "NOT_contacts", Toast.LENGTH_SHORT).show();
+            return;
+        }*/
 
-            InputStream in_contactlists = openFileInput("ContactLists.data");
-            InputStreamReader inputreader = new InputStreamReader(in_contactlists);
-            BufferedReader br = new BufferedReader(inputreader);
+        InputStream in_contactlists = null;
+        try{
+            in_contactlists = openFileInput("ContactLists.data");
+        } catch(FileNotFoundException e){
+            return;
+        }
+        InputStreamReader inputreader = new InputStreamReader(in_contactlists);
+        BufferedReader br = new BufferedReader(inputreader);
 
-            String input = "";
-            String line;
+        String input = "";
+        String line;
+        try{
             while ((line = br.readLine()) != null) {
                 input += line;
             }
-            if (input.equalsIgnoreCase(""))
-                return;
-
-            for (String cList : input.split("<ContactList>")) {
-                if (!cList.equalsIgnoreCase("")) {
-                    ContactList list = new ContactList();
-                    ContactListsActivity.contactsList.add(list.fromString(cList));
-                }
-            }
-
-            try {
-                in_contactlists.close();
-                inputreader.close();
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
+        } catch(IOException e){
+            Log.e("MainActivity/loadContactLists()", "IOException while reading the file.");
             e.printStackTrace();
+        }
+        if (input.equalsIgnoreCase(""))
+            return;
+
+        for (String cList : input.split("<ContactList>")) {
+            if (!cList.equalsIgnoreCase("")) {
+                ContactList list = new ContactList();
+                ContactListsActivity.contactsList.add(list.fromString(cList));
+            }
+        }
+
+        try {
+            in_contactlists.close();
+            inputreader.close();
+            br.close();
         } catch (IOException e) {
+            Log.e("MainActivity/loadContactLists()", "IOException while closing the streams.");
             e.printStackTrace();
         }
     }
 
     public void loadEmergencyContactList() {
-        try {
-            /*File file = new File("EmergencyContactList.data");
-            if (!file.exists()) {
-                EmergencyContactListActivity.emergencyContactList = new ContactList();
-                Toast.makeText(getApplicationContext(), "NOT_emergency", Toast.LENGTH_LONG).show();
-                return;
-            }*/
+        /*File file = new File("EmergencyContactList.data");
+        if (!file.exists()) {
+            EmergencyContactListActivity.emergencyContactList = new ContactList();
+            Toast.makeText(getApplicationContext(), "NOT_emergency", Toast.LENGTH_LONG).show();
+            return;
+        }*/
+        
+        InputStream in_emergencycontactlist;
+        try{
+            in_emergencycontactlist = openFileInput("EmergencyContactList.data");
+        } catch(FileNotFoundException e){
+            return;
+        }
+        InputStreamReader inputreader = new InputStreamReader(in_emergencycontactlist);
+        BufferedReader br = new BufferedReader(inputreader);
 
-            InputStream in_emergencycontactlist = openFileInput("EmergencyContactList.data");
-            InputStreamReader inputreader = new InputStreamReader(in_emergencycontactlist);
-            BufferedReader br = new BufferedReader(inputreader);
-
-            String input = "";
-            String line;
+        String input = "";
+        String line;
+        try{
             while ((line = br.readLine()) != null) {
                 input += line;
             }
-            if (input.equalsIgnoreCase(""))
-                return;
+        } catch(IOException e){
+            Log.e("MainActivity/loadEmergencyContactList()", "IOException while reading the file.");
+            e.printStackTrace();
+        }
+        if (input.equalsIgnoreCase(""))
+            return;
 
-            for (String cList : input.split("<ContactList>")) {
-                if (!cList.equalsIgnoreCase("")) {
-                    ContactList e = new ContactList();
-                    EmergencyContactListActivity.emergencyContactList = new ContactList();
-                    EmergencyContactListActivity.emergencyContactList = e.fromString(cList);
+        for (String cList : input.split("<ContactList>")) {
+            if (!cList.equalsIgnoreCase("")) {
+                ContactList e = new ContactList();
+                EmergencyContactListActivity.emergencyContactList = new ContactList();
+                EmergencyContactListActivity.emergencyContactList = e.fromString(cList);
+            }
+        }
+
+        try {
+            in_emergencycontactlist.close();
+            inputreader.close();
+            br.close();
+        } catch (IOException e) {
+            Log.e("MainActivity/loadEmergencyContactList()", "IOException while closing the streams.");
+            e.printStackTrace();
+        }
+    }
+    
+    public static void loadEvents(Context context) {
+        EventsActivity.eventsList.clear();
+
+        /*
+         * File file = new File("Events.data"); if(!file.exists()){
+         * Toast.makeText(getApplicationContext(), "NO events", Toast.LENGTH_LONG).show();
+         * return; }
+         */
+
+        InputStream in_events; 
+        try{
+            in_events = context.openFileInput("Events.data");
+        } catch(FileNotFoundException e){
+            return;
+        }
+        InputStreamReader inputreader = new InputStreamReader(in_events);
+        BufferedReader br = new BufferedReader(inputreader);
+
+        String input = "";
+        String line;
+        try{
+            while ((line = br.readLine()) != null) {
+                input += line;
+            }
+        } catch(IOException e){
+            Log.e("MainActivity/loadEvents()", "IOException while reading the file.");
+            e.printStackTrace();
+        }
+        if (input.equalsIgnoreCase("")) return;
+
+        for (String event : input.split("<Event>")) {
+            if (!event.equalsIgnoreCase("")) {
+                Event e = new Event().fromString(event);
+                EventsActivity.eventsList.add(e);
+                if(e.getStatus()){
+                    EventsActivity.activeEvent++;
                 }
             }
+        }
 
-            try {
-                in_emergencycontactlist.close();
-                inputreader.close();
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        try {
+            in_events.close();
+            inputreader.close();
+            br.close();
         } catch (IOException e) {
+            Log.e("MainActivity/loadEvents()", "IOException while closing the streams.");
             e.printStackTrace();
         }
     }

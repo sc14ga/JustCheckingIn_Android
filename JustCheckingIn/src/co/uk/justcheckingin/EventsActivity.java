@@ -64,9 +64,9 @@ public class EventsActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_events);
 
-        // Retrieve existing Events
+        /*// Retrieve existing Events
         if (EventsActivity.eventsList.isEmpty())
-            loadEvents();
+            loadEvents();*/
         
         SharedPreferences saved = getPreferences(Context.MODE_PRIVATE);
         counter = saved.getInt("counter", 10);
@@ -194,11 +194,7 @@ public class EventsActivity extends Activity {
                     holder.fri.setVisibility(View.VISIBLE);
                     holder.sat.setVisibility(View.VISIBLE);
                 }
-                holder.active.setChecked(eventsList.get(position).getStatus());
-                if(eventsList.get(position).getStatus()){
-                    activeEvent++;
-                    holder.titleLayout.setBackgroundResource(R.drawable.event_row_enabled_background);
-                }
+                
                 holder.sun.setChecked(eventsList.get(position).getSun());
                 holder.mon.setChecked(eventsList.get(position).getMon());
                 holder.tue.setChecked(eventsList.get(position).getTue());
@@ -211,7 +207,11 @@ public class EventsActivity extends Activity {
 
                 // Updating the Events structure when the OFF/ON switch is changed
                 holder.active.setOnCheckedChangeListener(new ActiveOnCheckedChangeListener(holder));
-
+                holder.active.setChecked(data.get(position).getStatus());
+                if(data.get(position).getStatus()){
+                    holder.titleLayout.setBackgroundResource(R.drawable.event_row_enabled_background);
+                }
+                
                 // Show/Hide Event details when clicking the expand button and change its icon to
                 // Expand or Collapse
                 holder.expandButton.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +251,10 @@ public class EventsActivity extends Activity {
             holder.title.setText(event.getName());
             holder.active.setTag(position);
             holder.expandButton.setTag(position);
-            //holder.active.setChecked(event.getStatus());
+//            holder.active.setChecked(event.getStatus());
+//            if(eventsList.get(position).getStatus()){
+//                holder.titleLayout.setBackgroundResource(R.drawable.event_row_enabled_background);
+//            }
             
             //holder.repeat.setChecked(event.getRepeat());
 //            holder.sun.setChecked(event.getSun());
@@ -397,6 +400,8 @@ public class EventsActivity extends Activity {
                     am.cancel(pendingIntent);
                     pendingIntent.cancel();
                     
+                    Log.e("delete alarm", String.valueOf(event.id-1+day));
+                    
                     if(day == Calendar.SUNDAY){
                         event.setSun(false);
                     }
@@ -495,7 +500,7 @@ public class EventsActivity extends Activity {
         if ((v.getId() == R.id.listView1) || (v.getId() == R.id.listName)) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             menu.setHeaderTitle(eventsList.get(info.position).getName());
-            String[] menuItems = getResources().getStringArray(R.array.menu);
+            String[] menuItems = getResources().getStringArray(R.array.menu_events);
             for (int i = 0; i < menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
@@ -510,7 +515,11 @@ public class EventsActivity extends Activity {
         String[] menuItems = getResources().getStringArray(R.array.menu_events);
         String menuItemName = menuItems[menuItemIndex];
 
+        // Delete and clean up
         if (menuItemName.equalsIgnoreCase("Delete")) {
+            if(eventsList.get(info.position).getStatus()){
+                activeEvent--;
+            }
             eventsList.remove(info.position);
             adapter = new EventsAdapter(this, R.layout.listview_events_row, eventsList);
             list.setAdapter(adapter);
@@ -546,48 +555,6 @@ public class EventsActivity extends Activity {
                 e1.printStackTrace();
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadEvents() {
-        try {
-            EventsActivity.eventsList.clear();
-
-            /*
-             * File file = new File("Events.data"); if(!file.exists()){
-             * Toast.makeText(getApplicationContext(), "NO events", Toast.LENGTH_LONG).show();
-             * return; }
-             */
-
-            InputStream in_events = openFileInput("Events.data");
-            InputStreamReader inputreader = new InputStreamReader(in_events);
-            BufferedReader br = new BufferedReader(inputreader);
-
-            String input = "";
-            String line;
-            while ((line = br.readLine()) != null) {
-                input += line;
-            }
-            if (input.equalsIgnoreCase("")) return;
-
-            for (String event : input.split("<Event>")) {
-                if (!event.equalsIgnoreCase("")) {
-                    Event e = new Event();
-                    EventsActivity.eventsList.add(e.fromString(event));
-                }
-            }
-
-            try {
-                in_events.close();
-                inputreader.close();
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }

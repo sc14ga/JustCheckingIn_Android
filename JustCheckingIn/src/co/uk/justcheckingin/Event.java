@@ -50,6 +50,7 @@ public class Event {
         output += "<boolean>"+String.valueOf(this.thu);
         output += "<boolean>"+String.valueOf(this.fri);
         output += "<boolean>"+String.valueOf(this.sat);
+        output += "<boolean>"+String.valueOf(this.id);
         for (Timer t : this.list) {
             output += "<Timer>" + t.toString();
         }
@@ -73,6 +74,7 @@ public class Event {
         event.thu = Boolean.parseBoolean(vars[7]);
         event.fri = Boolean.parseBoolean(vars[8]);
         event.sat = Boolean.parseBoolean(vars[9]);
+        event.id = Integer.parseInt(vars[10]);
 
         for (int i = 1; i < tokens.length; i++) {
             Timer timer = new Timer();
