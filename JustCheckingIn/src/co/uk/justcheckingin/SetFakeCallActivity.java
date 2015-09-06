@@ -16,14 +16,21 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+/**
+ * The Screen where the user may set a fake call.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class SetFakeCallActivity extends Activity {
     private TimePicker time;
     private EditText caller;
     private Button set;
     private ImageButton backButton;
 
-    // PendingIntent identifier - unique
-    private int FAKE_CALL = 20000;
+    /**
+     * A unique identifier to program the fake call.
+     */
+    private int FAKE_CALL = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +72,12 @@ public class SetFakeCallActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), IncomingCallActivity.class);
-                if (caller.getText().toString().isEmpty())
+                if (caller.getText().toString().isEmpty()) {
                     intent.putExtra("name", "Unknown");
-                else
-                intent.putExtra("name", caller.getText().toString());
+                }
+                else {
+                    intent.putExtra("name", caller.getText().toString());
+                }
 
                 Calendar alarmTime = Calendar.getInstance();
                 alarmTime.set(Calendar.HOUR_OF_DAY, time.getCurrentHour());

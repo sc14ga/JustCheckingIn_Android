@@ -1,6 +1,12 @@
 
 package co.uk.justcheckingin;
 
+/**
+ * Stores the details of a selected contact from the imported phone contacts.
+ * 
+ * @author Georgios Aikaterinakis
+ * @see ContactList
+ */
 public class Contact {
     private String name;
     private String number;
@@ -20,6 +26,9 @@ public class Contact {
         return this.name + "<:>" + this.number;
     }
 
+    /**
+     * De-serialization
+     */
     public Contact fromString(String input) {
         Contact contact = new Contact();
 

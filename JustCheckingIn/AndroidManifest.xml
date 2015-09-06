@@ -31,16 +31,6 @@
         </activity>
         
         <activity 
-            android:name="co.uk.justcheckingin.ContactsActivity"
-            android:label="Contacts"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity 
-            android:name="co.uk.justcheckingin.TimersActivity"
-            android:label="Create Event"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity 
             android:name="co.uk.justcheckingin.ContactListsActivity"
             android:label="Contact Lists"
             android:screenOrientation="portrait" >
@@ -66,11 +56,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity 
-            android:name="co.uk.justcheckingin.EditEventActivity"
-            android:label="Edit Event"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity 
             android:name="co.uk.justcheckingin.SettingsActivity"
             android:label="Settings"
             android:screenOrientation="portrait" >
@@ -82,7 +67,7 @@
         </activity>
         <activity 
             android:name="co.uk.justcheckingin.EmergencyNumbersActivity"
-            android:label="Emergency Numbers"
+            android:label="Useful Numbers"
             android:screenOrientation="portrait" >
         </activity>
         <activity 
@@ -101,16 +86,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity 
-            android:name="co.uk.justcheckingin.StartEventActivity"
-            android:label="Start Event"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity 
             android:name="co.uk.justcheckingin.EventAlarmActivity"
             android:label="Popup Window"
             android:screenOrientation="portrait" >
         </activity>
-        <service android:enabled="true" android:name=".EventEmergencyService" />
     </application>
 
 </manifest>

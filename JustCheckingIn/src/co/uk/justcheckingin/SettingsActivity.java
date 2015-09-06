@@ -17,16 +17,21 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
+/**
+ * The settings screen.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class SettingsActivity extends Activity {
-    Button emergencyContactsButton;
-    Button emergencyMessageButton;
-    Button numbersButton;
-    ImageButton backButton;
-    Switch gpsSwitch;
+    private Button emergencyContactsButton;
+    private Button emergencyMessageButton;
+    private Button numbersButton;
+    private ImageButton backButton;
+    private Switch gpsSwitch;
 
-    boolean state;
+    private boolean state;
 
-    GPSTracker gps;
+    private GPSTracker gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class SettingsActivity extends Activity {
                 finish();
             }
         });
-        
+
         emergencyMessageButton = (Button) findViewById(R.id.buttonEmergencyMessage);
         emergencyMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,25 +56,25 @@ public class SettingsActivity extends Activity {
 
                 final EditText newMessage = new EditText(SettingsActivity.this);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT);
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
                 newMessage.setLayoutParams(params);
                 newMessage.setText(MainActivity.emergencyMessage);
                 alertDialog.setView(newMessage);
 
                 alertDialog.setPositiveButton("Save",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            MainActivity.emergencyMessage = newMessage.getText().toString();
-                        }
-                    });
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                MainActivity.emergencyMessage = newMessage.getText().toString();
+                            }
+                        });
 
                 alertDialog.setNegativeButton("Cancel",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
 
                 alertDialog.show();
             }
@@ -98,7 +103,7 @@ public class SettingsActivity extends Activity {
         });
 
         gps = new GPSTracker(SettingsActivity.this);
-        // gpsSwitch.setEnabled();
+        // Set the switch to show the GPS status
         state = gps.getGPSStatus();
         gpsSwitch.setChecked(gps.getGPSStatus());
 
@@ -116,6 +121,8 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Set the switch to show the GPS status
         state = gps.getGPSStatus();
         gpsSwitch.setChecked(gps.getGPSStatus());
     }

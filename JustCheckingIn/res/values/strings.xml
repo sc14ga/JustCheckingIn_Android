@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">JustCheckingIn</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Just Checking In</string>
     <string name="action_settings">Settings</string>
 
     <string-array name="menu">
@@ -13,5 +12,55 @@
     <string-array name="menu_events">
         <item>Delete</item>
     </string-array>
+    
+    <!-- Titles -->
+    <string name="jci_logo">JCI Logo</string>
+    <string name="settings">Settings</string>
+    <string name="contact_lists">Contact Lists</string>
+    <string name="contacts">Contacts</string>
+    <string name="create_contact_list">Create Contact List</string>
+    <string name="edit_contact_list">Edit Contact List</string>
+    <string name="events">Events</string>
+    <string name="create_event">Create Event</string>
+    <string name="set_fake_call">Set Fake Call</string>
+    <string name="emergency_contacts">Emergency Contacts</string>
+    <string name="useful_numbers">Useful Numbers</string>
+    
+    <!-- Buttons -->
+    <string name="back">Back</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="expand">Expand</string>
+    <string name="add_alarm_event">Add Alarm to Event</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="set">Set</string>
+    <string name="emergency_button">Emergency Button</string>
+    <string name="fake_call">Fake Call</string>
+    <string name="edit_message">Edit Emergency Message</string>
+    <string name="change_emergency_contacts">Change Emergency Contacts</string>
+    
+    <!-- Labels -->
+    <string name="repeat">Repeat</string>
+    <string name="alarms">Alarms</string>
+    <string name="contact_list_name">Contact List Name</string>
+    <string name="event_name">Name</string>
+    <string name="timers">Timers</string>
+    <string name="call_time">Call time</string>
+    <string name="caller_label">Caller name/number</string>
+    <string name="incoming_call">INCOMING CALL</string>
+    <string name="gps">GPS</string>
+    <string name="university">University Security</string>
+    <string name="police">Police</string>
+    <string name="fire_brigade">Fire Brigade</string>
+    <string name="hospital">Hospital</string>
+    
+    <!-- Misc -->
+    <string name="hint_event_name">event name</string>
+    <string name="hint_caller">Name/number</string>
+    <string name="background">background</string>
+    <string name="initialize_timer">00:00</string>
+    <string name="warning_sms">Keep in mind that every emergency contact will receive a SMS message which will charge you based on your mobile plan</string>
         
 </resources>

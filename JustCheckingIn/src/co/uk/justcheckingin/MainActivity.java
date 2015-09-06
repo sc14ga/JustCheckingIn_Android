@@ -13,8 +13,6 @@ import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -23,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,15 +29,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * The main screen of Just Checking In.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class MainActivity extends Activity {
-    String SENT = "SMS_SENT";
-    String DELIVERED = "SMS_DELIVERED";
-    int NOTIFICATION_EMERGENCY_BUTTON = 1;
+    final String SENT = "SMS_SENT";
+    final String DELIVERED = "SMS_DELIVERED";
+
+    /**
+     * Identifier for the notification created when using the Emergency button
+     */
+    final int NOTIFICATION_EMERGENCY_BUTTON = 1;
 
     Handler handler;
     Runnable run;
     GPSTracker gps;
-    
+
     private ImageButton eventsButton;
     private ImageButton emergencyButton;
     private ImageButton settingsButton;
@@ -61,10 +67,11 @@ public class MainActivity extends Activity {
         // Mint.initAndStartSession(MainActivity.this, "77d0c26e");
 
         // Delete internal files
-        /* File dir = getFilesDir(); 
-        File file = new File(dir, "Events.data"); 
-        boolean deleted = file.delete(); */
-        // file = new File(dir, "ContactLists.data"); deleted = file.delete(); 
+        /*
+         * File dir = getFilesDir(); File file = new File(dir, "Events.data"); boolean deleted =
+         * file.delete();
+         */
+        // file = new File(dir, "ContactLists.data"); deleted = file.delete();
         // file = new File(dir, "EmergencyContactList.data"); deleted = file.delete();
 
         // Retrieve existing ContactLists
@@ -74,7 +81,7 @@ public class MainActivity extends Activity {
         loadEmergencyContactList();
 
         // Retrieve existing Events
-        if (EventsActivity.eventsList.isEmpty()){
+        if (EventsActivity.eventsList.isEmpty()) {
             EventsActivity.activeEvent = 0;
             loadEvents(getApplicationContext());
         }
@@ -84,11 +91,12 @@ public class MainActivity extends Activity {
         settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         setfakecallButton = (ImageButton) findViewById(R.id.button3);
         activeEvents = (TextView) findViewById(R.id.activeEvents);
-        
+
         // Retrieve Emergency Message
         SharedPreferences saved = getPreferences(Context.MODE_PRIVATE);
-        emergencyMessage = saved.getString("emergencyMessage", "I notified my emergency contacts using the JustCheckingIn app!");
-        
+        emergencyMessage = saved.getString("emergencyMessage",
+                "I notified my emergency contacts using the JustCheckingIn app!");
+
         // Emergency Button functionality
         run = new Runnable() {
             @Override
@@ -129,13 +137,13 @@ public class MainActivity extends Activity {
                         for (int i = 0; i < EmergencyContactListActivity.emergencyContactList
                                 .getList().size(); i++) {
                             for (String str : messages) {
-//                                 smsManager.sendTextMessage(
-//                                 EmergencyContactListActivity.emergencyContactList.getList()
-//                                 .get(i).getNumber(),
-//                                 null, str, sentIntents.get(i), deliveryIntents.get(i));
+                                smsManager.sendTextMessage(
+                                        EmergencyContactListActivity.emergencyContactList.getList()
+                                                .get(i).getNumber(),
+                                        null, str, sentIntents.get(i), deliveryIntents.get(i));
                             }
                         }
-;
+                        ;
                         // Create Notification
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                                 getApplicationContext());
@@ -213,7 +221,7 @@ public class MainActivity extends Activity {
         if (EventsActivity.activeEvent > 0) {
             activeEvents.setVisibility(View.VISIBLE);
         }
-        else{
+        else {
             activeEvents.setVisibility(View.INVISIBLE);
         }
     }
@@ -227,7 +235,7 @@ public class MainActivity extends Activity {
         if (EventsActivity.activeEvent > 0) {
             activeEvents.setVisibility(View.VISIBLE);
         }
-        else{
+        else {
             activeEvents.setVisibility(View.INVISIBLE);
         }
     }
@@ -235,45 +243,30 @@ public class MainActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        
+
         SharedPreferences saved = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = saved.edit();
         editor.putString("emergencyMessage", emergencyMessage);
         editor.commit();
     }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+    /**
+     * Loads the saved ContactList instances from file: "ContactLists.data" and adds them to the
+     * ArrayList contactsList.
+     */
     public void loadContactLists() {
         ContactListsActivity.contactsList.clear();
 
-        /*File file = new File("ContactLists.data");
-        if (!file.exists()) {
-            Toast.makeText(getApplicationContext(), "NOT_contacts", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
+        /*
+         * File file = new File("ContactLists.data"); if (!file.exists()) {
+         * Toast.makeText(getApplicationContext(), "NOT_contacts", Toast.LENGTH_SHORT).show();
+         * return; }
+         */
 
         InputStream in_contactlists = null;
-        try{
+        try {
             in_contactlists = openFileInput("ContactLists.data");
-        } catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             return;
         }
         InputStreamReader inputreader = new InputStreamReader(in_contactlists);
@@ -281,11 +274,11 @@ public class MainActivity extends Activity {
 
         String input = "";
         String line;
-        try{
+        try {
             while ((line = br.readLine()) != null) {
                 input += line;
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             Log.e("MainActivity/loadContactLists()", "IOException while reading the file.");
             e.printStackTrace();
         }
@@ -309,18 +302,22 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * Loads the saved emergency ContactList from file: "EmergencyContactList.data" to ContactsList
+     * emergencyContactList.
+     */
     public void loadEmergencyContactList() {
-        /*File file = new File("EmergencyContactList.data");
-        if (!file.exists()) {
-            EmergencyContactListActivity.emergencyContactList = new ContactList();
-            Toast.makeText(getApplicationContext(), "NOT_emergency", Toast.LENGTH_LONG).show();
-            return;
-        }*/
-        
+        /*
+         * File file = new File("EmergencyContactList.data"); if (!file.exists()) {
+         * EmergencyContactListActivity.emergencyContactList = new ContactList();
+         * Toast.makeText(getApplicationContext(), "NOT_emergency", Toast.LENGTH_LONG).show();
+         * return; }
+         */
+
         InputStream in_emergencycontactlist;
-        try{
+        try {
             in_emergencycontactlist = openFileInput("EmergencyContactList.data");
-        } catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             return;
         }
         InputStreamReader inputreader = new InputStreamReader(in_emergencycontactlist);
@@ -328,11 +325,11 @@ public class MainActivity extends Activity {
 
         String input = "";
         String line;
-        try{
+        try {
             while ((line = br.readLine()) != null) {
                 input += line;
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             Log.e("MainActivity/loadEmergencyContactList()", "IOException while reading the file.");
             e.printStackTrace();
         }
@@ -352,24 +349,31 @@ public class MainActivity extends Activity {
             inputreader.close();
             br.close();
         } catch (IOException e) {
-            Log.e("MainActivity/loadEmergencyContactList()", "IOException while closing the streams.");
+            Log.e("MainActivity/loadEmergencyContactList()",
+                    "IOException while closing the streams.");
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     * Loads the saved Event instances from file: "Events.data" and adds them to the ArrayList
+     * eventsList.
+     * 
+     * @param context the context for which the function is called. This allows the use of the
+     *            function from other Activities.
+     */
     public static void loadEvents(Context context) {
         EventsActivity.eventsList.clear();
 
         /*
          * File file = new File("Events.data"); if(!file.exists()){
-         * Toast.makeText(getApplicationContext(), "NO events", Toast.LENGTH_LONG).show();
-         * return; }
+         * Toast.makeText(getApplicationContext(), "NO events", Toast.LENGTH_LONG).show(); return; }
          */
 
-        InputStream in_events; 
-        try{
+        InputStream in_events;
+        try {
             in_events = context.openFileInput("Events.data");
-        } catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             return;
         }
         InputStreamReader inputreader = new InputStreamReader(in_events);
@@ -377,11 +381,11 @@ public class MainActivity extends Activity {
 
         String input = "";
         String line;
-        try{
+        try {
             while ((line = br.readLine()) != null) {
                 input += line;
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             Log.e("MainActivity/loadEvents()", "IOException while reading the file.");
             e.printStackTrace();
         }
@@ -391,7 +395,7 @@ public class MainActivity extends Activity {
             if (!event.equalsIgnoreCase("")) {
                 Event e = new Event().fromString(event);
                 EventsActivity.eventsList.add(e);
-                if(e.getStatus()){
+                if (e.getStatus()) {
                     EventsActivity.activeEvent++;
                 }
             }

@@ -2,14 +2,17 @@
 package co.uk.justcheckingin;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+/**
+ * Useful Numbers screen.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class EmergencyNumbersActivity extends Activity {
     private EditText uni1, uni2, uni3, police, fire, hospital;
     private ImageButton backButton;
@@ -28,7 +31,7 @@ public class EmergencyNumbersActivity extends Activity {
                 finish();
             }
         });
-        
+
         // Settings Button
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -58,12 +61,5 @@ public class EmergencyNumbersActivity extends Activity {
         police.setEnabled(false);
         fire.setEnabled(false);
         hospital.setEnabled(false);
-
-//        uni1.setTextColor(Color.BLACK);
-//        uni2.setTextColor(Color.BLACK);
-//        uni3.setTextColor(Color.BLACK);
-//        police.setTextColor(Color.BLACK);
-//        fire.setTextColor(Color.BLACK);
-//        hospital.setTextColor(Color.BLACK);
     }
 }

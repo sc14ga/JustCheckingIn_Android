@@ -1,19 +1,42 @@
 
 package co.uk.justcheckingin;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Saves all the information of an Event.
+ * 
+ * @author Georgios Aikaterinakis
+ * @see Timer
+ * @see ContactList
+ * @see Contact
+ */
 public class Event {
     private String name;
     private List<Timer> list = new ArrayList<Timer>();
+
+    /**
+     * The status of the OFF/ON switch.
+     */
     private boolean enabled;
 
-    private boolean repeat, sun, mon, tue, wed, thu, fri, sat;
+    /**
+     * The status of the Repeat CheckBox.
+     */
+    private boolean repeat;
+
+    /**
+     * A boolean for each day of the week holds the status of the respective ToggleButton.
+     */
+    private boolean sun, mon, tue, wed, thu, fri, sat;
+
+    /**
+     * An identifier given at the creation of the Event instance and used to give unique id's to the
+     * alarms programmed by this Event. e.g. Sunday:id+0, Monday:id+1, and so on...
+     */
     int id;
-    
+
     public Event() {
         super();
     }
@@ -31,8 +54,8 @@ public class Event {
         this.thu = false;
         this.fri = false;
         this.sat = false;
-        this.id = EventsActivity.counter+10;
-        EventsActivity.counter = EventsActivity.counter+10;
+        this.id = EventsActivity.counter + 10;
+        EventsActivity.counter = EventsActivity.counter + 10;
     }
 
     @Override
@@ -40,23 +63,29 @@ public class Event {
         return this.name;
     }
 
+    /**
+     * Serialization
+     */
     public String toXML() {
-        String output = this.name+"<boolean>"+String.valueOf(this.enabled);
-        output += "<boolean>"+String.valueOf(this.repeat);
-        output += "<boolean>"+String.valueOf(this.sun);
-        output += "<boolean>"+String.valueOf(this.mon);
-        output += "<boolean>"+String.valueOf(this.tue);
-        output += "<boolean>"+String.valueOf(this.wed);
-        output += "<boolean>"+String.valueOf(this.thu);
-        output += "<boolean>"+String.valueOf(this.fri);
-        output += "<boolean>"+String.valueOf(this.sat);
-        output += "<boolean>"+String.valueOf(this.id);
+        String output = this.name + "<boolean>" + String.valueOf(this.enabled);
+        output += "<boolean>" + String.valueOf(this.repeat);
+        output += "<boolean>" + String.valueOf(this.sun);
+        output += "<boolean>" + String.valueOf(this.mon);
+        output += "<boolean>" + String.valueOf(this.tue);
+        output += "<boolean>" + String.valueOf(this.wed);
+        output += "<boolean>" + String.valueOf(this.thu);
+        output += "<boolean>" + String.valueOf(this.fri);
+        output += "<boolean>" + String.valueOf(this.sat);
+        output += "<boolean>" + String.valueOf(this.id);
         for (Timer t : this.list) {
             output += "<Timer>" + t.toString();
         }
         return output;
     }
 
+    /**
+     * De-serialization
+     */
     public Event fromString(String input) {
         Event event = new Event();
 
@@ -91,60 +120,76 @@ public class Event {
     public List<Timer> getList() {
         return this.list;
     }
-    
-    public boolean getStatus(){
+
+    public boolean getStatus() {
         return this.enabled;
     }
-    public boolean getRepeat(){
+
+    public boolean getRepeat() {
         return this.repeat;
     }
-    public boolean getSun(){
+
+    public boolean getSun() {
         return this.sun;
     }
-    public boolean getMon(){
+
+    public boolean getMon() {
         return this.mon;
     }
-    public boolean getTue(){
+
+    public boolean getTue() {
         return this.tue;
     }
-    public boolean getWed(){
+
+    public boolean getWed() {
         return this.wed;
     }
-    public boolean getThu(){
+
+    public boolean getThu() {
         return this.thu;
     }
-    public boolean getFri(){
+
+    public boolean getFri() {
         return this.fri;
     }
-    public boolean getSat(){
+
+    public boolean getSat() {
         return this.sat;
     }
-    
-    public void setStatus(boolean s){
+
+    public void setStatus(boolean s) {
         this.enabled = s;
     }
-    public void setRepeat(boolean s){
+
+    public void setRepeat(boolean s) {
         this.repeat = s;
     }
-    public void setSun(boolean s){
+
+    public void setSun(boolean s) {
         this.sun = s;
     }
-    public void setMon(boolean s){
+
+    public void setMon(boolean s) {
         this.mon = s;
     }
-    public void setTue(boolean s){
+
+    public void setTue(boolean s) {
         this.tue = s;
     }
-    public void setWed(boolean s){
+
+    public void setWed(boolean s) {
         this.wed = s;
     }
-    public void setThu(boolean s){
+
+    public void setThu(boolean s) {
         this.thu = s;
     }
-    public void setFri(boolean s){
+
+    public void setFri(boolean s) {
         this.fri = s;
     }
-    public void setSat(boolean s){
+
+    public void setSat(boolean s) {
         this.sat = s;
     }
 }

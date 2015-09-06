@@ -11,33 +11,45 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+/**
+ * Accesses the GPS and provides the required functions to use it.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class GPSTracker extends Service implements LocationListener {
-
     private final Context mContext;
 
-    // flag for GPS status
+    /**
+     * Flag for GPS status.
+     */
     boolean isGPSEnabled = false;
-
-    // flag for network status
+    /**
+     * Flag for network status.
+     */
     boolean isNetworkEnabled = false;
-
     boolean canGetLocation = false;
 
-    Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
+    Location location;
+    double latitude;
+    double longitude;
 
-    // The minimum distance to change Updates in meters
+    /**
+     * The minimum distance to change Updates in meters.
+     */
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
 
-    // The minimum time between updates in milliseconds
+    /**
+     * The minimum time between updates in milliseconds.
+     */
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
-    // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    // Constructor
-    // will get location and set the variable canGetLocation upon construction
+    /**
+     * Constructor
+     * <p>
+     * Gets the location and sets the variable canGetLocation upon construction
+     */
     public GPSTracker(Context context) {
         this.mContext = context;
         getLocation();
@@ -87,7 +99,7 @@ public class GPSTracker extends Service implements LocationListener {
                         }
                     }
                 }
-                // First get location from Network Provider
+                // if GPS disabled then get location from Network Provider
                 else if (isNetworkEnabled) {
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
@@ -108,7 +120,6 @@ public class GPSTracker extends Service implements LocationListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return location;
     }
 
@@ -134,31 +145,27 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     /**
-     * Function to get latitude
+     * Gets latitude.
      */
     public double getLatitude() {
         if (location != null) {
             latitude = location.getLatitude();
         }
-
-        // return latitude
         return latitude;
     }
 
     /**
-     * Function to get longitude
+     * Gets longitude.
      */
     public double getLongitude() {
         if (location != null) {
             longitude = location.getLongitude();
         }
-
-        // return longitude
         return longitude;
     }
 
     /**
-     * Function to check if best network provider
+     * Checks if best network provider.
      * 
      * @return boolean
      */
@@ -167,24 +174,7 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     /**
-     * Function to show settings alert dialog
-     */
-    /*
-     * public void showSettingsAlert(){ AlertDialog.Builder alertDialog = new
-     * AlertDialog.Builder(mContext); // Setting Dialog Title
-     * alertDialog.setTitle("GPS is settings"); // Setting Dialog Message
-     * alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?"); // Setting
-     * Icon to Dialog //alertDialog.setIcon(R.drawable.delete); // On pressing Settings button
-     * alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() { public void
-     * onClick(DialogInterface dialog,int which) { Intent intent = new
-     * Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS); mContext.startActivity(intent); } }); // on
-     * pressing cancel button alertDialog.setNegativeButton("Cancel", new
-     * DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which) {
-     * dialog.cancel(); } }); // Showing Alert Message alertDialog.show(); }
-     */
-
-    /**
-     * Stop using GPS listener Calling this function will stop using GPS in your app
+     * Stop using GPS listener.
      */
     public void stopUsingGPS() {
         if (locationManager != null) {

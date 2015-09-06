@@ -10,12 +10,16 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * Screen of an ongoing fake call.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class InCallActivity extends Activity {
     private Button terminate;
 
     private String caller;
     private TextView mName;
-    private TextView mPhoneNumber;
     private TextView mTimer;
 
     Thread t;
@@ -31,7 +35,6 @@ public class InCallActivity extends Activity {
         caller = intent.getExtras().getString("name");
 
         mName = (TextView) findViewById(R.id.name);
-        mPhoneNumber = (TextView) findViewById(R.id.number);
         mTimer = (TextView) findViewById(R.id.timer);
 
         mName.setText(caller);
@@ -40,6 +43,7 @@ public class InCallActivity extends Activity {
         final String format = "%1$02d";
         timer = 0;
 
+        // Thread to calculate the elapsed time and update the TextView on the screen
         t = new Thread() {
             @Override
             public void run() {
@@ -56,6 +60,7 @@ public class InCallActivity extends Activity {
                         });
                     }
                 } catch (InterruptedException e) {
+                    // Interrupt sent by application to stop the thread.
                 }
             }
         };

@@ -17,9 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:scaleType="fitStart"
-            android:contentDescription="JCI Logo"
+            android:contentDescription="@string/jci_logo"
             android:src="@drawable/logo_jci_clock" />
         
         <ImageButton
@@ -28,8 +29,10 @@
 	        android:layout_height="50dp"
 	        android:layout_centerVertical="true"
 	        android:layout_alignParentRight="true"
+	        android:layout_alignParentEnd="true"
         	android:layout_marginRight="12dp"
-        	android:contentDescription="Settings"
+        	android:layout_marginEnd="12dp"
+        	android:contentDescription="@string/settings"
 	        android:background="@drawable/settings_button"
 	        android:src="@drawable/settings_32_white" />
         
@@ -40,7 +43,7 @@
         	android:layout_centerHorizontal="true"
         	android:layout_centerVertical="true"
         	android:gravity="center"
-        	android:text="Just Checking In"
+        	android:text="@string/app_name"
         	android:textSize="24sp"
         	android:textStyle="bold"
         	android:textColor="#003377" >
@@ -52,7 +55,8 @@
 	        android:layout_height="wrap_content"
 	        android:layout_centerVertical="true"
 	        android:layout_alignParentLeft="true"
-        	android:contentDescription="Back"
+	        android:layout_alignParentStart="true"
+        	android:contentDescription="@string/back"
         	android:scaleType="fitStart"
         	android:background="#0FFF"
 	        android:src="@drawable/back_64_blue" />
@@ -73,7 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="Create Contact List"
+            android:layout_marginStart="15dp"
+            android:text="@string/create_contact_list"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/screenTitleColor" />
@@ -86,11 +91,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp"
         android:background="@color/buttonBackground"
         android:textColor="@color/buttonText"
-        android:text="Create" />
+        android:text="@string/create" />
 
     <Button
         android:id="@+id/button2"
@@ -98,11 +105,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
         android:background="@color/buttonBackground"
         android:textColor="@color/buttonText"
-        android:text="Cancel" />
+        android:text="@string/cancel" />
 
     <EditText
         android:id="@+id/editText1"
@@ -112,7 +121,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
-        android:hint="Contact List Name"
+        android:hint="@string/contact_list_name"
         android:textColor="@color/buttonText"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -126,6 +135,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/editText1"
         android:layout_above="@+id/button1" >
     </ListView>

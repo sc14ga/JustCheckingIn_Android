@@ -28,14 +28,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Shows the list of ContactLists. A Contact List is used in conjunction with an Event.
+ * <p>
+ * Leads to CreateContactListActivity and EditContactListActivity.
+ * 
+ * @author Georgios Aikaterinakis
+ *
+ */
 public class ContactListsActivity extends Activity {
     static List<ContactList> contactsList = new ArrayList<ContactList>();
-    ContactListsAdapter adapter;
-    ListView list;
+    
+    private ContactListsAdapter adapter;
+    private ListView list;
     private Button create;
     private ImageButton backButton;
 
-    FileOutputStream out = null;
+    private FileOutputStream out = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +81,7 @@ public class ContactListsActivity extends Activity {
         });
 
         list = (ListView) findViewById(R.id.listView1);
-        /*
-         * list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-         * @Override public void onItemClick(AdapterView<?> parent, View view, int position, long
-         * id) { ContactList item = adapter.getItem(position); } });
-         */
-
         adapter = new ContactListsAdapter(this, R.layout.listview_contacts_row, contactsList);
-
         list.setAdapter(adapter);
         list.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -89,6 +92,9 @@ public class ContactListsActivity extends Activity {
         });
     }
 
+    /**
+     * The list is updated when the activity is resumed.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -97,6 +103,9 @@ public class ContactListsActivity extends Activity {
         list.setAdapter(adapter);
     }
 
+    /**
+     * When the activity is paused, the ContactLists are saved into the "ContactLists.data" file.
+     */
     @Override
     protected void onPause() {
         saveContactLists();
@@ -104,10 +113,9 @@ public class ContactListsActivity extends Activity {
         super.onPause();
     }
 
-    /*
-     * @Override protected void onStop() { super.onStop(); saveContactLists(); }
+    /**
+     * Defines how the ContactLists are presented in the ListView.
      */
-
     public class ContactListsAdapter extends ArrayAdapter<ContactList> {
         Context context;
         int layoutResourceId;
@@ -152,7 +160,10 @@ public class ContactListsActivity extends Activity {
         }
     }
 
-    // Menu for ListView
+    /**
+     * Function that populates the menu options for each item in the list.
+     * It opens onItemClick.
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         if (v.getId() == R.id.listView1) {
@@ -165,6 +176,9 @@ public class ContactListsActivity extends Activity {
         }
     }
 
+    /**
+     * Functionality for each menu option
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
@@ -172,7 +186,6 @@ public class ContactListsActivity extends Activity {
         int menuItemIndex = item.getItemId();
         String[] menuItems = getResources().getStringArray(R.array.menu);
         String menuItemName = menuItems[menuItemIndex];
-        String listItemName = contactsList.get(info.position).getName();
 
         if (menuItemName.equalsIgnoreCase("Edit")) {
             Intent intent = new Intent(getApplicationContext(), EditContactListActivity.class);
@@ -188,6 +201,9 @@ public class ContactListsActivity extends Activity {
         return true;
     }
 
+    /**
+     * Function that saves the ContactLists in the file: "ContactLists.data".
+     */
     public void saveContactLists() {
         try {
             File dir = getFilesDir();

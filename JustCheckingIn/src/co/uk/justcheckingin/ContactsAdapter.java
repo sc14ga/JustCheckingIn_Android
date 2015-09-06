@@ -13,6 +13,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Specifies how a Contact will be shown as an item of a ListView.
+ * 
+ * @author Georgios Aikaterinakis
+ * @see CreateContactListActivity
+ * @see EditContactListActivity
+ * @see EmergencyContactListActivity
+ */
 class ContactsAdapter extends BaseAdapter {
     LayoutInflater mInflater;
 
@@ -38,7 +46,7 @@ class ContactsAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
-        if (convertView == null){
+        if (convertView == null) {
             vi = mInflater.inflate(R.layout.listview_contacts, null);
         }
 

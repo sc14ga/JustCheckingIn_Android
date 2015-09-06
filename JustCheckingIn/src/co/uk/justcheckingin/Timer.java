@@ -1,6 +1,15 @@
 
 package co.uk.justcheckingin;
 
+/**
+ * Used as attribute to Events. Specifies the selected time of an alarm and the ContactList that
+ * will be notified if the alarm goes off.
+ * 
+ * @author Georgios Aikaterinakis
+ * @see Event
+ * @see ContactList
+ * @see Contact
+ */
 public class Timer {
     ContactList list;
     String hour, minute;
@@ -22,6 +31,9 @@ public class Timer {
         return s + "<int>" + this.hour + "<int>" + this.minute;
     }
 
+    /**
+     * De-serialization
+     */
     public Timer fromString(String input) {
         Timer timer = new Timer();
 

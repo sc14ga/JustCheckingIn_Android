@@ -17,9 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:scaleType="fitStart"
-            android:contentDescription="JCI Logo"
+            android:contentDescription="@string/jci_logo"
             android:src="@drawable/logo_jci_clock" />
         
         <ImageButton
@@ -28,8 +29,10 @@
 	        android:layout_height="50dp"
 	        android:layout_centerVertical="true"
 	        android:layout_alignParentRight="true"
+	        android:layout_alignParentEnd="true"
         	android:layout_marginRight="12dp"
-        	android:contentDescription="Settings"
+        	android:layout_marginEnd="12dp"
+        	android:contentDescription="@string/settings"
 	        android:background="@drawable/settings_button"
 	        android:src="@drawable/settings_32_white" />
         
@@ -40,7 +43,7 @@
         	android:layout_centerHorizontal="true"
         	android:layout_centerVertical="true"
         	android:gravity="center"
-        	android:text="Just Checking In"
+        	android:text="@string/app_name"
         	android:textSize="24sp"
         	android:textStyle="bold"
         	android:textColor="#003377" >
@@ -69,7 +72,7 @@
 	        android:layout_marginRight="30dp"
 	        android:layout_marginTop="20dp"
 	        android:layout_marginBottom="20dp"
-	        android:contentDescription="Emergency Button"
+	        android:contentDescription="@string/emergency_button"
 	        android:src="@drawable/emergency_button_128_white" />
 	</RelativeLayout>
 	
@@ -78,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/labelsLinearLayout"
+        android:baselineAligned="false"
         android:layout_marginTop="20dp"
         android:gravity="center|top"
         android:weightSum="1"
@@ -94,7 +98,7 @@
 		        android:id="@+id/button2"
 		        android:layout_width="100dp"
 		        android:layout_height="100dp"
-		        android:contentDescription="Events"
+		        android:contentDescription="@string/events"
 		        android:background="@drawable/events_button"
 		        android:src="@drawable/alarm_64_white" />
 		
@@ -103,11 +107,11 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignRight="@+id/button2"
+		        android:layout_alignEnd="@+id/button2"
 		        android:layout_alignTop="@+id/button2"
-		        android:gravity="top|right"
+		        android:gravity="top|end"
 		        android:textColor="#F00"
 		        android:textSize="24sp"
-		        android:text="2"
 		        android:visibility="gone" />
 	
 		    
@@ -124,7 +128,7 @@
 		        android:id="@+id/button3"
 		        android:layout_width="100dp"
 		        android:layout_height="100dp"
-		        android:contentDescription="Fake Call"
+		        android:contentDescription="@string/fake_call"
 		        android:background="@drawable/fakecall_button"
 		        android:src="@drawable/fake_call_64_white" />
 	    </RelativeLayout>
@@ -146,7 +150,7 @@
 	        android:layout_height="match_parent"
 	        android:layout_weight="0.5"
 	        android:gravity="top|center"
-	        android:text="Events"
+	        android:text="@string/events"
 	        android:textColor="#FFF"
 	        android:textStyle="bold"
 	        android:textSize="20sp"
@@ -158,7 +162,7 @@
 	        android:layout_height="match_parent"
 	        android:layout_weight="0.5"
 	        android:gravity="top|center"
-	        android:text="Fake Call"
+	        android:text="@string/fake_call"
 	        android:textColor="#FFF"
 	        android:textStyle="bold"
 	        android:textSize="20sp" />

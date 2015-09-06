@@ -4,6 +4,14 @@ package co.uk.justcheckingin;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Saves a list of contacts to be used in conjunction with Events and Timers.
+ * 
+ * @author Georgios Aikaterinakis
+ * @see Event
+ * @see Timer
+ * @see Contact
+ */
 public class ContactList {
     private String name;
     private List<Contact> list = new ArrayList<Contact>();
@@ -23,6 +31,9 @@ public class ContactList {
         return this.name;
     }
 
+    /**
+     * Serialization
+     */
     public String toXML() {
         String output = this.name;
         for (Contact c : list) {
@@ -31,6 +42,9 @@ public class ContactList {
         return output;
     }
 
+    /**
+     * De-serialization
+     */
     public ContactList fromString(String input) {
         ContactList cl = new ContactList();
 

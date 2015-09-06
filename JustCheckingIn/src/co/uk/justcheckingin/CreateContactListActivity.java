@@ -20,6 +20,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The screen which allows the creation of a ContactList.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class CreateContactListActivity extends Activity {
     private Button create, cancel;
     private EditText title;
@@ -41,7 +46,7 @@ public class CreateContactListActivity extends Activity {
                 finish();
             }
         });
-        
+
         // Settings Button
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +56,7 @@ public class CreateContactListActivity extends Activity {
                 startActivity(intent);
             }
         });
-        
+
         cancel = (Button) findViewById(R.id.button2);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override

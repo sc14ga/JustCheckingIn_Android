@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,14 +22,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Allows editing the emergency ContactList which is connected to the Emergency button.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class EmergencyContactListActivity extends Activity {
-    Button save, cancel;
-    ImageButton backButton;
-    ListView myContacts;
+    private Button save, cancel;
+    private ImageButton backButton;
+    private ListView myContacts;
 
-    ContactsAdapter adapter = new ContactsAdapter();
+    private ContactsAdapter adapter = new ContactsAdapter();
 
-    FileOutputStream out;
+    private FileOutputStream out;
 
     static ContactList emergencyContactList;
 
@@ -48,7 +52,7 @@ public class EmergencyContactListActivity extends Activity {
                 finish();
             }
         });
-        
+
         // Settings Button
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +61,7 @@ public class EmergencyContactListActivity extends Activity {
                 finish();
             }
         });
-        
+
         cancel = (Button) findViewById(R.id.button2);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +73,7 @@ public class EmergencyContactListActivity extends Activity {
         adapter.mInflater = (LayoutInflater) EmergencyContactListActivity.this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        // Retrieving the existing phone contacts
         ContentResolver cr = getContentResolver();
         Cursor phones = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
                 null, null);
@@ -81,6 +86,7 @@ public class EmergencyContactListActivity extends Activity {
             adapter.namesList.add(name);
             adapter.numbersList.add(phoneNumber);
 
+            // Setting the check boxes of the existing contacts to checked.
             Boolean flag = false;
             if (emergencyContactList != null) {
                 for (Contact c : emergencyContactList.getList()) {
@@ -131,6 +137,10 @@ public class EmergencyContactListActivity extends Activity {
         });
     }
 
+    /**
+     * Saves the emergency ContactList to file: "EmergencyContactList.data". Called if Button save
+     * is clicked.
+     */
     public void saveEmergencyContactList() {
         try {
             File dir = getFilesDir();

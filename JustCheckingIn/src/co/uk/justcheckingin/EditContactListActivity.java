@@ -20,6 +20,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Allows editing an existing ContactList.
+ * 
+ * @author Georgios Aikaterinakis
+ */
 public class EditContactListActivity extends Activity {
     private Button save, cancel;
     private EditText title;
@@ -28,9 +33,9 @@ public class EditContactListActivity extends Activity {
 
     ContactsAdapter adapter = new ContactsAdapter();
 
-    // selected ContactList and its position from previous Activity
-    ContactList selected;
-    int listPosition;
+    // selected ContactList and its position in contactsList from previous Activity
+    private ContactList selected;
+    private int listPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class EditContactListActivity extends Activity {
                 finish();
             }
         });
-        
+
         // Settings Button
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -55,10 +60,10 @@ public class EditContactListActivity extends Activity {
                 startActivity(intent);
             }
         });
-        
+
         title = (EditText) findViewById(R.id.editText1);
 
-        // Retreive data from caller Activity
+        // Retrieve data from caller Activity
         Intent intent = getIntent();
         listPosition = Integer.parseInt(intent.getStringExtra("listPosition"));
         selected = ContactListsActivity.contactsList.get(listPosition);
